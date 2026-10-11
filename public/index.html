@@ -799,6 +799,39 @@ img { display: block; max-width: 100%; }
   border-radius: 6px;
 }
 .vcard-items { font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.4; }
+.vcard-note {
+  font-size: 12px;
+  color: var(--apple-amber);
+  background: var(--amber-fill);
+  border: 0.5px solid rgba(255, 214, 10, 0.22);
+  border-radius: 8px;
+  padding: 6px 10px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+.vcard-lines-detail {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  margin-bottom: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.vcard-line-item {
+  display: inline-flex;
+  align-items: center;
+  background: var(--bg-tertiary);
+  border: var(--glass-border);
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--text-primary);
+  font-weight: 500;
+}
 .vcard-foot {
   display: flex;
   align-items: center;
@@ -824,6 +857,89 @@ img { display: block; max-width: 100%; }
 .pp-efectivo { background: var(--green-fill); color: var(--apple-green); }
 .pp-bizum    { background: var(--blue-fill);  color: var(--apple-blue); }
 .pp-pendiente{ background: var(--red-fill);   color: var(--apple-red); }
+
+/* BANNER DE RESUMEN FINANCIERO DINÁMICO */
+.v-summary-banner {
+  background: linear-gradient(135deg, rgba(28,28,30,0.95) 0%, rgba(18,18,20,0.98) 100%);
+  border: var(--glass-border);
+  border-radius: 16px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.v-sum-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.v-sum-total {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--apple-amber);
+  letter-spacing: -0.02em;
+}
+.v-sum-meta {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+.v-sum-pills {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  font-weight: 600;
+}
+.v-sum-pill-ef   { background: var(--green-fill); color: var(--apple-green); padding: 3px 8px; border-radius: var(--r-pill); }
+.v-sum-pill-biz  { background: var(--blue-fill);  color: var(--apple-blue);  padding: 3px 8px; border-radius: var(--r-pill); }
+.v-sum-pill-pend { background: var(--red-fill);   color: var(--apple-red);   padding: 3px 8px; border-radius: var(--r-pill); }
+
+/* CONTROLES DE BÚSQUEDA Y CAMARERO */
+.v-filter-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.v-search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-tertiary);
+  border: var(--glass-border);
+  border-radius: var(--r-btn);
+  padding: 0 12px;
+  min-height: 42px;
+}
+.v-search-box input {
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: 14px;
+  width: 100%;
+  outline: none;
+}
+.v-filter-subrow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.v-filter-subrow select {
+  width: 100%;
+  background: var(--bg-tertiary);
+  border: var(--glass-border);
+  border-radius: var(--r-btn);
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 12px;
+  min-height: 40px;
+  outline: none;
+}
 
 /* ─────────────────────────────────────────────────────────────
    APPLE BOTTOM SHEETS (NATURAL SPRING GESTURES)
@@ -1214,16 +1330,76 @@ img { display: block; max-width: 100%; }
       </div>
     </div>
 
-    <!-- 3. HISTORIAL DE COMANDAS -->
+    <!-- 3. HISTORIAL DE COMANDAS Y REGISTROS -->
     <div class="page" id="p-ventas">
-      <div class="filter-rail">
-        <button class="fpill on" onclick="setVF('',this)">Todas</button>
-        <button class="fpill" onclick="setVF('pendiente',this)">Pendientes</button>
-        <button class="fpill" onclick="setVF('efectivo',this)">Efectivo</button>
-        <button class="fpill" onclick="setVF('bizum',this)">Bizum</button>
+      <!-- Selector de Sub-pestaña: Comandas vs Cierres de Jornada -->
+      <div class="segmented-control" style="margin-bottom:12px">
+        <button class="segment-btn on" id="vsub-pedidos" onclick="setVentasSubTab('pedidos')">Comandas y Pedidos</button>
+        <button class="segment-btn" id="vsub-cierres" onclick="setVentasSubTab('cierres')">Cierres de Jornada</button>
       </div>
-      <div id="ventas-body">
-        <div style="padding:40px 0;text-align:center"><div class="spin"></div></div>
+
+      <!-- SECCIÓN 1: COMANDAS INDIVIDUALES -->
+      <div id="vsec-pedidos">
+        <!-- Filtro temporal (Pills horizontales) -->
+        <div class="filter-rail" id="v-date-rail" style="margin-bottom:8px">
+          <button class="fpill on" data-date="hoy" onclick="setVDate('hoy',this)">Hoy</button>
+          <button class="fpill" data-date="ayer" onclick="setVDate('ayer',this)">Ayer</button>
+          <button class="fpill" data-date="semana" onclick="setVDate('semana',this)">Esta semana</button>
+          <button class="fpill" data-date="todas" onclick="setVDate('todas',this)">Todo el historial</button>
+          <button class="fpill" data-date="custom" onclick="openDatePicker()">📅 Fecha concreta</button>
+        </div>
+
+        <!-- Selector de fecha personalizada -->
+        <div id="v-custom-date-box" style="display:none;margin-bottom:10px;align-items:center;gap:8px;background:var(--bg-grouped);padding:10px 14px;border-radius:var(--r-card);border:var(--glass-border)">
+          <span style="font-size:13px;color:var(--text-secondary);font-weight:600">Ver día:</span>
+          <input type="date" id="vf-date-input" style="flex:1;background:var(--bg-tertiary);border:var(--glass-border);color:var(--text-primary);padding:6px 10px;border-radius:8px;font-size:14px;outline:none" onchange="onCustomDateChange(this.value)">
+          <button class="btn btn-ghost btn-sm" onclick="clearCustomDate()" style="min-height:32px;padding:0 8px;font-size:12px">✕ Hoy</button>
+        </div>
+
+        <!-- Filtros secundarios: Buscador en vivo + Camarero -->
+        <div class="v-filter-controls">
+          <div class="v-search-box">
+            <span style="color:var(--text-tertiary)">🔍</span>
+            <input type="search" id="vf-search" placeholder="Buscar por cliente, mesa, nota o plato…" oninput="onVentasSearchInput()" autocomplete="off">
+          </div>
+          <div class="v-filter-subrow">
+            <select id="vf-camarero" onchange="onCamareroFilterChange(this.value)">
+              <option value="">👤 Todos los camareros</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Filtro de Estado de Cobro -->
+        <div class="filter-rail" id="v-pay-rail" style="margin-bottom:10px">
+          <button class="fpill on" onclick="setVF('',this)">Todos los pagos</button>
+          <button class="fpill" onclick="setVF('pendiente',this)">Pendientes</button>
+          <button class="fpill" onclick="setVF('efectivo',this)">Efectivo</button>
+          <button class="fpill" onclick="setVF('bizum',this)">Bizum</button>
+        </div>
+
+        <!-- Banner Resumen Financiero Dinámico -->
+        <div id="ventas-summary-banner" class="v-summary-banner">
+          <!-- Rellenado dinámicamente -->
+        </div>
+
+        <!-- Listado de Comandas -->
+        <div id="ventas-body">
+          <div style="padding:40px 0;text-align:center"><div class="spin"></div></div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN 2: HISTORIAL DE CIERRES DIARIOS (ARQUEOS GUARDADOS) -->
+      <div id="vsec-cierres" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <div>
+            <div style="font-size:16px;font-weight:700">Arqueos y Cierres Guardados</div>
+            <div style="font-size:12px;color:var(--text-secondary)">Reportes diarios guardados en Supabase</div>
+          </div>
+          <button class="btn btn-gold btn-sm" onclick="openReporteModal()">+ Guardar Cierre</button>
+        </div>
+        <div id="ventas-cierres-body">
+          <div style="padding:40px 0;text-align:center"><div class="spin"></div></div>
+        </div>
       </div>
     </div>
 
@@ -1440,6 +1616,11 @@ img { display: block; max-width: 100%; }
           </select>
           <input type="text" id="t-persona-custom" placeholder="O libre (ej. Mesa 4)" style="flex:1" autocomplete="off">
         </div>
+      </div>
+
+      <div class="field" style="margin-bottom:12px">
+        <label>Indicaciones o nota de comanda (opcional)</label>
+        <input type="text" id="t-notas" placeholder="Ej. Terraza, para llevar, sin cebolla…" autocomplete="off">
       </div>
 
       <div id="cart-lines"></div>
@@ -1820,10 +2001,15 @@ function fmt(n) { return Number(n || 0).toFixed(2).replace('.', ',') + ' €'; }
 function fmtDate(iso) {
   if (!iso) return '';
   const d = new Date(iso), now = new Date();
-  const isToday = d.toDateString() === now.toDateString();
+  const yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
   const time = d.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
-  if (isToday) return 'Hoy · ' + time;
-  return d.toLocaleDateString('es-ES', { day: '2-digit', month: 'short' }) + ' · ' + time;
+  if (d.toDateString() === now.toDateString()) return 'Hoy · ' + time;
+  if (d.toDateString() === yesterday.toDateString()) return 'Ayer · ' + time;
+  const isThisYear = d.getFullYear() === now.getFullYear();
+  if (isThisYear) {
+    return d.toLocaleDateString('es-ES', { day: '2-digit', month: 'short' }) + ' · ' + time;
+  }
+  return d.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }) + ' · ' + time;
 }
 function ini(n) { return (n || '?').charAt(0).toUpperCase(); }
 function esc(s) { return (s || '').replace(/'/g, "\\'").replace(/`/g, '\\`'); }
@@ -2023,6 +2209,14 @@ async function renderDash() {
     const tHoy = hoy.reduce((s,v) => s + +v.total, 0);
     const tPend = pend.reduce((s,v) => s + +v.total, 0);
 
+    const itemsCountMap = {};
+    hoy.forEach(h => {
+      (h.venta_lineas || []).forEach(l => {
+        itemsCountMap[l.item_nombre] = (itemsCountMap[l.item_nombre] || 0) + (l.qty || 1);
+      });
+    });
+    const desgloseItems = Object.entries(itemsCountMap).map(([item, qty]) => ({ item, qty }));
+
     currentDayStats = {
       fecha: todayISO,
       fechaFmt: new Date().toLocaleDateString('es-ES', { weekday:'long', day:'numeric', month:'long' }),
@@ -2030,7 +2224,8 @@ async function renderDash() {
       efectivo: hoyEf,
       bizum: hoyBiz,
       pendiente: hoyPend,
-      ventasCount: hoy.length
+      ventasCount: hoy.length,
+      desglose_items: desgloseItems
     };
 
     const savedRep = repHoy && repHoy.length ? repHoy[0] : null;
@@ -2273,6 +2468,9 @@ function clearCart() {
   if (navigator.vibrate) navigator.vibrate(15);
   cart = [];
   updateCartUI();
+  if ($$('t-persona')) $$('t-persona').value = '';
+  if ($$('t-persona-custom')) $$('t-persona-custom').value = '';
+  if ($$('t-notas')) $$('t-notas').value = '';
   closeSheet('s-cart');
   toast('Ticket vaciado');
 }
@@ -2420,6 +2618,7 @@ async function cobrar(pago) {
   }
 
   try {
+    const notas = v('t-notas').trim();
     let ventaData = {
       persona_id: pId,
       persona_nombre: pNombre,
@@ -2427,7 +2626,7 @@ async function cobrar(pago) {
       pago: pago,
       camarero: currentCamarero,
       num_platos: platosCount,
-      notas: ''
+      notas: notas
     };
 
     let { data: venta, error: ve } = await sb.from('ventas').insert(ventaData).select().single();
@@ -2436,7 +2635,7 @@ async function cobrar(pago) {
       console.warn('Fallback guardando comanda:', ve.message);
       const fallbackData = {
         persona_id: pId,
-        persona_nombre: `${pNombre} (${currentCamarero})`,
+        persona_nombre: `${pNombre} (${currentCamarero})${notas ? ' [' + notas + ']' : ''}`,
         total: total,
         pago: pago
       };
@@ -2462,6 +2661,7 @@ async function cobrar(pago) {
     updateCartUI();
     $$('t-persona').value = '';
     $$('t-persona-custom').value = '';
+    if ($$('t-notas')) $$('t-notas').value = '';
     closeSheet('s-cart');
 
     const msgMap = {
@@ -2480,67 +2680,257 @@ async function cobrar(pago) {
 }
 
 /* ─────────────────────────────────────────────────────────────
-   HISTORIAL DE VENTAS
+   HISTORIAL DE COMANDAS Y CIERRES DE JORNADA
 ───────────────────────────────────────────────────────────── */
-let vFilter = '';
+let curVentasSubTab = 'pedidos'; // 'pedidos' | 'cierres'
+let vDateFilter = 'hoy'; // 'hoy', 'ayer', 'semana', 'todas', 'custom'
+let vCustomDate = '';
+let vCamareroFilter = '';
+let vSearchQuery = '';
+let vPaymentFilter = '';
 let pagoVId = null;
+let knownCamareros = new Set();
+let _vSearchTimer = null;
+
+function setVentasSubTab(tab) {
+  if (navigator.vibrate) navigator.vibrate(10);
+  curVentasSubTab = tab;
+  const btnPed = $$('vsub-pedidos');
+  const btnCier = $$('vsub-cierres');
+  const secPed = $$('vsec-pedidos');
+  const secCier = $$('vsec-cierres');
+  if (tab === 'pedidos') {
+    if (btnPed) btnPed.classList.add('on');
+    if (btnCier) btnCier.classList.remove('on');
+    if (secPed) secPed.style.display = 'block';
+    if (secCier) secCier.style.display = 'none';
+    renderVentas();
+  } else {
+    if (btnPed) btnPed.classList.remove('on');
+    if (btnCier) btnCier.classList.add('on');
+    if (secPed) secPed.style.display = 'none';
+    if (secCier) secCier.style.display = 'block';
+    renderCierresDiariosList();
+  }
+}
+
+function setVDate(mode, btn) {
+  if (navigator.vibrate) navigator.vibrate(10);
+  vDateFilter = mode;
+  document.querySelectorAll('#v-date-rail .fpill').forEach(b => b.classList.remove('on'));
+  if (btn) btn.classList.add('on');
+  const box = $$('v-custom-date-box');
+  if (mode !== 'custom' && box) {
+    box.style.display = 'none';
+    vCustomDate = '';
+  }
+  renderVentas();
+}
+
+function openDatePicker() {
+  if (navigator.vibrate) navigator.vibrate(10);
+  vDateFilter = 'custom';
+  document.querySelectorAll('#v-date-rail .fpill').forEach(b => b.classList.remove('on'));
+  const customBtn = document.querySelector('[data-date="custom"]');
+  if (customBtn) customBtn.classList.add('on');
+  const box = $$('v-custom-date-box');
+  if (box) {
+    box.style.display = 'flex';
+    const inp = $$('vf-date-input');
+    if (inp) {
+      if (!inp.value) {
+        inp.value = new Date().toISOString().split('T')[0];
+        vCustomDate = inp.value;
+      }
+      inp.focus();
+    }
+  }
+  renderVentas();
+}
+
+function onCustomDateChange(val) {
+  vCustomDate = val;
+  if (val) renderVentas();
+}
+
+function clearCustomDate() {
+  const box = $$('v-custom-date-box');
+  if (box) box.style.display = 'none';
+  vCustomDate = '';
+  const inp = $$('vf-date-input');
+  if (inp) inp.value = '';
+  const hoyBtn = document.querySelector('[data-date="hoy"]');
+  setVDate('hoy', hoyBtn);
+}
+
+function onCamareroFilterChange(val) {
+  vCamareroFilter = val;
+  renderVentas();
+}
+
+function onVentasSearchInput() {
+  clearTimeout(_vSearchTimer);
+  _vSearchTimer = setTimeout(() => {
+    vSearchQuery = v('vf-search').trim().toLowerCase();
+    renderVentas();
+  }, 180);
+}
 
 function setVF(f, btn) {
-  vFilter = f;
-  document.querySelectorAll('.fpill').forEach(b => b.classList.remove('on'));
-  btn.classList.add('on');
+  if (navigator.vibrate) navigator.vibrate(10);
+  vPaymentFilter = f;
+  document.querySelectorAll('#v-pay-rail .fpill').forEach(b => b.classList.remove('on'));
+  if (btn) btn.classList.add('on');
   renderVentas();
 }
 
 async function renderVentas() {
+  if (curVentasSubTab === 'cierres') {
+    return renderCierresDiariosList();
+  }
   const el = $$('ventas-body');
+  const bannerEl = $$('ventas-summary-banner');
   try {
-    let q = sb.from('ventas').select('*, venta_lineas(*)').order('created_at', { ascending: false }).limit(100);
-    if (vFilter) q = q.eq('pago', vFilter);
+    const now = new Date();
+    const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const startOfYesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+    const sevenDaysAgo = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 6);
+
+    let q = sb.from('ventas').select('*, venta_lineas(*)').order('created_at', { ascending: false });
+    let periodLabel = 'Hoy';
+
+    if (vDateFilter === 'hoy') {
+      q = q.gte('created_at', startOfToday.toISOString());
+      periodLabel = 'Hoy';
+    } else if (vDateFilter === 'ayer') {
+      q = q.gte('created_at', startOfYesterday.toISOString()).lt('created_at', startOfToday.toISOString());
+      periodLabel = 'Ayer';
+    } else if (vDateFilter === 'semana') {
+      q = q.gte('created_at', sevenDaysAgo.toISOString());
+      periodLabel = 'Últimos 7 días';
+    } else if (vDateFilter === 'custom' && vCustomDate) {
+      const [yr, mo, da] = vCustomDate.split('-').map(Number);
+      const d0 = new Date(yr, mo - 1, da, 0, 0, 0);
+      const d1 = new Date(yr, mo - 1, da + 1, 0, 0, 0);
+      q = q.gte('created_at', d0.toISOString()).lt('created_at', d1.toISOString());
+      periodLabel = `Día ${da}/${mo}/${yr}`;
+    } else if (vDateFilter === 'todas') {
+      q = q.limit(300);
+      periodLabel = 'Historial completo';
+    } else {
+      q = q.gte('created_at', startOfToday.toISOString());
+      periodLabel = 'Hoy';
+    }
+
+    if (vPaymentFilter) {
+      q = q.eq('pago', vPaymentFilter);
+    }
+    if (vCamareroFilter) {
+      q = q.eq('camarero', vCamareroFilter);
+    }
+
     const { data, error } = await q;
     if (error) throw error;
-    if (!data?.length) {
+
+    let list = data || [];
+
+    // Recolectar nombres de camareros para selector
+    list.forEach(item => {
+      if (item.camarero && item.camarero.trim()) knownCamareros.add(item.camarero.trim());
+    });
+    const selCam = $$('vf-camarero');
+    if (selCam) {
+      const curr = vCamareroFilter;
+      const sortedCam = Array.from(knownCamareros).sort();
+      let opts = '<option value="">👤 Todos los camareros</option>';
+      sortedCam.forEach(c => {
+        opts += `<option value="${esc(c)}"${c === curr ? ' selected' : ''}>👤 ${c}</option>`;
+      });
+      selCam.innerHTML = opts;
+    }
+
+    // Filtrar por término de búsqueda en cliente/mesa/plato/nota
+    if (vSearchQuery) {
+      const sq = vSearchQuery;
+      list = list.filter(v => {
+        const mName = (v.persona_nombre || '').toLowerCase().includes(sq);
+        const mCam = (v.camarero || '').toLowerCase().includes(sq);
+        const mNotas = (v.notas || '').toLowerCase().includes(sq);
+        const mItems = (v.venta_lineas || []).some(l => (l.item_nombre || '').toLowerCase().includes(sq));
+        return mName || mCam || mNotas || mItems;
+      });
+    }
+
+    // Calcular totales financieros
+    const totFact = list.reduce((s, v) => s + Number(v.total || 0), 0);
+    const totEf = list.filter(v => v.pago === 'efectivo').reduce((s, v) => s + Number(v.total || 0), 0);
+    const totBiz = list.filter(v => v.pago === 'bizum').reduce((s, v) => s + Number(v.total || 0), 0);
+    const totPend = list.filter(v => v.pago === 'pendiente').reduce((s, v) => s + Number(v.total || 0), 0);
+    const totPlatos = list.reduce((s, v) => s + (Number(v.num_platos) || (v.venta_lineas || []).reduce((ls, l) => ls + l.qty, 0)), 0);
+
+    if (bannerEl) {
+      bannerEl.innerHTML = `
+        <div class="v-sum-row">
+          <div>
+            <div class="v-sum-meta">${periodLabel} · ${list.length} comanda${list.length === 1 ? '' : 's'} · ${totPlatos} platos</div>
+            <div class="v-sum-total">${fmt(totFact)}</div>
+          </div>
+          <div class="v-sum-pills">
+            <span class="v-sum-pill-ef">💵 ${fmt(totEf)}</span>
+            <span class="v-sum-pill-biz">📱 ${fmt(totBiz)}</span>
+            ${totPend > 0 ? `<span class="v-sum-pill-pend">⏳ ${fmt(totPend)}</span>` : ''}
+          </div>
+        </div>`;
+    }
+
+    if (!list.length) {
       el.innerHTML = `
         <div class="empty-view">
-          <img class="empty-img" src="assets/snoopy_cool.png" alt="">
-          <div class="empty-title">Sin comandas</div>
-          <div class="empty-sub">No hay registros con este filtro.</div>
+          <img class="empty-img" src="assets/snoopy_cool.png" alt="Snoopy">
+          <div class="empty-title">Sin registros</div>
+          <div class="empty-sub">No hay comandas en ${periodLabel.toLowerCase()} con los filtros aplicados.</div>
         </div>`;
       return;
     }
 
-    el.innerHTML = data.map(v => `
-      <div class="vcard">
-        <div class="vcard-top">
-          <div>
-            <div class="vcard-name">${v.persona_nombre}</div>
-            <div class="vcard-date">${fmtDate(v.created_at)}</div>
+    el.innerHTML = list.map(v => {
+      const lines = v.venta_lineas || [];
+      const numPlatos = v.num_platos || lines.reduce((s, l) => s + l.qty, 0);
+      return `
+        <div class="vcard">
+          <div class="vcard-top">
+            <div>
+              <div class="vcard-name">${v.persona_nombre}</div>
+              <div class="vcard-date">${fmtDate(v.created_at)}</div>
+            </div>
+            <button class="pay-pill pp-${v.pago}" onclick="openPago('${v.id}','${esc(v.persona_nombre)}','${fmt(v.total)}')">
+              ${v.pago === 'efectivo' ? 'Efectivo' : v.pago === 'bizum' ? 'Bizum' : 'Pendiente'}
+            </button>
           </div>
-          <button class="pay-pill pp-${v.pago}" onclick="openPago('${v.id}','${esc(v.persona_nombre)}','${fmt(v.total)}')">
-            ${v.pago === 'efectivo' ? 'Efectivo' : v.pago === 'bizum' ? 'Bizum' : 'Pendiente'}
-          </button>
-        </div>
 
-        <div class="vcard-chips">
-          ${v.num_platos ? `<span class="chip-meta">🍽️ ${v.num_platos} platos</span>` : ''}
-          ${v.camarero ? `<span class="chip-meta">👤 Anotó: ${v.camarero}</span>` : ''}
-        </div>
-
-        <div class="vcard-items">
-          ${(v.venta_lineas || []).map(l => `${l.qty}× ${l.item_nombre}`).join(' · ')}
-        </div>
-
-        <div class="vcard-foot">
-          <span class="vcard-total">${fmt(v.total)}</span>
-          <div style="display:flex;gap:6px;align-items:center">
-            ${v.pago === 'pendiente' ? `
-              <button class="btn btn-green btn-sm" onclick="qpay('${v.id}','efectivo')">Cobrar Ef.</button>
-              <button class="btn btn-blue btn-sm" onclick="qpay('${v.id}','bizum')">Cobrar Biz.</button>
-            ` : ''}
-            <button class="btn btn-ghost btn-sm btn-icon" onclick="delVenta('${v.id}')" title="Eliminar" style="color:var(--text-tertiary)">✕</button>
+          <div class="vcard-chips">
+            ${v.camarero ? `<span class="chip-meta">👤 Anotó: <strong>${v.camarero}</strong></span>` : ''}
+            <span class="chip-meta">🍽️ ${numPlatos} plato${numPlatos === 1 ? '' : 's'}</span>
           </div>
-        </div>
-      </div>`).join('');
+
+          ${v.notas ? `<div class="vcard-note">📝 Nota: ${v.notas}</div>` : ''}
+
+          <div class="vcard-lines-detail">
+            ${lines.map(l => `<span class="vcard-line-item">${l.qty}× ${l.item_nombre}</span>`).join('')}
+          </div>
+
+          <div class="vcard-foot">
+            <span class="vcard-total">${fmt(v.total)}</span>
+            <div style="display:flex;gap:6px;align-items:center">
+              ${v.pago === 'pendiente' ? `
+                <button class="btn btn-green btn-sm" onclick="qpay('${v.id}','efectivo')">Cobrar Ef.</button>
+                <button class="btn btn-blue btn-sm" onclick="qpay('${v.id}','bizum')">Cobrar Biz.</button>
+              ` : ''}
+              <button class="btn btn-ghost btn-sm btn-icon" onclick="delVenta('${v.id}')" title="Eliminar" style="color:var(--text-tertiary)">✕</button>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
   } catch(e) {
     el.innerHTML = `<div class="empty-view"><div class="empty-title">Error</div><div class="empty-sub">${e.message}</div></div>`;
   }
@@ -2919,6 +3309,7 @@ async function saveReporteDiario() {
       total_bizum: currentDayStats.bizum,
       total_pendiente: currentDayStats.pendiente,
       num_ventas: currentDayStats.ventasCount,
+      desglose_items: currentDayStats.desglose_items || [],
       notas: v('rep-notas').trim()
     };
 
@@ -2929,10 +3320,70 @@ async function saveReporteDiario() {
     toast('Cierre guardado por ' + resp);
     if (navigator.vibrate) navigator.vibrate([20, 60, 20]);
     renderDash();
+    if (curVentasSubTab === 'cierres') renderCierresDiariosList();
   } catch(e) {
     toast('Error: ' + e.message, false);
   } finally {
     btn.textContent = 'Guardar Cierre en Supabase'; btn.disabled = false;
+  }
+}
+
+function buildReporteCardHtml(r) {
+  const dateFmt = new Date(r.fecha + 'T12:00:00').toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  const timeFmt = new Date(r.created_at).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+  const items = Array.isArray(r.desglose_items) ? r.desglose_items : [];
+  const totalUnits = items.reduce((s, i) => s + (Number(i.qty) || 0), 0);
+
+  return `
+    <div class="vcard">
+      <div class="vcard-top">
+        <div>
+          <div class="vcard-name" style="text-transform:capitalize">📅 ${dateFmt}</div>
+          <div class="vcard-date">Cerrado por: <strong>👤 ${r.responsable}</strong> a las ${timeFmt}</div>
+        </div>
+        <span style="font-size:18px;font-weight:800;color:var(--apple-amber)">${fmt(r.total_recaudado)}</span>
+      </div>
+
+      <div class="vcard-chips" style="margin:8px 0">
+        <span class="pay-pill pp-efectivo">💵 Ef: ${fmt(r.total_efectivo)}</span>
+        <span class="pay-pill pp-bizum">📱 Biz: ${fmt(r.total_bizum)}</span>
+        ${Number(r.total_pendiente || 0) > 0 ? `<span class="pay-pill pp-pendiente">⏳ Pend: ${fmt(r.total_pendiente)}</span>` : ''}
+        <span class="chip-meta">📋 ${r.num_ventas} ventas</span>
+      </div>
+
+      ${r.notas ? `<div class="vcard-note">📝 «${r.notas}»</div>` : ''}
+
+      ${items.length ? `
+        <details style="margin-top:8px;font-size:12px;color:var(--text-secondary)">
+          <summary style="cursor:pointer;font-weight:600;color:var(--apple-blue);margin-bottom:6px">
+            Ver platos servidos en el día (${totalUnits} uds.) ▾
+          </summary>
+          <div style="background:var(--bg-tertiary);border-radius:8px;padding:8px;display:flex;flex-wrap:wrap;gap:4px">
+            ${items.map(it => `<span class="vcard-line-item">${it.qty}× ${it.item}</span>`).join('')}
+          </div>
+        </details>
+      ` : ''}
+    </div>`;
+}
+
+async function renderCierresDiariosList() {
+  const el = $$('ventas-cierres-body');
+  if (!el) return;
+  try {
+    const { data: reportes, error } = await sb.from('reportes_diarios').select('*').order('created_at', { ascending: false }).limit(60);
+    if (error) throw error;
+    if (!reportes || !reportes.length) {
+      el.innerHTML = `
+        <div class="empty-view">
+          <img class="empty-img" src="assets/snoopy_cool.png" alt="Snoopy">
+          <div class="empty-title">Sin cierres guardados</div>
+          <div class="empty-sub">Aún no se ha guardado ningún arqueo de caja diario en Supabase.</div>
+        </div>`;
+      return;
+    }
+    el.innerHTML = reportes.map(r => buildReporteCardHtml(r)).join('');
+  } catch(e) {
+    el.innerHTML = `<div class="empty-view"><div class="empty-sub">Error: ${e.message}</div></div>`;
   }
 }
 
@@ -2946,29 +3397,13 @@ async function openHistReportes() {
     if (!reportes || !reportes.length) {
       el.innerHTML = `
         <div class="empty-view">
-          <img class="empty-img" src="assets/snoopy_cool.png" alt="">
+          <img class="empty-img" src="assets/snoopy_cool.png" alt="Snoopy">
           <div class="empty-title">Sin reportes</div>
           <div class="empty-sub">Aún no se ha realizado ningún cierre de jornada.</div>
         </div>`;
       return;
     }
-    el.innerHTML = reportes.map(r => `
-      <div class="vcard">
-        <div class="vcard-top">
-          <div>
-            <div class="vcard-name">👤 ${r.responsable}</div>
-            <div class="vcard-date">${fmtDate(r.created_at)}</div>
-          </div>
-          <span style="font-size:17px;font-weight:700;color:var(--apple-amber)">${fmt(r.total_recaudado)}</span>
-        </div>
-        <div style="display:flex;gap:6px;flex-wrap:wrap;margin:8px 0">
-          <span class="pay-pill pp-efectivo">Ef: ${fmt(r.total_efectivo)}</span>
-          <span class="pay-pill pp-bizum">Biz: ${fmt(r.total_bizum)}</span>
-          <span class="pay-pill pp-pendiente">Pend: ${fmt(r.total_pendiente)}</span>
-          <span class="chip-meta">${r.num_ventas} ventas</span>
-        </div>
-        ${r.notas ? `<div style="font-size:12px;color:var(--text-secondary);font-style:italic;margin-top:4px">«${r.notas}»</div>` : ''}
-      </div>`).join('');
+    el.innerHTML = reportes.map(r => buildReporteCardHtml(r)).join('');
   } catch(e) {
     el.innerHTML = `<div class="empty-view"><div class="empty-sub">Error: ${e.message}</div></div>`;
   }
