@@ -56,22 +56,35 @@ create table if not exists venta_lineas (
   created_at  timestamptz not null default now()
 );
 
--- ============================================================
---  SEGURIDAD: RLS
---  Para uso interno (solo vosotros) es más sencillo
---  desactivar RLS. Si en el futuro quieres añadir autenticación
---  elimina las líneas "disable row level security" y configura
---  políticas adecuadas.
--- ============================================================
+-- 6. Reportes diarios (Cierres de caja guardados con Nombre y Apellidos)
+create table if not exists reportes_diarios (
+  id              uuid primary key default gen_random_uuid(),
+  responsable     text not null, -- Nombre y Apellidos de la persona que cierra
+  fecha           date not null default current_date,
+  total_recaudado numeric(10,2) not null default 0,
+  total_efectivo  numeric(10,2) not null default 0,
+  total_bizum     numeric(10,2) not null default 0,
+  total_pendiente numeric(10,2) not null default 0,
+  num_ventas      integer not null default 0,
+  desglose_items  jsonb default '[]'::jsonb,
+  notas           text default '',
+  created_at      timestamptz not null default now()
+);
 
-alter table menu_items   disable row level security;
-alter table promos       disable row level security;
-alter table personas     disable row level security;
-alter table ventas       disable row level security;
-alter table venta_lineas disable row level security;
+-- ============================================================
+--  SEGURIDAD: RLS Y PERMISOS
+-- ============================================================
+alter table menu_items       disable row level security;
+alter table promos           disable row level security;
+alter table personas         disable row level security;
+alter table ventas           disable row level security;
+alter table venta_lineas     disable row level security;
+alter table reportes_diarios disable row level security;
+
+grant all on menu_items, promos, personas, ventas, venta_lineas, reportes_diarios to anon, authenticated;
 
 -- ============================================================
---  DATOS DE EJEMPLO (opcional — borra si no los quieres)
+--  DATOS DE EJEMPLO (opcional)
 -- ============================================================
 insert into menu_items (nombre, categoria, precio, descripcion) values
   ('Café solo',         'Bebidas',     1.00, ''),
