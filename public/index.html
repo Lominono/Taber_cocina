@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- Apple UI Design System – Verified: 8pt Grid, SF Pro Typography, Material-Depth, Natural Spring Motion -->
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -7,59 +8,68 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Cocina">
-<meta name="theme-color" content="#0e0e12">
+<meta name="theme-color" content="#000000">
 <meta name="format-detection" content="telephone=no">
 <meta name="description" content="Gestión de cocina, comandas y cuentas — Tabernáculo Santo">
 <title>Cocina · Tabernáculo Santo</title>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="assets/snoopy_cool.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
-/* ─────────────────────────────────────────
-   TOKENS & ANTI-AI DESIGN SYSTEM
-   - Colores sobrios de taberna / cocina
-   - Tipografía editorial suiza y serif
-   - Botones táctiles amplios (>= 48px)
-───────────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────
+   APPLE UI SYSTEM TOKENS (8PT GRID, SF PRO, SEMANTIC MATERIALS)
+───────────────────────────────────────────────────────────── */
 :root {
-  --ink:     #0e0e12;
-  --ink2:    #16161d;
-  --ink3:    #20202a;
-  --ink4:    #2c2c3a;
-  --line:    rgba(255, 255, 255, 0.08);
-  --line2:   rgba(255, 255, 255, 0.14);
-  --txt:     #f4f4f7;
-  --muted:   #8a8a98;
-  --dim:     #555562;
+  /* Fondos y Materiales iOS */
+  --bg-base:        #000000;
+  --bg-elevated:    #121214;
+  --bg-grouped:     #1c1c1e;
+  --bg-tertiary:    #2c2c2e;
+  --bg-fill:        rgba(120, 120, 128, 0.2);
 
-  --gold:    #d4a843;
-  --gold-bg: rgba(212, 168, 67, 0.12);
-  --gold-border: rgba(212, 168, 67, 0.28);
+  /* Materiales Glassmorphism */
+  --glass-bg:       rgba(28, 28, 30, 0.78);
+  --glass-bar:      rgba(18, 18, 20, 0.88);
+  --glass-border:   0.5px solid rgba(255, 255, 255, 0.12);
+  --glass-blur:     blur(25px) saturate(180%);
 
-  --green:   #2a9d5c;
-  --green-bg:rgba(42, 157, 92, 0.14);
-  --blue:    #1a7fc4;
-  --blue-bg: rgba(26, 127, 196, 0.14);
-  --red:     #d63c55;
-  --red-bg:  rgba(214, 60, 85, 0.14);
+  /* Tipografía SF Pro y Colores del Sistema */
+  --font-stack:     -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif;
+  --text-primary:   #ffffff;
+  --text-secondary: #8e8e93;
+  --text-tertiary:  #636366;
 
-  --r-sm:    10px;
-  --r-md:    16px;
-  --r-lg:    22px;
-  --r-xl:    28px;
+  /* Colores Semánticos Apple */
+  --apple-amber:    #ffd60a;
+  --apple-gold:     #f0a500;
+  --apple-green:    #34c759;
+  --apple-blue:     #0a84ff;
+  --apple-red:      #ff453a;
 
-  --safe-t:  env(safe-area-inset-top, 0px);
-  --safe-b:  env(safe-area-inset-bottom, 0px);
-  --safe-l:  env(safe-area-inset-left, 0px);
-  --safe-r:  env(safe-area-inset-right, 0px);
-  --nav-h:   64px;
-  --top-h:   56px;
+  /* Fondos Semánticos con Opacidad Fina */
+  --amber-fill:     rgba(255, 214, 10, 0.14);
+  --green-fill:     rgba(52, 199, 89, 0.16);
+  --blue-fill:      rgba(10, 132, 255, 0.16);
+  --red-fill:       rgba(255, 69, 58, 0.16);
 
-  --f-sans:  'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --f-ser:   'DM Serif Display', Georgia, serif;
+  /* Radios de Curvatura (8pt System) */
+  --r-sm:           8px;
+  --r-btn:          12px;
+  --r-card:         20px;
+  --r-pill:         9999px;
+
+  /* Insets de Pantalla Móvil */
+  --safe-t:         env(safe-area-inset-top, 0px);
+  --safe-b:         env(safe-area-inset-bottom, 0px);
+  --safe-l:         env(safe-area-inset-left, 0px);
+  --safe-r:         env(safe-area-inset-right, 0px);
+
+  --top-bar-h:      56px;
+  --nav-bar-h:      64px;
+
+  /* Físicas de Animación Apple Spring */
+  --spring-std:     300ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  --spring-sheet:   320ms cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 /* RESET ERGONÓMICO */
@@ -73,10 +83,12 @@ html, body {
   height: 100%;
   height: 100dvh;
   overflow: hidden;
-  background: var(--ink);
-  color: var(--txt);
-  font-family: var(--f-sans);
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-stack);
+  letter-spacing: -0.011em;
   font-size: 15px;
+  line-height: 1.45;
   overscroll-behavior: none;
 }
 button, a, input, select, textarea { touch-action: manipulation; }
@@ -85,12 +97,12 @@ button, .nav-it, .cart-bar, .cat-btn, .fpill, .pay-pill, .cart-chip, .tab-it {
   -webkit-user-select: none;
 }
 button { font-family: inherit; cursor: pointer; border: none; background: none; }
-input, select, textarea { font-family: inherit; font-size: 16px; }
+input, select, textarea { font-family: inherit; font-size: 16px; color: var(--text-primary); }
 img { display: block; max-width: 100%; }
 
-/* ─────────────────────────────────────────
-   SETUP SUPABASE (SI NO ESTÁ CONECTADO)
-───────────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────
+   PANTALLA DE CONEXIÓN A BASE DE DATOS
+───────────────────────────────────────────────────────────── */
 #setup {
   min-height: 100vh;
   min-height: 100dvh;
@@ -98,9 +110,9 @@ img { display: block; max-width: 100%; }
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: max(2rem, calc(var(--safe-t) + 1rem)) max(1.25rem, var(--safe-r)) max(2rem, calc(var(--safe-b) + 1rem)) max(1.25rem, var(--safe-l));
-  gap: 1.5rem;
-  background: var(--ink);
+  padding: max(24px, calc(var(--safe-t) + 16px)) max(16px, var(--safe-r)) max(24px, calc(var(--safe-b) + 16px)) max(16px, var(--safe-l));
+  gap: 24px;
+  background-color: var(--bg-base);
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
@@ -109,82 +121,83 @@ img { display: block; max-width: 100%; }
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 12px;
-  height: 130px;
+  gap: 16px;
+  height: 120px;
 }
-.setup-hero .hk { height: 95px; width: auto; filter: drop-shadow(0 6px 18px rgba(0,0,0,0.5)); }
-.setup-hero .sn { height: 115px; width: auto; filter: drop-shadow(0 6px 18px rgba(0,0,0,0.5)); }
+.setup-hero .hk { height: 90px; width: auto; filter: drop-shadow(0 8px 24px rgba(0,0,0,0.6)); }
+.setup-hero .sn { height: 110px; width: auto; filter: drop-shadow(0 8px 24px rgba(0,0,0,0.6)); }
 
 .setup-wordmark { text-align: center; }
 .setup-wordmark h1 {
-  font-family: var(--f-ser);
-  font-size: clamp(1.8rem, 6vw, 2.4rem);
-  line-height: 1.1;
-  color: var(--txt);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.022em;
+  line-height: 1.15;
+  color: var(--text-primary);
 }
 .setup-wordmark p {
-  font-size: 0.82rem;
-  color: var(--muted);
-  margin-top: 0.35rem;
-  letter-spacing: 0.05em;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
+  font-weight: 500;
 }
 
 .setup-panel {
   width: 100%;
-  max-width: 420px;
-  background: var(--ink2);
-  border: 1px solid var(--line2);
-  border-radius: var(--r-xl);
-  padding: 1.5rem;
+  max-width: 400px;
+  background: var(--bg-elevated);
+  border: var(--glass-border);
+  border-radius: var(--r-card);
+  padding: 24px;
 }
-.setup-steps {
-  margin-bottom: 1.25rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-.setup-step {
-  display: flex;
-  gap: 0.75rem;
-  align-items: flex-start;
-  font-size: 0.82rem;
-  color: var(--muted);
+
+.setup-info-box {
+  background: var(--bg-tertiary);
+  border-radius: var(--r-btn);
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: var(--text-secondary);
   line-height: 1.45;
 }
-.step-n {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  border: 1.5px solid var(--gold);
-  color: var(--gold);
-  font-size: 0.72rem;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  margin-top: 1px;
+.setup-info-box strong { color: var(--text-primary); }
+
+.sf { margin-bottom: 16px; }
+.sf label {
+  display: block;
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  margin-bottom: 6px;
 }
-.setup-step strong { color: var(--txt); }
-.setup-step a { color: var(--gold); text-decoration: none; }
-.setup-divider { height: 1px; background: var(--line); margin: 1.1rem 0; }
-.sf { margin-bottom: 0.85rem; }
-.sf label { display: block; font-size: 0.72rem; color: var(--dim); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 0.35rem; }
 .sf input {
   width: 100%;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid var(--line2);
-  border-radius: var(--r-sm);
-  color: var(--txt);
-  padding: 0.8rem 0.9rem;
+  background: var(--bg-tertiary);
+  border: var(--glass-border);
+  border-radius: var(--r-btn);
+  padding: 12px 14px;
+  transition: border-color var(--spring-std);
 }
-.sf input:focus { outline: none; border-color: var(--gold); }
-#setup-err { font-size: 0.82rem; color: var(--red); margin-bottom: 0.75rem; display: none; }
+.sf input:focus { outline: none; border-color: var(--apple-blue); }
+.sf-hint { font-size: 11px; color: var(--text-tertiary); margin-top: 4px; }
 
-/* ─────────────────────────────────────────
+#setup-err {
+  font-size: 13px;
+  color: var(--apple-red);
+  background: var(--red-fill);
+  border-radius: var(--r-sm);
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  display: none;
+}
+
+/* ─────────────────────────────────────────────────────────────
    APP SHELL
-───────────────────────────────────────── */
+───────────────────────────────────────────────────────────── */
 #app {
   display: none;
   flex-direction: column;
@@ -192,146 +205,151 @@ img { display: block; max-width: 100%; }
   height: 100dvh;
 }
 
-/* TOP BAR */
+/* TOP BAR (APPLE TRANSLUCENT HEADER) */
 .topbar {
-  background: rgba(14, 14, 18, 0.94);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--line);
+  background: var(--glass-bar);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-bottom: var(--glass-border);
   padding-top: var(--safe-t);
-  height: calc(var(--top-h) + var(--safe-t));
+  height: calc(var(--top-bar-h) + var(--safe-t));
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-left: max(0.9rem, var(--safe-l));
-  padding-right: max(0.9rem, var(--safe-r));
+  padding-left: max(16px, var(--safe-l));
+  padding-right: max(16px, var(--safe-r));
   position: relative;
-  z-index: 20;
+  z-index: 30;
   flex-shrink: 0;
 }
+
 .topbar-brand {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: 10px;
 }
 .brand-mascot-wrap {
+  width: 34px;
+  height: 34px;
   display: flex;
   align-items: center;
-  gap: -6px;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--bg-tertiary);
+  border: var(--glass-border);
 }
 .brand-mascot {
-  height: 34px;
+  height: 28px;
   width: auto;
-  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.45));
+  object-fit: contain;
 }
 .brand-name {
-  font-family: var(--f-ser);
-  font-size: 1.05rem;
-  color: var(--txt);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.022em;
   line-height: 1.1;
-  letter-spacing: -0.01em;
 }
 .brand-sub {
-  font-size: 0.65rem;
-  color: var(--muted);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-weight: 500;
 }
 
 .topbar-right {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 8px;
 }
 
-/* OPERATOR BADGE */
-.op-badge {
+/* STATUS CHIP (CONEXIÓN Y TURNO) */
+.db-status-chip {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  background: var(--ink3);
-  border: 1px solid var(--line2);
-  border-radius: 20px;
-  padding: 0.35rem 0.7rem;
-  font-size: 0.75rem;
+  gap: 6px;
+  background: var(--bg-tertiary);
+  border: var(--glass-border);
+  border-radius: var(--r-pill);
+  padding: 4px 10px;
+  font-size: 12px;
   font-weight: 600;
-  color: var(--txt);
-  max-width: 140px;
+  cursor: pointer;
+  transition: transform var(--spring-std);
+}
+.db-status-chip:active { transform: scale(0.96); }
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--apple-green);
+}
+.status-dot.offline { background: var(--apple-amber); }
+.status-dot.error   { background: var(--apple-red); }
+
+/* OPERATOR PILL */
+.op-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-tertiary);
+  border: var(--glass-border);
+  border-radius: var(--r-pill);
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  max-width: 120px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   cursor: pointer;
-  transition: border-color 0.15s, transform 0.1s;
+  transition: transform var(--spring-std);
 }
-.op-badge:active { transform: scale(0.95); }
-.op-badge-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--green);
-  flex-shrink: 0;
-}
-.op-badge-name {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+.op-pill:active { transform: scale(0.96); }
 
-/* GUIDE / TUTORIAL BUTTON */
-.btn-guide {
+/* ICON BUTTONS */
+.top-icon-btn {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: var(--ink3);
-  border: 1px solid var(--line2);
-  color: var(--gold);
+  background: var(--bg-tertiary);
+  border: var(--glass-border);
+  color: var(--text-primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 800;
-  font-size: 0.95rem;
-  transition: transform 0.12s;
+  font-size: 14px;
+  font-weight: 700;
+  transition: transform var(--spring-std);
 }
-.btn-guide:active { transform: scale(0.92); }
+.top-icon-btn:active { transform: scale(0.94); }
 
-/* CART CHIP TOPBAR */
+/* CART CHIP */
 .cart-chip {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-  background: var(--gold);
-  color: var(--ink);
-  border-radius: 20px;
-  padding: 0.42rem 0.85rem;
-  font-size: 0.82rem;
+  gap: 6px;
+  background: var(--apple-amber);
+  color: #000000;
+  border-radius: var(--r-pill);
+  padding: 5px 12px;
+  font-size: 13px;
   font-weight: 700;
-  transition: opacity 0.15s, transform 0.15s;
+  transition: opacity var(--spring-std), transform var(--spring-std);
 }
-.cart-chip:active { opacity: 0.85; transform: scale(0.95); }
+.cart-chip:active { transform: scale(0.96); opacity: 0.9; }
 .cart-chip.hidden { display: none; }
 .chip-count {
-  background: var(--ink);
-  color: var(--gold);
-  border-radius: 20px;
-  padding: 0 0.45rem;
-  font-size: 0.72rem;
+  background: #000000;
+  color: var(--apple-amber);
+  border-radius: var(--r-pill);
+  padding: 1px 6px;
+  font-size: 11px;
   font-weight: 800;
 }
 
-.top-cfg {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--muted);
-  transition: color 0.15s, transform 0.1s;
-}
-.top-cfg:active { transform: scale(0.92); }
-
-/* ─────────────────────────────────────────
-   PAGES
-───────────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────
+   PAGES CONTENT
+───────────────────────────────────────────────────────────── */
 .pages {
   flex: 1;
   overflow: hidden;
@@ -343,29 +361,29 @@ img { display: block; max-width: 100%; }
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-y: contain;
-  padding: 1rem max(1rem, var(--safe-r)) calc(var(--nav-h) + var(--safe-b) + 5.5rem) max(1rem, var(--safe-l));
+  padding: 16px max(16px, var(--safe-r)) calc(var(--nav-bar-h) + var(--safe-b) + 72px) max(16px, var(--safe-l));
   display: none;
-  scroll-padding-top: 0.5rem;
+  scroll-padding-top: 8px;
 }
 .page.active { display: block; }
 
-/* ─────────────────────────────────────────
-   BOTTOM NAV
-───────────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────
+   BOTTOM NAVIGATION BAR (APPLE TAB BAR)
+───────────────────────────────────────────────────────────── */
 .bot-nav {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(14, 14, 18, 0.96);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border-top: 1px solid var(--line);
+  background: var(--glass-bar);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-top: var(--glass-border);
   display: flex;
   padding-bottom: var(--safe-b);
   padding-left: var(--safe-l);
   padding-right: var(--safe-r);
-  z-index: 20;
+  z-index: 30;
 }
 .nav-it {
   flex: 1;
@@ -374,744 +392,738 @@ img { display: block; max-width: 100%; }
   align-items: center;
   justify-content: center;
   gap: 3px;
-  color: var(--dim);
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  min-height: var(--nav-h);
-  transition: color 0.15s, transform 0.1s;
+  color: var(--text-tertiary);
+  font-size: 11px;
+  font-weight: 500;
+  min-height: var(--nav-bar-h);
+  transition: color var(--spring-std), transform var(--spring-std);
   position: relative;
 }
-.nav-it:active { transform: scale(0.92); }
+.nav-it:active { transform: scale(0.94); }
 .nav-it svg {
   width: 22px;
   height: 22px;
   stroke: currentColor;
   fill: none;
-  stroke-width: 1.8;
+  stroke-width: 1.9;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-.nav-it.active { color: var(--gold); }
+.nav-it.active {
+  color: var(--apple-amber);
+  font-weight: 600;
+}
 .nav-it.active::before {
   content: '';
   position: absolute;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 28px;
+  width: 24px;
   height: 2px;
-  background: var(--gold);
+  background: var(--apple-amber);
   border-radius: 0 0 2px 2px;
 }
 
-/* CART FLOAT BAR */
+/* CART BAR FLOTANTE (THUMB ERGONÓMICO) */
 .cart-bar {
   position: fixed;
-  left: max(1rem, var(--safe-l));
-  right: max(1rem, var(--safe-r));
-  bottom: calc(var(--nav-h) + var(--safe-b) + 0.65rem);
-  background: var(--gold);
-  color: var(--ink);
-  border-radius: var(--r-lg);
-  padding: 0.9rem 1.25rem;
+  left: max(16px, var(--safe-l));
+  right: max(16px, var(--safe-r));
+  bottom: calc(var(--nav-bar-h) + var(--safe-b) + 8px);
+  background: var(--apple-amber);
+  color: #000000;
+  border-radius: var(--r-card);
+  padding: 14px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  z-index: 18;
+  z-index: 25;
   cursor: pointer;
-  box-shadow: 0 8px 32px rgba(212, 168, 67, 0.35);
-  transition: transform 0.22s cubic-bezier(.4,0,.2,1), opacity 0.22s;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(255, 214, 10, 0.25);
+  transition: transform var(--spring-std), opacity var(--spring-std);
 }
 .cart-bar:active { transform: scale(0.98); }
-.cart-bar.hidden { transform: translateY(24px); opacity: 0; pointer-events: none; }
+.cart-bar.hidden { transform: translateY(28px); opacity: 0; pointer-events: none; }
 .cart-bar-l {
-  font-size: 0.88rem;
-  font-weight: 700;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 700;
 }
-.cart-bar-dish-pill {
-  background: var(--ink);
-  color: var(--gold);
-  border-radius: 12px;
-  padding: 0.15rem 0.55rem;
-  font-size: 0.72rem;
+.cart-bar-badge {
+  background: #000000;
+  color: var(--apple-amber);
+  border-radius: var(--r-pill);
+  padding: 2px 8px;
+  font-size: 11px;
   font-weight: 800;
 }
 .cart-bar-r {
-  font-size: 1.15rem;
+  font-size: 18px;
   font-weight: 800;
-  font-family: var(--f-ser);
+  letter-spacing: -0.022em;
 }
 
-/* ─────────────────────────────────────────
-   BUTTONS (TOUCH SIZED >= 48px)
-───────────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────
+   BUTTONS (APPLE SPEC: 44-48px TARGET, 12px RADIUS)
+───────────────────────────────────────────────────────────── */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.45rem;
-  border-radius: var(--r-sm);
-  padding: 0.85rem 1.2rem;
-  font-size: 0.92rem;
+  gap: 6px;
+  border-radius: var(--r-btn);
+  padding: 0 18px;
+  min-height: 46px;
+  font-size: 15px;
   font-weight: 600;
-  min-height: 48px;
-  transition: opacity 0.12s, transform 0.12s;
+  letter-spacing: -0.015em;
+  transition: opacity var(--spring-std), transform var(--spring-std);
 }
-.btn:active { opacity: 0.82; transform: scale(0.97); }
-.btn-gold   { background: var(--gold); color: var(--ink); font-weight: 700; }
-.btn-green  { background: var(--green); color: #fff; font-weight: 700; }
-.btn-blue   { background: var(--blue); color: #fff; font-weight: 700; }
-.btn-red    { background: var(--red); color: #fff; font-weight: 700; }
-.btn-ghost  { background: rgba(255,255,255,0.06); color: var(--txt); border: 1px solid var(--line2); }
+.btn:active { transform: scale(0.96); opacity: 0.88; }
+.btn-gold   { background: var(--apple-amber); color: #000000; font-weight: 700; }
+.btn-green  { background: var(--apple-green); color: #ffffff; }
+.btn-blue   { background: var(--apple-blue);  color: #ffffff; }
+.btn-red    { background: var(--apple-red);   color: #ffffff; }
+.btn-ghost  { background: var(--bg-tertiary); color: var(--text-primary); border: var(--glass-border); }
 .btn-full   { width: 100%; }
-.btn-sm     { padding: 0.45rem 0.8rem; font-size: 0.78rem; min-height: 38px; border-radius: 8px; }
-.btn-icon   { padding: 0.55rem; border-radius: 8px; min-height: 38px; min-width: 38px; }
+.btn-sm     { min-height: 36px; padding: 0 12px; font-size: 13px; border-radius: var(--r-sm); }
+.btn-icon   { min-height: 36px; min-width: 36px; padding: 0; border-radius: var(--r-sm); }
 
-/* ─────────────────────────────────────────
-   FORMS
-───────────────────────────────────────── */
-.field { margin-bottom: 0.95rem; }
+/* ─────────────────────────────────────────────────────────────
+   FORMS & INPUTS (iOS STYLE)
+───────────────────────────────────────────────────────────── */
+.field { margin-bottom: 16px; }
 .field label {
   display: block;
-  font-size: 0.72rem;
-  color: var(--muted);
+  font-size: 12px;
+  color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 600;
-  margin-bottom: 0.4rem;
+  margin-bottom: 6px;
 }
 .field input,
 .field select,
 .field textarea {
   width: 100%;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid var(--line2);
-  border-radius: var(--r-sm);
-  color: var(--txt);
-  padding: 0.8rem 0.95rem;
-  transition: border-color 0.15s;
+  background: var(--bg-tertiary);
+  border: var(--glass-border);
+  border-radius: var(--r-btn);
+  padding: 12px 14px;
+  font-size: 16px;
+  color: var(--text-primary);
+  transition: border-color var(--spring-std);
   -webkit-appearance: none;
 }
 .field input:focus,
 .field select:focus,
 .field textarea:focus {
   outline: none;
-  border-color: var(--gold);
+  border-color: var(--apple-blue);
 }
-.field select option { background: var(--ink2); color: var(--txt); }
-.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+.field select option { background: var(--bg-grouped); color: var(--text-primary); }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-/* ─────────────────────────────────────────
-   CARDS & LIST ROWS
-───────────────────────────────────────── */
-.block {
-  background: var(--ink2);
-  border: 1px solid var(--line);
-  border-radius: var(--r-lg);
-  padding: 1.15rem;
-  margin-bottom: 0.9rem;
+/* ─────────────────────────────────────────────────────────────
+   CARDS & SECTIONS (APPLE INSET GROUPED LOOK)
+───────────────────────────────────────────────────────────── */
+.card-group {
+  background: var(--bg-grouped);
+  border: var(--glass-border);
+  border-radius: var(--r-card);
+  padding: 16px;
+  margin-bottom: 16px;
 }
-.block-hed {
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+.card-header {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.row {
+.list-row {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.85rem 0;
-  border-bottom: 1px solid var(--line);
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: var(--glass-border);
 }
-.row:last-child { border-bottom: none; }
-.row-main { flex: 1; min-width: 0; }
-.row-title { font-size: 0.92rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.row-sub   { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
-.row-right { flex-shrink: 0; text-align: right; }
+.list-row:last-child { border-bottom: none; }
+.list-row-main { flex: 1; min-width: 0; }
+.list-row-title { font-size: 15px; font-weight: 600; }
+.list-row-sub { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
 
 .av {
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
-  background: var(--ink3);
-  border: 1.5px solid var(--line2);
+  background: var(--bg-tertiary);
+  border: var(--glass-border);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--f-ser);
-  font-size: 1.05rem;
-  color: var(--gold);
+  font-weight: 700;
+  color: var(--apple-amber);
+  font-size: 15px;
   flex-shrink: 0;
 }
 
-/* ─────────────────────────────────────────
-   STATS & DASHBOARD
-───────────────────────────────────────── */
-.stats-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.65rem;
-  margin-bottom: 1rem;
-}
-.stat {
-  background: var(--ink2);
-  border: 1px solid var(--line);
-  border-radius: var(--r-md);
-  padding: 1rem;
-}
-.stat-n { font-family: var(--f-ser); font-size: 1.65rem; color: var(--txt); line-height: 1; }
-.stat-n.warn { color: var(--red); }
-.stat-l { font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 5px; }
-
+/* ─────────────────────────────────────────────────────────────
+   DASHBOARD HERO & STATS
+───────────────────────────────────────────────────────────── */
 .dash-hero {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  margin-bottom: 1.1rem;
+  margin-bottom: 16px;
   min-height: 72px;
 }
-.dash-hero-text .eyebrow {
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+.dash-date {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 0.25rem;
+  color: var(--text-secondary);
+  margin-bottom: 2px;
 }
-.dash-hero-text .section-hed {
-  font-family: var(--f-ser);
-  font-size: 1.5rem;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-  color: var(--txt);
+.dash-greeting {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.022em;
+  line-height: 1.15;
+  color: var(--text-primary);
 }
-.dash-chars {
+.dash-mascots {
   display: flex;
   align-items: flex-end;
-  gap: -10px;
+  gap: 4px;
 }
-.dash-char { height: 62px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.45)); }
-.dash-char.hk { height: 56px; margin-right: -8px; z-index: 1; }
+.dash-mascot-hk { height: 50px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4)); }
+.dash-mascot-sn { height: 64px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4)); }
 
-/* ─────────────────────────────────────────
-   TPV SALES GRID
-───────────────────────────────────────── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.stat-box {
+  background: var(--bg-grouped);
+  border: var(--glass-border);
+  border-radius: 16px;
+  padding: 14px;
+}
+.stat-val {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.022em;
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+.stat-val.warn { color: var(--apple-red); }
+.stat-lbl {
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+/* REPORTE CARD */
+.rep-summary-card {
+  background: linear-gradient(135deg, rgba(255, 214, 10, 0.1) 0%, rgba(28, 28, 30, 0.95) 100%);
+  border: var(--glass-border);
+  border-radius: var(--r-card);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+.rep-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: var(--r-pill);
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.rep-badge.saved   { background: var(--green-fill); color: var(--apple-green); }
+.rep-badge.pending { background: var(--amber-fill); color: var(--apple-amber); }
+.rep-title { font-size: 22px; font-weight: 700; letter-spacing: -0.022em; margin-bottom: 4px; }
+.rep-sub { font-size: 13px; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.45; }
+.rep-sub strong { color: var(--text-primary); }
+
+/* ─────────────────────────────────────────────────────────────
+   TPV SALES GRID & CATEGORIES
+───────────────────────────────────────────────────────────── */
 .cat-rail {
   display: flex;
-  gap: 0.5rem;
+  gap: 8px;
   overflow-x: auto;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-x;
-  padding-bottom: 0.65rem;
-  margin-bottom: 0.85rem;
+  padding-bottom: 10px;
+  margin-bottom: 12px;
 }
 .cat-rail::-webkit-scrollbar { display: none; }
 .cat-btn {
   flex-shrink: 0;
-  background: var(--ink2);
-  border: 1px solid var(--line2);
-  border-radius: 20px;
-  padding: 0.45rem 1rem;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--muted);
+  background: var(--bg-grouped);
+  border: var(--glass-border);
+  border-radius: var(--r-pill);
+  padding: 0 16px;
   min-height: 38px;
-  transition: all 0.15s, transform 0.1s;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: all var(--spring-std);
 }
 .cat-btn:active { transform: scale(0.95); }
-.cat-btn.on { background: var(--gold); border-color: var(--gold); color: var(--ink); font-weight: 700; }
+.cat-btn.on {
+  background: var(--apple-amber);
+  color: #000000;
+  font-weight: 700;
+  border-color: var(--apple-amber);
+}
 
 .tpv-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 0.65rem;
+  gap: 10px;
 }
 @media (min-width: 520px) { .tpv-grid { grid-template-columns: repeat(3, 1fr); } }
 @media (min-width: 768px) { .tpv-grid { grid-template-columns: repeat(4, 1fr); } }
 
-.prod-btn {
-  background: var(--ink2);
-  border: 1px solid var(--line);
-  border-radius: var(--r-md);
-  padding: 0.95rem 0.85rem;
+.dish-card {
+  background: var(--bg-grouped);
+  border: var(--glass-border);
+  border-radius: 16px;
+  padding: 14px;
   text-align: left;
-  color: var(--txt);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 0.5rem;
-  min-height: 96px;
-  position: relative;
-  transition: border-color 0.12s, background 0.12s, transform 0.1s;
+  gap: 8px;
+  min-height: 98px;
+  transition: border-color var(--spring-std), transform var(--spring-std);
 }
-.prod-btn:active { transform: scale(0.96); background: rgba(212,168,67,0.08); border-color: var(--gold); }
-.prod-btn.has-promo { border-color: var(--gold-border); background: linear-gradient(180deg, rgba(212,168,67,0.06) 0%, rgba(22,22,29,1) 100%); }
-.prod-n { font-size: 0.88rem; font-weight: 600; line-height: 1.25; word-break: break-word; }
-.prod-foot { display: flex; align-items: baseline; justify-content: space-between; gap: 0.35rem; width: 100%; }
-.prod-p { font-size: 1.05rem; font-weight: 700; color: var(--gold); font-family: var(--f-ser); }
-.prod-promo-tag {
-  display: inline-block;
-  background: var(--gold-bg);
-  color: var(--gold);
-  border: 1px solid var(--gold-border);
-  border-radius: 4px;
-  padding: 0.12rem 0.4rem;
-  font-size: 0.68rem;
+.dish-card:active { transform: scale(0.96); border-color: var(--apple-amber); }
+.dish-card.has-promo {
+  border-color: rgba(255, 214, 10, 0.3);
+  background: linear-gradient(180deg, rgba(255, 214, 10, 0.05) 0%, rgba(28, 28, 30, 1) 100%);
+}
+.dish-name { font-size: 14px; font-weight: 600; line-height: 1.25; }
+.dish-foot { display: flex; align-items: baseline; justify-content: space-between; gap: 4px; width: 100%; }
+.dish-price { font-size: 16px; font-weight: 700; color: var(--apple-amber); }
+.dish-promo-tag {
+  background: var(--amber-fill);
+  color: var(--apple-amber);
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-size: 11px;
   font-weight: 700;
-  line-height: 1.2;
 }
 
-.tpv-section-label {
+.tpv-group-label {
   grid-column: 1/-1;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--muted);
-  padding: 0.6rem 0 0.2rem;
-  border-top: 1px solid var(--line);
-  margin-top: 0.25rem;
+  color: var(--text-secondary);
+  padding: 8px 0 2px;
+  border-top: var(--glass-border);
+  margin-top: 4px;
 }
-.tpv-section-label:first-child { border-top: none; margin-top: 0; }
+.tpv-group-label:first-child { border-top: none; margin-top: 0; }
 
-/* ─────────────────────────────────────────
-   VENTA CARDS & FILTERS
-───────────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────
+   VENTAS CARDS & FILTER SEGMENTS
+───────────────────────────────────────────────────────────── */
 .filter-rail {
   display: flex;
-  gap: 0.5rem;
+  gap: 8px;
   overflow-x: auto;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-x;
-  padding-bottom: 0.75rem;
-  margin-bottom: 0.5rem;
+  padding-bottom: 12px;
+  margin-bottom: 8px;
 }
 .filter-rail::-webkit-scrollbar { display: none; }
 .fpill {
   flex-shrink: 0;
-  background: var(--ink2);
-  border: 1px solid var(--line2);
-  border-radius: 20px;
-  padding: 0.45rem 1rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--muted);
+  background: var(--bg-grouped);
+  border: var(--glass-border);
+  border-radius: var(--r-pill);
+  padding: 0 16px;
   min-height: 38px;
-  transition: all 0.15s, transform 0.1s;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: all var(--spring-std);
 }
 .fpill:active { transform: scale(0.95); }
-.fpill.on { border-color: var(--gold); color: var(--gold); background: var(--gold-bg); }
+.fpill.on {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border-color: rgba(255,255,255,0.25);
+}
 
 .vcard {
-  background: var(--ink2);
-  border: 1px solid var(--line);
-  border-radius: var(--r-md);
-  padding: 1.05rem;
-  margin-bottom: 0.75rem;
+  background: var(--bg-grouped);
+  border: var(--glass-border);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
 }
-.vcard-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.5rem; }
-.vcard-name { font-weight: 700; font-size: 0.95rem; }
-.vcard-date { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
-.vcard-meta {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  margin-bottom: 0.6rem;
-  flex-wrap: wrap;
-}
-.meta-chip {
-  font-size: 0.7rem;
-  color: var(--muted);
-  background: var(--ink3);
-  padding: 0.18rem 0.5rem;
+.vcard-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+.vcard-name { font-size: 16px; font-weight: 700; }
+.vcard-date { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+.vcard-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+.chip-meta {
+  font-size: 11px;
+  color: var(--text-secondary);
+  background: var(--bg-tertiary);
+  padding: 2px 8px;
   border-radius: 6px;
-  border: 1px solid var(--line);
 }
-.vcard-items { font-size: 0.78rem; color: var(--txt); opacity: 0.85; margin-bottom: 0.65rem; line-height: 1.4; }
+.vcard-items { font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.4; }
 .vcard-foot {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 0.65rem;
-  border-top: 1px solid var(--line);
+  padding-top: 10px;
+  border-top: var(--glass-border);
 }
-.vcard-total { font-family: var(--f-ser); font-size: 1.15rem; color: var(--txt); }
+.vcard-total { font-size: 17px; font-weight: 700; color: var(--text-primary); }
 
 /* STATUS PAY PILL */
 .pay-pill {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0.3rem 0.75rem;
-  border-radius: 20px;
-  font-size: 0.74rem;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+  font-size: 12px;
   font-weight: 700;
-  min-height: 32px;
+  min-height: 28px;
   cursor: pointer;
   border: none;
 }
-.pp-efectivo { background: var(--green-bg); color: #3ecf7d; }
-.pp-bizum    { background: var(--blue-bg); color: #4db0f0; }
-.pp-pendiente{ background: var(--red-bg);  color: #f06070; }
+.pp-efectivo { background: var(--green-fill); color: var(--apple-green); }
+.pp-bizum    { background: var(--blue-fill);  color: var(--apple-blue); }
+.pp-pendiente{ background: var(--red-fill);   color: var(--apple-red); }
 
-/* ─────────────────────────────────────────
-   BOTTOM SHEETS & OVERLAYS
-───────────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────
+   APPLE BOTTOM SHEETS (NATURAL SPRING GESTURES)
+───────────────────────────────────────────────────────────── */
 .overlay {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.72);
+  background: rgba(0, 0, 0, 0.65);
   z-index: 100;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   align-items: flex-end;
 }
 .overlay.open { display: flex; }
 
 .sheet {
-  background: var(--ink2);
-  border-radius: var(--r-xl) var(--r-xl) 0 0;
-  border-top: 1px solid var(--line2);
+  background: var(--bg-elevated);
+  border-radius: var(--r-card) var(--r-card) 0 0;
+  border-top: var(--glass-border);
   width: 100%;
   max-height: 92vh;
   max-height: 92dvh;
   display: flex;
   flex-direction: column;
-  padding-bottom: max(var(--safe-b), 12px);
+  padding-bottom: max(var(--safe-b), 16px);
   padding-left: var(--safe-l);
   padding-right: var(--safe-r);
-  animation: su .24s cubic-bezier(.4,0,.2,1);
+  animation: sheetSpring var(--spring-sheet);
   touch-action: pan-y;
 }
-@keyframes su { from { transform: translateY(100%); } to { transform: translateY(0); } }
+@keyframes sheetSpring { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
 .sheet-handle {
-  width: 40px;
-  height: 4px;
-  background: var(--line2);
-  border-radius: 4px;
-  margin: 0.75rem auto 0.35rem;
+  width: 36px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  margin: 10px auto 4px;
   position: relative;
 }
 .sheet-handle::before {
   content: '';
   position: absolute;
-  top: -12px; bottom: -12px; left: -20px; right: -20px;
+  top: -12px; bottom: -12px; left: -24px; right: -24px;
 }
-.sheet-hd { display: flex; align-items: center; justify-content: space-between; padding: 0.4rem 1.25rem 0.5rem; }
-.sheet-title { font-family: var(--f-ser); font-size: 1.25rem; color: var(--txt); }
+
+.sheet-hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 20px 12px;
+}
+.sheet-title { font-size: 19px; font-weight: 700; letter-spacing: -0.022em; }
 .sheet-x {
-  width: 38px;
-  height: 38px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  background: var(--ink3);
-  border: 1px solid var(--line);
-  color: var(--txt);
-  font-size: 1rem;
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.1s;
+  transition: transform var(--spring-std);
 }
 .sheet-x:active { transform: scale(0.92); }
+
 .sheet-body {
   flex: 1;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-y: contain;
-  padding: 0.35rem 1.25rem 0.5rem;
+  padding: 4px 20px 8px;
 }
 .sheet-foot {
-  padding: 0.85rem 1.25rem;
-  border-top: 1px solid var(--line);
+  padding: 12px 20px;
+  border-top: var(--glass-border);
 }
 
-/* ─────────────────────────────────────────
-   TICKET / CART DETAILS
-───────────────────────────────────────── */
-.cart-camarero-info {
+/* ─────────────────────────────────────────────────────────────
+   TICKET / CARRITO
+───────────────────────────────────────────────────────────── */
+.cart-header-badge {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--ink3);
-  border: 1px solid var(--line);
-  border-radius: var(--r-sm);
-  padding: 0.65rem 0.85rem;
-  margin-bottom: 0.85rem;
-  font-size: 0.78rem;
+  background: var(--bg-tertiary);
+  border-radius: var(--r-btn);
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  font-size: 13px;
 }
-.cart-platos-summary {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  background: var(--gold-bg);
-  color: var(--gold);
-  border: 1px solid var(--gold-border);
-  border-radius: 20px;
-  padding: 0.25rem 0.7rem;
-  font-size: 0.75rem;
-  font-weight: 700;
-}
+.cart-header-badge strong { color: var(--apple-amber); }
 
 .cart-line {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.85rem 0;
-  border-bottom: 1px solid var(--line);
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: var(--glass-border);
 }
 .cart-line:last-child { border-bottom: none; }
 .cart-line-main { flex: 1; min-width: 0; }
-.cart-lname { font-size: 0.92rem; font-weight: 600; }
-.cart-lsub { font-size: 0.74rem; color: var(--muted); margin-top: 2px; }
-.cart-lpromo {
-  display: inline-block;
-  font-size: 0.7rem;
-  color: #3ecf7d;
-  font-weight: 700;
-  margin-top: 3px;
+.cart-line-name { font-size: 15px; font-weight: 600; }
+.cart-line-unit { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+.cart-line-promo-alert {
+  font-size: 12px;
+  color: var(--apple-green);
+  font-weight: 600;
+  margin-top: 2px;
 }
-.qty-ctrl { display: flex; align-items: center; gap: 0.5rem; }
-.qty-b {
-  width: 40px;
-  height: 40px;
-  background: var(--ink3);
-  border: 1px solid var(--line2);
+
+.qty-ctrl { display: flex; align-items: center; gap: 8px; }
+.qty-btn {
+  width: 36px;
+  height: 36px;
+  background: var(--bg-tertiary);
+  border: var(--glass-border);
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.3rem;
+  font-size: 18px;
   font-weight: 600;
-  color: var(--txt);
-  transition: background 0.12s, transform 0.1s;
+  color: var(--text-primary);
+  transition: background var(--spring-std), transform var(--spring-std);
 }
-.qty-b:active { background: var(--gold); color: var(--ink); transform: scale(0.92); }
-.qty-v { font-size: 1rem; font-weight: 700; min-width: 24px; text-align: center; }
-.cart-lprice {
-  font-family: var(--f-ser);
-  font-size: 1.05rem;
-  color: var(--gold);
-  min-width: 58px;
-  text-align: right;
-}
+.qty-btn:active { background: var(--apple-amber); color: #000; transform: scale(0.92); }
+.qty-num { font-size: 15px; font-weight: 700; min-width: 22px; text-align: center; }
+.cart-line-total { font-size: 16px; font-weight: 700; color: var(--apple-amber); min-width: 60px; text-align: right; }
 
-.cart-saving-banner {
-  background: rgba(42, 157, 92, 0.12);
-  border: 1px solid rgba(42, 157, 92, 0.3);
-  border-radius: var(--r-sm);
-  padding: 0.65rem 0.9rem;
-  margin: 0.65rem 0;
+.cart-saving-card {
+  background: var(--green-fill);
+  border: 0.5px solid rgba(52, 199, 89, 0.3);
+  border-radius: var(--r-btn);
+  padding: 10px 14px;
+  margin: 12px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 0.82rem;
-  color: #3ecf7d;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--apple-green);
 }
 
-.cart-total-row {
+.cart-total-box {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  padding: 0.5rem 0 0.85rem;
+  padding: 6px 0 14px;
 }
-.ctl-label { font-size: 0.82rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; }
-.ctl-amt   { font-family: var(--f-ser); font-size: 1.75rem; color: var(--txt); }
+.cart-total-lbl { font-size: 13px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; }
+.cart-total-amt { font-size: 26px; font-weight: 800; letter-spacing: -0.022em; color: var(--text-primary); }
 
-.pay-grid {
+.pay-options-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.65rem;
+  gap: 10px;
 }
 
-/* ─────────────────────────────────────────
-   TUTORIAL / GUÍA MODAL
-───────────────────────────────────────── */
-.tut-slider {
+/* ─────────────────────────────────────────────────────────────
+   SEGMENTED CONTROL (APPLE TABS)
+───────────────────────────────────────────────────────────── */
+.segmented-control {
   display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  padding: 0.5rem 0 1rem;
+  background: var(--bg-tertiary);
+  border-radius: var(--r-btn);
+  padding: 3px;
+  margin-bottom: 16px;
 }
-.tut-card {
-  background: var(--ink3);
-  border: 1px solid var(--line2);
-  border-radius: var(--r-lg);
-  padding: 1.25rem;
-  position: relative;
+.segment-btn {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: all var(--spring-std);
 }
-.tut-hero-img {
-  height: 90px;
-  width: auto;
-  margin: 0 auto 0.75rem;
-  object-fit: contain;
-  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
+.segment-btn.on {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
 }
-.tut-num {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: var(--gold);
-  color: var(--ink);
-  font-size: 0.8rem;
-  font-weight: 800;
+
+/* ─────────────────────────────────────────────────────────────
+   SEARCH INPUT (APPLE SYSTEM LOOK)
+───────────────────────────────────────────────────────────── */
+.search-bar {
   display: flex;
   align-items: center;
+  background: var(--bg-grouped);
+  border: var(--glass-border);
+  border-radius: var(--r-btn);
+  padding: 10px 14px;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.search-bar input {
+  flex: 1;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 16px;
+}
+.search-bar input:focus { outline: none; }
+.search-bar input::placeholder { color: var(--text-tertiary); }
+
+/* ─────────────────────────────────────────────────────────────
+   TUTORIAL / GUÍA
+───────────────────────────────────────────────────────────── */
+.tut-step-card {
+  background: var(--bg-grouped);
+  border: var(--glass-border);
+  border-radius: var(--r-card);
+  padding: 18px;
+  margin-bottom: 14px;
+}
+.tut-badge {
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  margin-bottom: 0.65rem;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--apple-amber);
+  color: #000;
+  font-size: 12px;
+  font-weight: 800;
+  margin-bottom: 8px;
 }
-.tut-title {
-  font-family: var(--f-ser);
-  font-size: 1.2rem;
-  color: var(--txt);
-  margin-bottom: 0.4rem;
-}
-.tut-text {
-  font-size: 0.85rem;
-  color: var(--muted);
-  line-height: 1.5;
-}
-.tut-example {
-  background: rgba(0,0,0,0.25);
-  border-left: 3px solid var(--gold);
-  border-radius: 4px;
-  padding: 0.5rem 0.75rem;
-  margin-top: 0.65rem;
-  font-size: 0.8rem;
-  color: var(--txt);
+.tut-title { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+.tut-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.45; }
+.tut-callout {
+  background: var(--bg-tertiary);
+  border-left: 3px solid var(--apple-amber);
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--text-primary);
 }
 
-/* ─────────────────────────────────────────
-   OPERATOR CHECK-IN GATE
-───────────────────────────────────────── */
-.checkin-wrap {
-  text-align: center;
-  padding: 1rem 0;
-}
-.checkin-img {
-  height: 125px;
-  width: auto;
-  margin: 0 auto 0.85rem;
-  object-fit: contain;
-  filter: drop-shadow(0 8px 24px rgba(0,0,0,0.5));
-}
-.checkin-title {
-  font-family: var(--f-ser);
-  font-size: 1.45rem;
-  color: var(--txt);
-  margin-bottom: 0.4rem;
-}
-.checkin-sub {
-  font-size: 0.84rem;
-  color: var(--muted);
-  line-height: 1.45;
-  margin-bottom: 1.25rem;
-}
-
-/* ─────────────────────────────────────────
-   EMPTY & TOAST
-───────────────────────────────────────── */
-.empty { text-align: center; padding: 2.75rem 1rem; }
-.empty-img { height: 90px; width: auto; margin: 0 auto 0.85rem; opacity: 0.8; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4)); }
-.empty-t { font-size: 0.88rem; color: var(--muted); line-height: 1.45; }
-
-.loading { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 3rem; gap: 0.75rem; }
-.spin { width: 26px; height: 26px; border: 2.5px solid var(--line2); border-top-color: var(--gold); border-radius: 50%; animation: spin .75s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
-.spin-t { font-size: 0.82rem; color: var(--muted); }
-
+/* ─────────────────────────────────────────────────────────────
+   TOAST & EMPTY
+───────────────────────────────────────────────────────────── */
 #toast {
   position: fixed;
-  left: 1rem;
-  right: 1rem;
-  bottom: calc(var(--nav-h) + var(--safe-b) + 4.5rem);
-  background: var(--ink3);
-  color: var(--txt);
-  border-left: 3px solid var(--gold);
-  border-radius: var(--r-sm);
-  padding: 0.85rem 1.1rem;
-  font-size: 0.86rem;
-  font-weight: 500;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  left: 20px;
+  right: 20px;
+  bottom: calc(var(--nav-bar-h) + var(--safe-b) + 72px);
+  background: rgba(44, 44, 46, 0.95);
+  backdrop-filter: blur(20px);
+  border: var(--glass-border);
+  color: var(--text-primary);
+  border-radius: var(--r-btn);
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   z-index: 999;
   opacity: 0;
-  transform: translateY(8px);
-  transition: all .2s;
+  transform: translateY(10px);
+  transition: all 220ms ease;
   pointer-events: none;
   text-align: center;
 }
-#toast.show { opacity: 1; transform: none; }
+#toast.show { opacity: 1; transform: translateY(0); }
 
-/* REPORTE DIARIO CARD */
-.rep-card {
-  background: linear-gradient(135deg, rgba(212,168,67,0.12) 0%, rgba(22,22,29,0.95) 100%);
-  border: 1px solid var(--gold-border);
-  border-radius: var(--r-lg);
-  padding: 1.15rem;
-  margin-bottom: 1rem;
+.empty-view {
+  text-align: center;
+  padding: 40px 16px;
 }
-.rep-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.25rem 0.65rem;
-  border-radius: 20px;
-  font-size: 0.72rem;
-  font-weight: 700;
-  margin-bottom: 0.6rem;
+.empty-img {
+  height: 80px;
+  width: auto;
+  margin: 0 auto 12px;
+  opacity: 0.85;
 }
-.rep-badge.saved   { background: var(--green-bg); color: #3ecf7d; border: 1px solid rgba(42,157,92,0.35); }
-.rep-badge.pending { background: var(--gold-bg);  color: var(--gold); border: 1px solid var(--gold-border); }
-.rep-title { font-family: var(--f-ser); font-size: 1.35rem; color: var(--txt); margin-bottom: 0.35rem; }
-.rep-sub { font-size: 0.8rem; color: var(--muted); line-height: 1.45; margin-bottom: 0.85rem; }
-.rep-sub strong { color: var(--txt); font-weight: 600; }
-.rep-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.empty-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+.empty-sub { font-size: 13px; color: var(--text-secondary); }
 
-.tab-bar { display: flex; background: var(--ink2); border: 1px solid var(--line); border-radius: var(--r-md); padding: 3px; margin-bottom: 1rem; }
-.tab-it { flex: 1; padding: 0.6rem; border-radius: calc(var(--r-md) - 3px); font-size: 0.84rem; font-weight: 600; color: var(--muted); transition: all 0.15s; }
-.tab-it.on { background: var(--ink3); color: var(--txt); }
-
-/* SEARCH */
-.search-wrap {
-  display: flex;
-  align-items: center;
-  background: var(--ink2);
-  border: 1px solid var(--line2);
-  border-radius: var(--r-md);
-  padding: 0.75rem 0.95rem;
-  gap: 0.6rem;
-  margin-bottom: 0.9rem;
+.spin {
+  width: 26px; height: 26px;
+  border: 2.5px solid rgba(255,255,255,0.15);
+  border-top-color: var(--apple-amber);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 10px;
 }
-.search-wrap input { flex: 1; background: none; border: none; color: var(--txt); font-size: 16px; }
-.search-wrap input:focus { outline: none; }
-.search-ico { color: var(--dim); font-size: 0.95rem; }
-
-/* QUICK PAY BUTTONS IN LIST */
-.qp-btns { display: flex; gap: 0.4rem; }
-.qp-amount { font-family: var(--f-ser); font-size: 0.98rem; color: var(--gold); margin-bottom: 2px; }
+@keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
 
-<!-- ══════════════════════════════════════
-     SETUP SUPABASE (SI NO ESTÁ CONECTADO)
-══════════════════════════════════════ -->
+<!-- ═════════════════════════════════════════════════════════════
+     SETUP / CONEXIÓN SUPABASE (SI HACE FALTA)
+═════════════════════════════════════════════════════════════ -->
 <div id="setup" style="display:none">
   <div class="setup-hero" aria-hidden="true">
     <img class="hk" src="assets/hellokitty.png" alt="Hello Kitty">
@@ -1120,68 +1132,66 @@ img { display: block; max-width: 100%; }
 
   <div class="setup-wordmark">
     <h1>Tabernáculo Santo</h1>
-    <p>Gestión de cocina</p>
+    <p>Punto de Venta · Cocina</p>
   </div>
 
   <div class="setup-panel">
-    <div class="setup-steps">
-      <div class="setup-step">
-        <div class="step-n">1</div>
-        <div>Entra a <a href="https://supabase.com" target="_blank">supabase.com</a> y ejecuta <strong>supabase-setup.sql</strong> en el SQL Editor.</div>
-      </div>
-      <div class="setup-step">
-        <div class="step-n">2</div>
-        <div>En <strong>Settings → API</strong> de tu proyecto, copia la URL y la clave pública (<strong>anon key</strong>).</div>
-      </div>
+    <div class="setup-info-box">
+      La base de datos en la nube (Supabase) almacena tus platos, comandas y arqueo diario para que todo el equipo esté sincronizado.
     </div>
-    <div class="setup-divider"></div>
+
     <div class="sf">
-      <label>Project URL</label>
+      <label>URL del Proyecto Supabase</label>
       <input type="url" id="cfg-url" placeholder="https://xxxx.supabase.co" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+      <div class="sf-hint">Puedes pegar la URL con o sin /rest/v1; el sistema la limpiará solo.</div>
     </div>
+
     <div class="sf">
-      <label>Anon public key</label>
+      <label>Anon Public Key</label>
       <input type="password" id="cfg-key" placeholder="eyJhbGci…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
     </div>
+
     <div id="setup-err"></div>
-    <button class="btn btn-gold btn-full" id="cfg-btn" onclick="connectSB()">Conectar y empezar</button>
+
+    <button class="btn btn-gold btn-full" id="cfg-btn" onclick="connectSB()">Conectar a la Nube</button>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     APP PRINCIPAL
-══════════════════════════════════════ -->
+<!-- ═════════════════════════════════════════════════════════════
+     APP SHELL PRINCIPAL
+═════════════════════════════════════════════════════════════ -->
 <div id="app">
 
-  <!-- TOPBAR -->
+  <!-- APPLE TOP NAVIGATION BAR -->
   <header class="topbar">
     <div class="topbar-brand">
       <div class="brand-mascot-wrap">
-        <img class="brand-mascot" src="assets/snoopy_cool.png" alt="Snoopy Cool">
+        <img class="brand-mascot" src="assets/snoopy_cool.png" alt="Snoopy">
       </div>
       <div>
-        <div class="brand-name">Tabernáculo Santo</div>
-        <div class="brand-sub">Cocina</div>
+        <div class="brand-name">Tabernáculo</div>
+        <div class="brand-sub">Cocina & Comandas</div>
       </div>
     </div>
+
     <div class="topbar-right">
-      <!-- Badge de responsable activo con cambio rápido -->
-      <button class="op-badge" onclick="openCheckinModal(false)" title="Cambiar responsable de turno">
-        <span class="op-badge-dot"></span>
-        <span class="op-badge-name" id="top-op-name">Sin asignar</span>
+      <!-- Indicador Estado Base de Datos -->
+      <button class="db-status-chip" onclick="openSheet('s-db-info')" title="Estado de la base de datos">
+        <span class="status-dot" id="db-dot"></span>
+        <span id="db-status-text">Conectado</span>
       </button>
 
-      <!-- Botón de Tutorial / Guía -->
-      <button class="btn-guide" onclick="openSheet('s-tutorial')" title="Guía y tutorial de uso">?</button>
+      <!-- Camarero de Turno -->
+      <button class="op-pill" onclick="openCheckinModal(false)" title="Cambiar persona de turno">
+        <span id="top-op-name">Camarero</span>
+      </button>
 
-      <!-- Botón de Ticket rápido -->
+      <!-- Botón Tutorial -->
+      <button class="top-icon-btn" onclick="openSheet('s-tutorial')" title="Guía y tutorial de uso">?</button>
+
+      <!-- Ticket Chip en la barra -->
       <button class="cart-chip hidden" id="cart-chip" onclick="openSheet('s-cart')">
         Ticket <span class="chip-count" id="chip-count">0</span>
-      </button>
-
-      <!-- Ajustes / Salir -->
-      <button class="top-cfg" onclick="logout()" title="Desconectar Supabase">
-        <svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
       </button>
     </div>
   </header>
@@ -1189,18 +1199,22 @@ img { display: block; max-width: 100%; }
   <!-- PÁGINAS -->
   <main class="pages">
 
-    <!-- DASHBOARD -->
+    <!-- 1. DASHBOARD / INICIO -->
     <div class="page active" id="p-dash">
-      <div id="dash-body"><div class="loading"><div class="spin"></div><span class="spin-t">Cargando datos</span></div></div>
+      <div id="dash-body">
+        <div style="padding:40px 0;text-align:center"><div class="spin"></div><div style="font-size:13px;color:var(--text-secondary)">Sincronizando datos…</div></div>
+      </div>
     </div>
 
-    <!-- TPV / VENTA -->
+    <!-- 2. TPV / VENTA -->
     <div class="page" id="p-tpv">
       <div class="cat-rail" id="tpv-cats"></div>
-      <div class="tpv-grid" id="tpv-grid"><div class="loading" style="grid-column:1/-1"><div class="spin"></div></div></div>
+      <div class="tpv-grid" id="tpv-grid">
+        <div style="grid-column:1/-1;padding:40px 0;text-align:center"><div class="spin"></div></div>
+      </div>
     </div>
 
-    <!-- HISTORIAL DE VENTAS -->
+    <!-- 3. HISTORIAL DE COMANDAS -->
     <div class="page" id="p-ventas">
       <div class="filter-rail">
         <button class="fpill on" onclick="setVF('',this)">Todas</button>
@@ -1208,42 +1222,48 @@ img { display: block; max-width: 100%; }
         <button class="fpill" onclick="setVF('efectivo',this)">Efectivo</button>
         <button class="fpill" onclick="setVF('bizum',this)">Bizum</button>
       </div>
-      <div id="ventas-body"><div class="loading"><div class="spin"></div></div></div>
+      <div id="ventas-body">
+        <div style="padding:40px 0;text-align:center"><div class="spin"></div></div>
+      </div>
     </div>
 
-    <!-- PERSONAS / CLIENTES -->
+    <!-- 4. PERSONAS / CLIENTES -->
     <div class="page" id="p-per">
-      <div class="search-wrap">
-        <span class="search-ico">⌕</span>
+      <div class="search-bar">
+        <span style="color:var(--text-tertiary)">🔍</span>
         <input type="search" id="per-search" placeholder="Buscar por nombre…" oninput="renderPersonas()" autocomplete="off">
       </div>
-      <div id="per-body"><div class="loading"><div class="spin"></div></div></div>
+      <div id="per-body">
+        <div style="padding:40px 0;text-align:center"><div class="spin"></div></div>
+      </div>
     </div>
 
-    <!-- GESTIÓN -->
+    <!-- 5. GESTIÓN (MENÚ Y PROMOS) -->
     <div class="page" id="p-gest">
-      <div class="tab-bar">
-        <button class="tab-it on" id="tab-m" onclick="setTab('menu')">Menú y Precios</button>
-        <button class="tab-it" id="tab-p" onclick="setTab('promos')">Packs y Promos</button>
+      <div class="segmented-control">
+        <button class="segment-btn on" id="tab-m" onclick="setTab('menu')">Platos y Precios</button>
+        <button class="segment-btn" id="tab-p" onclick="setTab('promos')">Combos y Promos</button>
       </div>
-      <div id="gest-body"><div class="loading"><div class="spin"></div></div></div>
+      <div id="gest-body">
+        <div style="padding:40px 0;text-align:center"><div class="spin"></div></div>
+      </div>
     </div>
 
   </main>
 
-  <!-- CART BAR FLOTANTE (OPTIMIZADO CON CONTADOR DE PLATOS) -->
+  <!-- BARRA FLOTANTE DE TICKET (ACCESO RÁPIDO PULGAR) -->
   <div class="cart-bar hidden" id="cart-bar" onclick="openSheet('s-cart')">
     <div class="cart-bar-l">
       <span id="cbar-items">0 artículos</span>
-      <span class="cart-bar-dish-pill" id="cbar-dish-pill">0 platos</span>
+      <span class="cart-bar-badge" id="cbar-dish-pill">0 platos</span>
     </div>
     <span class="cart-bar-r" id="cbar-total">0,00 €</span>
   </div>
 
-  <!-- NAVEGACIÓN INFERIOR (PULGAR FÁCIL) -->
+  <!-- TAB BAR APPLE EN LA BASE -->
   <nav class="bot-nav">
     <button class="nav-it active" id="n-dash" onclick="go('dash')">
-      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       Inicio
     </button>
     <button class="nav-it" id="n-tpv" onclick="go('tpv')">
@@ -1251,24 +1271,24 @@ img { display: block; max-width: 100%; }
       Venta
     </button>
     <button class="nav-it" id="n-ventas" onclick="go('ventas')">
-      <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-      Historial
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Comandas
     </button>
     <button class="nav-it" id="n-per" onclick="go('per')">
       <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
       Personas
     </button>
     <button class="nav-it" id="n-gest" onclick="go('gest')">
-      <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      <svg viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
       Gestión
     </button>
   </nav>
 
 </div>
 
-<!-- ══════════════════════════════════════
-     MODAL DE IDENTIFICACIÓN / TURNO (CAMARERO)
-══════════════════════════════════════ -->
+<!-- ═════════════════════════════════════════════════════════════
+     SHEET: IDENTIFICACIÓN OBLIGATORIA DEL CAMARERO
+═════════════════════════════════════════════════════════════ -->
 <div class="overlay" id="s-checkin">
   <div class="sheet">
     <div class="sheet-handle"></div>
@@ -1276,92 +1296,124 @@ img { display: block; max-width: 100%; }
       <span class="sheet-title">Identificación de Turno</span>
       <button class="sheet-x" id="btn-close-checkin" onclick="closeSheet('s-checkin')" style="display:none">✕</button>
     </div>
-    <div class="sheet-body">
-      <div class="checkin-wrap">
-        <img class="checkin-img" src="assets/snoopy_cool.png" alt="Snoopy Joe Cool">
-        <div class="checkin-title">¿Quién atiende hoy?</div>
-        <div class="checkin-sub">
-          Escribe tu <strong>Nombre y Apellidos</strong> antes de comenzar a anotar comandas o configurar el menú. Así sabremos quién registró cada comanda.
-        </div>
-        <div class="field" style="text-align:left">
-          <label>Nombre y Apellidos del Camarero / Responsable *</label>
-          <input type="text" id="checkin-nombre" placeholder="Ej. Juan Fernández" autocomplete="name" enterkeyhint="done" style="font-size:1.05rem;padding:0.9rem">
-        </div>
+    <div class="sheet-body" style="text-align:center;padding-top:12px">
+      <img src="assets/snoopy_cool.png" alt="Snoopy" style="height:110px;margin:0 auto 12px;filter:drop-shadow(0 8px 24px rgba(0,0,0,0.5))">
+      <div style="font-size:20px;font-weight:700;margin-bottom:6px">¿Quién atiende hoy?</div>
+      <div style="font-size:14px;color:var(--text-secondary);margin-bottom:20px;line-height:1.45">
+        Introduce tu nombre completo antes de empezar. Cada comanda y el cierre quedarán firmados con tu registro.
+      </div>
+      <div class="field" style="text-align:left">
+        <label>Nombre y Apellidos *</label>
+        <input type="text" id="checkin-nombre" placeholder="Ej. Juan Fernández" autocomplete="name" enterkeyhint="done" style="padding:14px;font-size:17px">
       </div>
     </div>
     <div class="sheet-foot">
-      <button class="btn btn-gold btn-full" style="min-height:52px;font-size:1.02rem" onclick="confirmarCamarero()">Empezar Turno</button>
+      <button class="btn btn-gold btn-full" style="min-height:50px;font-size:16px" onclick="confirmarCamarero()">Empezar Turno</button>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     MODAL DE TUTORIAL / GUÍA
-══════════════════════════════════════ -->
+<!-- ═════════════════════════════════════════════════════════════
+     SHEET: INFORMACIÓN Y ESTADO DE LA BASE DE DATOS
+═════════════════════════════════════════════════════════════ -->
+<div class="overlay" id="s-db-info" onclick="oc(event,'s-db-info')">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-hd">
+      <span class="sheet-title">Base de Datos en la Nube</span>
+      <button class="sheet-x" onclick="closeSheet('s-db-info')">✕</button>
+    </div>
+    <div class="sheet-body" style="padding-top:8px">
+      <div class="card-group" style="margin-bottom:12px">
+        <div class="card-header">¿Cómo funciona con esta web?</div>
+        <div style="font-size:14px;color:var(--text-secondary);line-height:1.5">
+          Esta web utiliza <strong>Supabase</strong> como servidor en la nube. Guarda en tiempo real los platos del menú, las comandas anotadas y el arqueo de caja.
+        </div>
+      </div>
+
+      <div class="card-group" style="margin-bottom:12px">
+        <div class="card-header">Diagnóstico Actual</div>
+        <div class="list-row">
+          <div class="list-row-main">
+            <div class="list-row-title">Estado de conexión</div>
+            <div class="list-row-sub" id="diag-url-status">Comprobando…</div>
+          </div>
+          <span class="pay-pill pp-efectivo" id="diag-status-pill">En línea</span>
+        </div>
+        <div class="list-row">
+          <div class="list-row-main">
+            <div class="list-row-title">URL sanitizada</div>
+            <div class="list-row-sub" id="diag-url-clean" style="word-break:break-all">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <button class="btn btn-ghost btn-full" onclick="probarConexionDB()">Probar Conexión Ahora</button>
+        <button class="btn btn-ghost btn-full" onclick="logout()" style="color:var(--apple-red)">Desconectar o cambiar credenciales</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═════════════════════════════════════════════════════════════
+     SHEET: GUÍA Y TUTORIAL DE USO
+═════════════════════════════════════════════════════════════ -->
 <div class="overlay" id="s-tutorial" onclick="oc(event,'s-tutorial')">
   <div class="sheet">
     <div class="sheet-handle"></div>
     <div class="sheet-hd">
-      <span class="sheet-title">Cómo usar la app</span>
+      <span class="sheet-title">Cómo funciona la app</span>
       <button class="sheet-x" onclick="closeSheet('s-tutorial')">✕</button>
     </div>
-    <div class="sheet-body">
-      <div class="tut-slider">
-        <div class="tut-card">
-          <img class="tut-hero-img" src="assets/snoopy_cool.png" alt="Joe Cool">
-          <div class="tut-num">1</div>
-          <div class="tut-title">Identifícate al empezar</div>
-          <div class="tut-text">Cada persona anota su nombre completo al iniciar el día. Todas las comandas guardarán tu nombre para saber quién atendió a cada persona y para el arqueo de caja.</div>
-        </div>
+    <div class="sheet-body" style="padding-top:8px">
+      <div class="tut-step-card">
+        <div class="tut-badge">1</div>
+        <div class="tut-title">Identificación al empezar</div>
+        <div class="tut-desc">Al inicio del turno escribes tu nombre completo. Cada comanda que anotes llevará tu nombre para saber quién atendió la mesa.</div>
+      </div>
 
-        <div class="tut-card">
-          <div class="tut-num">2</div>
-          <div class="tut-title">Menú y Promociones por cantidad</div>
-          <div class="tut-text">En la pestaña <strong>Gestión</strong>, añade los platos y su precio normal. Además, puedes configurar promociones automáticas por volumen.</div>
-          <div class="tut-example">
-            <strong>Ejemplo:</strong> 1 Papa cuesta 6,00 €, pero 2 Papas cuestan 11,00 €. ¡El sistema aplica el ahorro de 1 € solo al pulsar 2 unidades!
-          </div>
+      <div class="tut-step-card">
+        <div class="tut-badge">2</div>
+        <div class="tut-title">Platos y Promociones por cantidad</div>
+        <div class="tut-desc">En la pestaña <strong>Gestión</strong> añades tus platos con su precio. Además puedes configurar ofertas por volumen:</div>
+        <div class="tut-callout">
+          <strong>Ejemplo real:</strong> 1 Papa vale 6,00 €, pero 2 Papas valen 11,00 €. ¡El sistema calcula el ahorro de 1€ de forma automática al pulsar 2 veces!
         </div>
+      </div>
 
-        <div class="tut-card">
-          <div class="tut-num">3</div>
-          <div class="tut-title">Anotar pedidos y platos</div>
-          <div class="tut-text">En la pestaña <strong>Venta</strong>, pulsa los artículos para sumarlos al ticket. Verás cuántos platos lleva la persona y el descuento promocional aplicado.</div>
-        </div>
+      <div class="tut-step-card">
+        <div class="tut-badge">3</div>
+        <div class="tut-title">Anotar pedidos (Venta)</div>
+        <div class="tut-desc">Toca los platos en el terminal para sumarlos al ticket. Verás cuántos platos lleva la persona y el total con la oferta aplicada.</div>
+      </div>
 
-        <div class="tut-card">
-          <div class="tut-num">4</div>
-          <div class="tut-title">Opciones de cobro</div>
-          <div class="tut-text">Al abrir el ticket puedes elegir:</div>
-          <div style="display:flex;flex-direction:column;gap:6px;margin-top:8px">
-            <span class="pay-pill pp-efectivo">🟢 Efectivo (pagan al momento en mano)</span>
-            <span class="pay-pill pp-bizum">🔵 Bizum (pagan al momento por móvil)</span>
-            <span class="pay-pill pp-pendiente">🟠 Pendiente (pagan después al salir)</span>
-          </div>
+      <div class="tut-step-card">
+        <div class="tut-badge">4</div>
+        <div class="tut-title">Cobro: Ya o Después</div>
+        <div class="tut-desc">Al abrir el ticket puedes registrar:</div>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-top:8px">
+          <span class="pay-pill pp-efectivo">🟢 Efectivo (pagado en metálico)</span>
+          <span class="pay-pill pp-bizum">🔵 Bizum (pagado al instante por móvil)</span>
+          <span class="pay-pill pp-pendiente">🟠 Pendiente (para cobrar más tarde o al salir)</span>
         </div>
+      </div>
 
-        <div class="tut-card">
-          <div class="tut-num">5</div>
-          <div class="tut-title">Cobrar pendientes a 1 toque</div>
-          <div class="tut-text">Desde el Inicio o desde el Historial verás todas las comandas pendientes y podrás marcarlas como cobradas con un solo toque.</div>
-        </div>
-
-        <div class="tut-card">
-          <div class="tut-num">6</div>
-          <div class="tut-title">Cierre de jornada</div>
-          <div class="tut-text">Al final del servicio, pulsa <strong>Guardar reporte de hoy</strong> en el Inicio para dejar cuadrado el total recaudado, efectivo y Bizum.</div>
-        </div>
+      <div class="tut-step-card">
+        <div class="tut-badge">5</div>
+        <div class="tut-title">Cierre de jornada</div>
+        <div class="tut-desc">Al terminar el servicio, en la pantalla de Inicio guardas el reporte del día con el arqueo total de Efectivo y Bizum.</div>
       </div>
     </div>
     <div class="sheet-foot">
-      <button class="btn btn-gold btn-full" onclick="closeSheet('s-tutorial')">Entendido, ¡a trabajar!</button>
+      <button class="btn btn-gold btn-full" onclick="closeSheet('s-tutorial')">Entendido</button>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     MODAL DE TICKET / COBRO (CARRITO)
-══════════════════════════════════════ -->
+<!-- ═════════════════════════════════════════════════════════════
+     SHEET: TICKET DE COMANDA / COBRO
+═════════════════════════════════════════════════════════════ -->
 <div class="overlay" id="s-cart" onclick="oc(event,'s-cart')">
   <div class="sheet">
     <div class="sheet-handle"></div>
@@ -1369,86 +1421,81 @@ img { display: block; max-width: 100%; }
       <div>
         <span class="sheet-title">Ticket de Comanda</span>
         <div style="margin-top:2px">
-          <span class="cart-platos-summary" id="cart-platos-badge">0 platos</span>
+          <span style="font-size:12px;font-weight:700;color:var(--apple-amber)" id="cart-platos-badge">0 platos</span>
         </div>
       </div>
       <button class="sheet-x" onclick="closeSheet('s-cart')">✕</button>
     </div>
     <div class="sheet-body">
-      <!-- Info camarero activo -->
-      <div class="cart-camarero-info">
-        <div>Anotando: <strong id="cart-op-name">—</strong></div>
-        <button class="btn btn-ghost btn-sm" onclick="openCheckinModal(false)" style="min-height:28px;padding:0.2rem 0.5rem;font-size:0.72rem">Cambiar</button>
+      <div class="cart-header-badge">
+        <div>Atiende: <strong id="cart-op-name">—</strong></div>
+        <button class="btn btn-ghost btn-sm" onclick="openCheckinModal(false)" style="min-height:28px;padding:0 8px;font-size:11px">Cambiar</button>
       </div>
 
-      <!-- Asignación cliente o mesa -->
       <div class="field">
         <label>Asignar a Persona o Mesa</label>
-        <div style="display:flex;gap:0.45rem">
+        <div style="display:flex;gap:8px">
           <select id="t-persona" style="flex:1" onchange="onPersonaSelectChange()">
-            <option value="">— Seleccionar de la lista —</option>
+            <option value="">— Seleccionar registrado —</option>
           </select>
-          <input type="text" id="t-persona-custom" placeholder="O escribe libre (ej. Mesa 4)" style="flex:1" autocomplete="off">
+          <input type="text" id="t-persona-custom" placeholder="O libre (ej. Mesa 4)" style="flex:1" autocomplete="off">
         </div>
       </div>
 
-      <!-- Líneas de comanda -->
       <div id="cart-lines"></div>
-
-      <!-- Banner de ahorro si aplica promoción -->
       <div id="cart-saving-container"></div>
     </div>
     <div class="sheet-foot">
-      <div class="cart-total-row">
-        <span class="ctl-label">Total a pagar</span>
-        <span class="ctl-amt" id="cart-total">0,00 €</span>
+      <div class="cart-total-box">
+        <span class="cart-total-lbl">Total a pagar</span>
+        <span class="cart-total-amt" id="cart-total">0,00 €</span>
       </div>
-      <div class="pay-grid">
+      <div class="pay-options-grid">
         <button class="btn btn-green" onclick="cobrar('efectivo')">Efectivo (ya)</button>
         <button class="btn btn-blue" onclick="cobrar('bizum')">Bizum (ya)</button>
-        <button class="btn btn-ghost" onclick="cobrar('pendiente')" style="border-color:rgba(214,60,85,0.4);color:#f06070">Pagan después</button>
+        <button class="btn btn-ghost" onclick="cobrar('pendiente')" style="border-color:rgba(255,69,58,0.4);color:var(--apple-red)">Pagan después</button>
         <button class="btn btn-ghost" onclick="clearCart()">Vaciar ticket</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     MODAL CAMBIAR FORMA DE PAGO
-══════════════════════════════════════ -->
+<!-- ═════════════════════════════════════════════════════════════
+     SHEET: CAMBIAR FORMA DE PAGO
+═════════════════════════════════════════════════════════════ -->
 <div class="overlay" id="s-pago" onclick="oc(event,'s-pago')">
   <div class="sheet">
     <div class="sheet-handle"></div>
     <div class="sheet-hd">
-      <span class="sheet-title">Cambiar forma de pago</span>
+      <span class="sheet-title">Cambiar Forma de Pago</span>
       <button class="sheet-x" onclick="closeSheet('s-pago')">✕</button>
     </div>
-    <div class="sheet-body" style="padding-top:0.5rem;padding-bottom:1rem">
-      <p id="s-pago-info" style="font-size:0.9rem;color:var(--muted);margin-bottom:1.1rem;font-weight:600"></p>
-      <div style="display:flex;flex-direction:column;gap:0.6rem">
+    <div class="sheet-body" style="padding-top:10px;padding-bottom:16px">
+      <p id="s-pago-info" style="font-size:15px;color:var(--text-secondary);margin-bottom:16px;font-weight:600"></p>
+      <div style="display:flex;flex-direction:column;gap:8px">
         <button class="btn btn-green btn-full" onclick="applyPago('efectivo')">Cobrado en Efectivo</button>
         <button class="btn btn-blue btn-full" onclick="applyPago('bizum')">Cobrado por Bizum</button>
-        <button class="btn btn-ghost btn-full" onclick="applyPago('pendiente')" style="color:#f06070">Marcar como Pendiente</button>
+        <button class="btn btn-ghost btn-full" onclick="applyPago('pendiente')" style="color:var(--apple-red)">Marcar como Pendiente</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     FORMULARIO ARTÍCULO DEL MENÚ + PROMO POR CANTIDAD
-══════════════════════════════════════ -->
+<!-- ═════════════════════════════════════════════════════════════
+     SHEET: FORMULARIO DE PLATO (CON PROMO POR CANTIDAD)
+═════════════════════════════════════════════════════════════ -->
 <div class="overlay" id="s-mi" onclick="oc(event,'s-mi')">
   <div class="sheet">
     <div class="sheet-handle"></div>
     <div class="sheet-hd">
-      <span class="sheet-title" id="s-mi-title">Artículo del Menú</span>
+      <span class="sheet-title" id="s-mi-title">Plato del Menú</span>
       <button class="sheet-x" onclick="closeSheet('s-mi')">✕</button>
     </div>
-    <div class="sheet-body" style="padding-top:0.5rem">
+    <div class="sheet-body" style="padding-top:10px">
       <input type="hidden" id="mi-id">
       <div class="field">
-        <label>Nombre del plato o artículo *</label>
-        <input type="text" id="mi-name" placeholder="Ej. Papa asada rellena" autocomplete="off">
+        <label>Nombre del plato *</label>
+        <input type="text" id="mi-name" placeholder="Ej. Papa asada especial" autocomplete="off">
       </div>
       <div class="row2">
         <div class="field">
@@ -1457,7 +1504,7 @@ img { display: block; max-width: 100%; }
           <datalist id="cats-dl"></datalist>
         </div>
         <div class="field">
-          <label>Precio normal (€) *</label>
+          <label>Precio unitario normal (€) *</label>
           <input type="number" id="mi-price" step="0.01" min="0" placeholder="6.00" inputmode="decimal">
         </div>
       </div>
@@ -1466,13 +1513,10 @@ img { display: block; max-width: 100%; }
         <input type="text" id="mi-desc" placeholder="Opcional: con salsa, alioli…" autocomplete="off">
       </div>
 
-      <!-- PROMO POR CANTIDAD (EJ: 2 PAPAS POR 11€) -->
-      <div style="background:var(--ink3);border:1px solid var(--line2);border-radius:var(--r-md);padding:0.95rem;margin-top:0.5rem;margin-bottom:0.75rem">
-        <div style="font-size:0.78rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.5rem">
-          Promoción por cantidad (Pack de ahorro)
-        </div>
-        <div style="font-size:0.75rem;color:var(--muted);margin-bottom:0.75rem;line-height:1.4">
-          Si compran varias unidades de este plato, aplica un precio especial. (Ej: 1 papa vale 6€, pero 2 valen 11€ → ahorro de 1€).
+      <div class="card-group" style="margin-top:8px;margin-bottom:12px">
+        <div class="card-header" style="color:var(--apple-amber)">Oferta por volumen (Promoción)</div>
+        <div style="font-size:12px;color:var(--text-secondary);margin-bottom:12px;line-height:1.4">
+          Si piden varias unidades, aplica un precio cerrado con descuento. (Ej: 1 papa vale 6€, pero 2 valen 11€ → ahorro de 1€).
         </div>
         <div class="row2">
           <div class="field" style="margin-bottom:0">
@@ -1484,28 +1528,28 @@ img { display: block; max-width: 100%; }
             <input type="number" id="mi-promo-price" step="0.01" min="0" placeholder="11.00" inputmode="decimal" oninput="previewItemPromo()">
           </div>
         </div>
-        <div id="mi-promo-preview" style="font-size:0.75rem;color:#3ecf7d;margin-top:0.5rem;font-weight:600"></div>
+        <div id="mi-promo-preview" style="font-size:13px;color:var(--apple-green);margin-top:8px;font-weight:600"></div>
       </div>
     </div>
     <div class="sheet-foot">
-      <button class="btn btn-gold btn-full" onclick="saveMenuItem()">Guardar en el Menú</button>
+      <button class="btn btn-gold btn-full" onclick="saveMenuItem()">Guardar Plato en la Carta</button>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     FORMULARIO PROMOCIÓN GLOBAL / COMBO
-══════════════════════════════════════ -->
+<!-- ═════════════════════════════════════════════════════════════
+     SHEET: FORMULARIO DE PROMOCIÓN O COMBO
+═════════════════════════════════════════════════════════════ -->
 <div class="overlay" id="s-promo" onclick="oc(event,'s-promo')">
   <div class="sheet">
     <div class="sheet-handle"></div>
     <div class="sheet-hd">
-      <span class="sheet-title">Pack / Promoción Especial</span>
+      <span class="sheet-title">Combo o Menú Cerrado</span>
       <button class="sheet-x" onclick="closeSheet('s-promo')">✕</button>
     </div>
-    <div class="sheet-body" style="padding-top:0.5rem">
+    <div class="sheet-body" style="padding-top:10px">
       <input type="hidden" id="pr-id">
-      <div class="field"><label>Nombre del Pack *</label><input type="text" id="pr-name" placeholder="Menú del día o Combo fiesta" autocomplete="off"></div>
+      <div class="field"><label>Nombre del Pack *</label><input type="text" id="pr-name" placeholder="Ej. Menú del día o Combo fiesta" autocomplete="off"></div>
       <div class="row2">
         <div class="field"><label>Precio cerrado (€) *</label><input type="number" id="pr-price" step="0.01" min="0" placeholder="4.50" inputmode="decimal"></div>
         <div class="field"><label>Válida hasta</label><input type="date" id="pr-hasta"></div>
@@ -1513,14 +1557,14 @@ img { display: block; max-width: 100%; }
       <div class="field"><label>Qué incluye</label><input type="text" id="pr-desc" placeholder="Ej. Bocadillo + Bebida + Café" autocomplete="off"></div>
     </div>
     <div class="sheet-foot">
-      <button class="btn btn-gold btn-full" onclick="savePromo()">Guardar Promoción</button>
+      <button class="btn btn-gold btn-full" onclick="savePromo()">Guardar Pack Especial</button>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     FORMULARIO PERSONA / CLIENTE
-══════════════════════════════════════ -->
+<!-- ═════════════════════════════════════════════════════════════
+     SHEET: FORMULARIO DE PERSONA
+═════════════════════════════════════════════════════════════ -->
 <div class="overlay" id="s-per" onclick="oc(event,'s-per')">
   <div class="sheet">
     <div class="sheet-handle"></div>
@@ -1528,14 +1572,14 @@ img { display: block; max-width: 100%; }
       <span class="sheet-title">Ficha de Persona</span>
       <button class="sheet-x" onclick="closeSheet('s-per')">✕</button>
     </div>
-    <div class="sheet-body" style="padding-top:0.5rem">
+    <div class="sheet-body" style="padding-top:10px">
       <input type="hidden" id="per-id">
       <div class="field"><label>Nombre completo *</label><input type="text" id="per-name" placeholder="Nombre y Apellidos" autocomplete="name"></div>
       <div class="row2">
         <div class="field"><label>Teléfono</label><input type="tel" id="per-tel" placeholder="612 345 678" autocomplete="tel"></div>
         <div class="field"><label>Email</label><input type="email" id="per-email" placeholder="persona@ejemplo.com" autocomplete="email"></div>
       </div>
-      <div class="field"><label>Notas u observaciones</label><input type="text" id="per-notes" placeholder="Mesa habitual, alergias…" autocomplete="off"></div>
+      <div class="field"><label>Notas u observaciones</label><input type="text" id="per-notes" placeholder="Mesa habitual, observaciones…" autocomplete="off"></div>
     </div>
     <div class="sheet-foot">
       <button class="btn btn-gold btn-full" onclick="savePersona()">Guardar Persona</button>
@@ -1543,46 +1587,46 @@ img { display: block; max-width: 100%; }
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     FORMULARIO REPORTE DIARIO DE CIERRE
-══════════════════════════════════════ -->
+<!-- ═════════════════════════════════════════════════════════════
+     SHEET: REPORTE DIARIO DE CIERRE
+═════════════════════════════════════════════════════════════ -->
 <div class="overlay" id="s-reporte" onclick="oc(event,'s-reporte')">
   <div class="sheet">
     <div class="sheet-handle"></div>
     <div class="sheet-hd">
       <div>
-        <span class="sheet-title">Reporte del Día</span>
-        <div style="font-size:0.75rem;color:var(--muted);margin-top:2px" id="rep-fecha-sub">Cierre de jornada</div>
+        <span class="sheet-title">Cierre de Jornada</span>
+        <div style="font-size:12px;color:var(--text-secondary);margin-top:2px" id="rep-fecha-sub">Arqueo diario</div>
       </div>
       <button class="sheet-x" onclick="closeSheet('s-reporte')">✕</button>
     </div>
-    <div class="sheet-body" style="padding-top:0.6rem">
+    <div class="sheet-body" style="padding-top:10px">
       <div class="field">
         <label>Responsable del Cierre (Nombre y Apellidos) *</label>
         <input type="text" id="rep-responsable" placeholder="Ej. Juan Fernández" autocomplete="name">
       </div>
 
-      <div class="stats-grid" style="margin-bottom:0.85rem">
-        <div class="stat"><div class="stat-n" id="rep-val-total">0,00 €</div><div class="stat-l">Total recaudado</div></div>
-        <div class="stat"><div class="stat-n" id="rep-val-ventas">0</div><div class="stat-l">Comandas hoy</div></div>
-        <div class="stat"><div class="stat-n" style="color:#3ecf7d" id="rep-val-efectivo">0,00 €</div><div class="stat-l">Efectivo</div></div>
-        <div class="stat"><div class="stat-n" style="color:#4db0f0" id="rep-val-bizum">0,00 €</div><div class="stat-l">Bizum</div></div>
+      <div class="stats-grid" style="margin-bottom:12px">
+        <div class="stat-box"><div class="stat-val" id="rep-val-total">0,00 €</div><div class="stat-lbl">Total recaudado</div></div>
+        <div class="stat-box"><div class="stat-val" id="rep-val-ventas">0</div><div class="stat-lbl">Comandas hoy</div></div>
+        <div class="stat-box"><div class="stat-val" style="color:var(--apple-green)" id="rep-val-efectivo">0,00 €</div><div class="stat-lbl">Efectivo</div></div>
+        <div class="stat-box"><div class="stat-val" style="color:var(--apple-blue)" id="rep-val-bizum">0,00 €</div><div class="stat-lbl">Bizum</div></div>
       </div>
 
       <div class="field">
-        <label>Observaciones del Cierre</label>
-        <textarea id="rep-notas" rows="2" placeholder="Opcional: caja cuadrada, cambio dejado, incidencias…"></textarea>
+        <label>Observaciones o Notas de Caja</label>
+        <textarea id="rep-notas" rows="2" placeholder="Opcional: cambio dejado, incidencias…"></textarea>
       </div>
     </div>
     <div class="sheet-foot">
-      <button class="btn btn-gold btn-full" id="btn-save-rep" onclick="saveReporteDiario()">Guardar Reporte en Supabase</button>
+      <button class="btn btn-gold btn-full" id="btn-save-rep" onclick="saveReporteDiario()">Guardar Cierre en Supabase</button>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     HISTORIAL DE REPORTES
-══════════════════════════════════════ -->
+<!-- ═════════════════════════════════════════════════════════════
+     SHEET: HISTORIAL DE REPORTES
+═════════════════════════════════════════════════════════════ -->
 <div class="overlay" id="s-hist-reportes" onclick="oc(event,'s-hist-reportes')">
   <div class="sheet">
     <div class="sheet-handle"></div>
@@ -1590,45 +1634,84 @@ img { display: block; max-width: 100%; }
       <span class="sheet-title">Reportes Guardados</span>
       <button class="sheet-x" onclick="closeSheet('s-hist-reportes')">✕</button>
     </div>
-    <div class="sheet-body" id="hist-reportes-body" style="padding-top:0.6rem">
-      <div class="loading"><div class="spin"></div><span class="spin-t">Cargando reportes</span></div>
+    <div class="sheet-body" id="hist-reportes-body" style="padding-top:10px">
+      <div style="padding:30px 0;text-align:center"><div class="spin"></div></div>
     </div>
   </div>
 </div>
 
-<!-- TOAST -->
+<!-- TOAST NOTIFICATION -->
 <div id="toast"></div>
 
-<!-- ══════════════════════════════════════
-     LÓGICA JAVASCRIPT
-══════════════════════════════════════ -->
+<!-- ═════════════════════════════════════════════════════════════
+     JAVASCRIPT LOGIC
+═════════════════════════════════════════════════════════════ -->
 <script>
-/* ── SUPABASE CLIENT ── */
+/* ─────────────────────────────────────────────────────────────
+   SANITIZACIÓN ESTRICTA DE URL PARA EVITAR EL 404 /rest/v1/rest/v1/
+───────────────────────────────────────────────────────────── */
+function sanitizeSupabaseUrl(raw) {
+  if (!raw) return '';
+  let u = String(raw).trim();
+  // Quitar barras finales
+  u = u.replace(/\/+$/, '');
+  // Quitar /rest/v1 duplicado o accidental que añade la consola
+  u = u.replace(/\/rest\/v1\/?$/i, '');
+  // Quitar barras finales de nuevo
+  u = u.replace(/\/+$/, '');
+  return u;
+}
+
 const { createClient } = supabase;
 let sb = null;
+let currentDbUrl = '';
 
 function getCfg() {
-  try { return JSON.parse(localStorage.getItem('ts2_cfg')); } catch { return null; }
+  try {
+    const raw = JSON.parse(localStorage.getItem('ts2_cfg'));
+    if (raw && raw.url) {
+      // Auto-reparar en localStorage si estaba guardada con /rest/v1
+      const cleaned = sanitizeSupabaseUrl(raw.url);
+      if (cleaned !== raw.url) {
+        raw.url = cleaned;
+        localStorage.setItem('ts2_cfg', JSON.stringify(raw));
+      }
+    }
+    return raw;
+  } catch {
+    return null;
+  }
 }
 
 async function connectSB() {
-  const url = v('cfg-url').trim();
+  let url = sanitizeSupabaseUrl(v('cfg-url'));
   const key = v('cfg-key').trim();
   const err = document.getElementById('setup-err');
   const btn = document.getElementById('cfg-btn');
   err.style.display = 'none';
-  if (!url || !key) { showErr('Completa la URL y la Key de Supabase.'); return; }
+
+  if (!url || !key) {
+    showErr('Completa la URL y la Anon Key de Supabase.');
+    return;
+  }
+
   btn.textContent = 'Conectando…'; btn.disabled = true;
+
   try {
     const c = createClient(url, key);
+    // Ping de verificación
     const { error } = await c.from('menu_items').select('id').limit(1);
-    if (error) throw error;
+    if (error && error.code !== 'PGRST116' && !error.message.includes('relation') && !error.message.includes('0 rows')) {
+      throw error;
+    }
     sb = c;
+    currentDbUrl = url;
     localStorage.setItem('ts2_cfg', JSON.stringify({ url, key }));
+    updateDbIndicator(true);
     launch();
   } catch(e) {
-    showErr('No se pudo conectar: ' + (e.message || 'error'));
-    btn.textContent = 'Conectar y empezar'; btn.disabled = false;
+    showErr('Error al conectar: ' + (e.message || 'Comprueba la clave o URL'));
+    btn.textContent = 'Conectar a la Nube'; btn.disabled = false;
   }
 }
 
@@ -1647,43 +1730,90 @@ function launch() {
 }
 
 function logout() {
-  if (!confirm('¿Desconectar y borrar configuración de Supabase guardada en este móvil?')) return;
+  if (!confirm('¿Deseas desconectar y borrar la configuración local de este dispositivo?')) return;
   localStorage.removeItem('ts2_cfg');
   location.reload();
 }
 
 async function tryAutoConnect() {
+  // 1. Intentar desde variables de entorno del servidor (Vercel)
   try {
     const res = await fetch('/api/config');
     if (res.ok) {
       const data = await res.json();
       if (data && data.url && data.key) {
-        sb = createClient(data.url, data.key);
+        const cleanUrl = sanitizeSupabaseUrl(data.url);
+        sb = createClient(cleanUrl, data.key);
+        currentDbUrl = cleanUrl;
+        updateDbIndicator(true);
         launch();
         return;
       }
     }
   } catch(e) {
-    console.log('Sin serverless config:', e);
+    console.log('No serverless config:', e);
   }
 
+  // 2. Intentar desde localStorage
   const cfg = getCfg();
   if (cfg && cfg.url && cfg.key) {
     try {
-      sb = createClient(cfg.url, cfg.key);
+      const cleanUrl = sanitizeSupabaseUrl(cfg.url);
+      sb = createClient(cleanUrl, cfg.key);
+      currentDbUrl = cleanUrl;
+      updateDbIndicator(true);
       launch();
       return;
     } catch(e) {
-      console.log('Error cliente local:', e);
+      console.log('Error local client:', e);
     }
   }
 
+  // Si no hay configuración previa, mostrar formulario
+  updateDbIndicator(false);
   document.getElementById('setup').style.display = 'flex';
 }
 
 tryAutoConnect();
 
-/* ── HELPERS & FORMATEADORES ── */
+function updateDbIndicator(isOnline) {
+  const dot = $$('db-dot');
+  const txt = $$('db-status-text');
+  const pill = $$('diag-status-pill');
+  const urlEl = $$('diag-url-clean');
+  const statEl = $$('diag-url-status');
+
+  if (urlEl) urlEl.textContent = currentDbUrl || 'Sin configurar';
+
+  if (isOnline) {
+    if (dot) { dot.className = 'status-dot'; }
+    if (txt) { txt.textContent = 'Nube activa'; }
+    if (pill) { pill.className = 'pay-pill pp-efectivo'; pill.textContent = 'En línea'; }
+    if (statEl) statEl.textContent = 'Conexión verificada con Supabase ✓';
+  } else {
+    if (dot) { dot.className = 'status-dot error'; }
+    if (txt) { txt.textContent = 'Desconectado'; }
+    if (pill) { pill.className = 'pay-pill pp-pendiente'; pill.textContent = 'Desconectado'; }
+    if (statEl) statEl.textContent = 'No hay conexión con la base de datos';
+  }
+}
+
+async function probarConexionDB() {
+  toast('Verificando conexión…');
+  try {
+    const { error } = await sb.from('menu_items').select('id').limit(1);
+    if (error && !error.message.includes('0 rows')) throw error;
+    toast('¡Conexión a Supabase correcta!');
+    updateDbIndicator(true);
+  } catch(e) {
+    toast('Fallo de conexión: ' + e.message, false);
+    updateDbIndicator(false);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   HELPERS & FORMATEO
+───────────────────────────────────────────────────────────── */
 function v(id) { const el = document.getElementById(id); return el ? el.value || '' : ''; }
 function $$(id) { return document.getElementById(id); }
 function fmt(n) { return Number(n || 0).toFixed(2).replace('.', ',') + ' €'; }
@@ -1698,46 +1828,40 @@ function fmtDate(iso) {
 function ini(n) { return (n || '?').charAt(0).toUpperCase(); }
 function esc(s) { return (s || '').replace(/'/g, "\\'").replace(/`/g, '\\`'); }
 
-/* ── TOAST ── */
+/* TOAST */
 let _tt;
 function toast(msg, ok = true) {
   const el = $$('toast');
   el.textContent = msg;
-  el.style.borderLeftColor = ok ? 'var(--gold)' : 'var(--red)';
+  el.style.borderLeft = ok ? '3px solid var(--apple-green)' : '3px solid var(--apple-red)';
   el.classList.add('show');
   clearTimeout(_tt);
   _tt = setTimeout(() => el.classList.remove('show'), 2600);
-  if (navigator.vibrate) navigator.vibrate(28);
+  if (navigator.vibrate) navigator.vibrate(25);
 }
 
-/* ──────────────────────────────────────────
-   GESTIÓN DE CAMARERO / RESPONSABLE DE TURNO
-   - Obligatorio antes de anotar o configurar
-────────────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────
+   GESTIÓN DEL CAMARERO / RESPONSABLE DE TURNO
+───────────────────────────────────────────────────────────── */
 let currentCamarero = '';
 
-function getSavedCamarero() {
-  return localStorage.getItem('ts_camarero_nombre') || '';
-}
-
-function updateCamareroUI() {
-  const name = currentCamarero || 'Sin asignar';
-  const shortName = name.length > 14 ? name.substring(0, 12) + '…' : name;
-  $$('top-op-name').textContent = shortName;
-  if ($$('cart-op-name')) $$('cart-op-name').textContent = name;
-  if ($$('rep-responsable') && !$$('rep-responsable').value) {
-    $$('rep-responsable').value = currentCamarero;
-  }
-}
-
 function checkCamareroRequirement() {
-  const saved = getSavedCamarero();
+  const saved = localStorage.getItem('ts_camarero_nombre') || '';
   if (saved) {
     currentCamarero = saved;
     updateCamareroUI();
   } else {
-    // Si no hay camarero registrado hoy, abrir modal obligatorio
     openCheckinModal(true);
+  }
+}
+
+function updateCamareroUI() {
+  const name = currentCamarero || 'Camarero';
+  const shortName = name.length > 13 ? name.substring(0, 11) + '…' : name;
+  $$('top-op-name').textContent = shortName;
+  if ($$('cart-op-name')) $$('cart-op-name').textContent = name;
+  if ($$('rep-responsable') && !$$('rep-responsable').value) {
+    $$('rep-responsable').value = currentCamarero;
   }
 }
 
@@ -1752,7 +1876,7 @@ function openCheckinModal(isRequired = false) {
 function confirmarCamarero() {
   const nombre = v('checkin-nombre').trim();
   if (!nombre || nombre.length < 2) {
-    toast('Por favor, escribe tu nombre completo', false);
+    toast('Por favor, indica tu nombre', false);
     $$('checkin-nombre').focus();
     return;
   }
@@ -1760,12 +1884,14 @@ function confirmarCamarero() {
   localStorage.setItem('ts_camarero_nombre', nombre);
   updateCamareroUI();
   closeSheet('s-checkin');
-  toast('¡Turno iniciado por ' + nombre + '!');
+  toast('Turno iniciado por ' + nombre);
   if (navigator.vibrate) navigator.vibrate([20, 50, 20]);
   renderDash();
 }
 
-/* ── NAVEGACIÓN ENTRE PÁGINAS ── */
+/* ─────────────────────────────────────────────────────────────
+   NAVEGACIÓN ENTRE PÁGINAS
+───────────────────────────────────────────────────────────── */
 let curPage = 'dash';
 const renderMap = {
   dash: renderDash,
@@ -1786,7 +1912,9 @@ function go(page) {
   if (renderMap[page]) renderMap[page]();
 }
 
-/* ── MODALES / SHEETS & GESTOS TÁCTILES ── */
+/* ─────────────────────────────────────────────────────────────
+   MODALES Y GESTOS TÁCTILES
+───────────────────────────────────────────────────────────── */
 function openSheet(id) {
   const el = $$(id);
   el.classList.add('open');
@@ -1800,7 +1928,7 @@ function closeSheet(id) {
   if (sheet) { sheet.style.transform = ''; sheet.style.transition = ''; }
 }
 function oc(e, id) {
-  if (id === 's-checkin' && !currentCamarero) return; // Obligatorio
+  if (id === 's-checkin' && !currentCamarero) return;
   if (e.target === e.currentTarget) closeSheet(id);
 }
 
@@ -1838,7 +1966,7 @@ function initSheetGestures() {
       if (!isDragging) return;
       isDragging = false;
       const deltaY = currentY - startY;
-      sheet.style.transition = 'transform 0.22s cubic-bezier(0.2, 0.9, 0.3, 1)';
+      sheet.style.transition = 'transform var(--spring-sheet)';
       if (deltaY > 80) {
         if (overlay && overlay.id === 's-checkin' && !currentCamarero) {
           sheet.style.transform = 'translateY(0)';
@@ -1850,16 +1978,15 @@ function initSheetGestures() {
           if (overlay) overlay.classList.remove('open');
           sheet.style.transform = '';
           sheet.style.transition = '';
-        }, 200);
+        }, 220);
       } else {
         sheet.style.transform = 'translateY(0)';
-        setTimeout(() => { sheet.style.transform = ''; sheet.style.transition = ''; }, 220);
+        setTimeout(() => { sheet.style.transform = ''; sheet.style.transition = ''; }, 240);
       }
     }, { passive: true });
   });
 }
 
-/* ── INICIALIZACIÓN ── */
 function initApp() {
   initSheetGestures();
   checkCamareroRequirement();
@@ -1868,22 +1995,23 @@ function initApp() {
   loadPersonaSel();
 }
 
-/* ──────────────────────────────────────────
+/* ─────────────────────────────────────────────────────────────
    DASHBOARD / INICIO
-────────────────────────────────────────── */
+───────────────────────────────────────────────────────────── */
 let currentDayStats = null;
 
 async function renderDash() {
   const el = $$('dash-body');
-  el.innerHTML = '<div class="loading"><div class="spin"></div><span class="spin-t">Cargando datos</span></div>';
   try {
     const today = new Date(); today.setHours(0,0,0,0);
     const todayISO = today.toISOString().split('T')[0];
 
-    const [{ data: ventas }, { data: repHoy }] = await Promise.all([
+    const [{ data: ventas, error: ve }, { data: repHoy }] = await Promise.all([
       sb.from('ventas').select('*, venta_lineas(*)').order('created_at', { ascending: false }).limit(200),
       sb.from('reportes_diarios').select('*').eq('fecha', todayISO).order('created_at', { ascending: false }).limit(1)
     ]);
+
+    if (ve) console.warn('Aviso ventas:', ve.message);
 
     const all = ventas || [];
     const hoy = all.filter(v => new Date(v.created_at) >= today);
@@ -1897,7 +2025,7 @@ async function renderDash() {
 
     currentDayStats = {
       fecha: todayISO,
-      fechaFmt: new Date().toLocaleDateString('es-ES', { weekday:'long', day:'numeric', month:'long', year:'numeric' }),
+      fechaFmt: new Date().toLocaleDateString('es-ES', { weekday:'long', day:'numeric', month:'long' }),
       total: tHoy,
       efectivo: hoyEf,
       bizum: hoyBiz,
@@ -1909,19 +2037,19 @@ async function renderDash() {
 
     el.innerHTML = `
       <div class="dash-hero">
-        <div class="dash-hero-text">
-          <div class="eyebrow">${new Date().toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'})}</div>
-          <div class="section-hed">${currentCamarero ? `Turno de ${currentCamarero.split(' ')[0]}` : 'Buenos días'}</div>
+        <div>
+          <div class="dash-date">${new Date().toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'})}</div>
+          <div class="dash-greeting">${currentCamarero ? `Turno de ${currentCamarero.split(' ')[0]}` : 'Buenos días'}</div>
         </div>
-        <div class="dash-chars" aria-hidden="true">
-          <img class="dash-char hk" src="assets/hellokitty.png" alt="Hello Kitty">
-          <img class="dash-char" src="assets/snoopy_cool.png" alt="Snoopy Cool">
+        <div class="dash-mascots" aria-hidden="true">
+          <img class="dash-mascot-hk" src="assets/hellokitty.png" alt="Kitty">
+          <img class="dash-mascot-sn" src="assets/snoopy_cool.png" alt="Snoopy">
         </div>
       </div>
 
-      <!-- TARJETA DE CIERRE / REPORTE DIARIO -->
+      <!-- RESUMEN DEL DÍA / CIERRE -->
       ${savedRep ? `
-        <div class="rep-card">
+        <div class="rep-summary-card">
           <div class="rep-badge saved">✓ Cierre de hoy guardado</div>
           <div class="rep-title">${fmt(savedRep.total_recaudado)}</div>
           <div class="rep-sub">
@@ -1929,97 +2057,99 @@ async function renderDash() {
             <br>Efectivo: ${fmt(savedRep.total_efectivo)} · Bizum: ${fmt(savedRep.total_bizum)} · Pendiente: ${fmt(savedRep.total_pendiente)}
             ${savedRep.notas ? `<div style="margin-top:4px;font-style:italic">«${savedRep.notas}»</div>` : ''}
           </div>
-          <div class="rep-actions">
-            <button class="btn btn-gold btn-sm" onclick="openReporteModal()">Actualizar reporte</button>
-            <button class="btn btn-ghost btn-sm" onclick="openHistReportes()">Historial de reportes</button>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-gold btn-sm" onclick="openReporteModal()">Actualizar Cierre</button>
+            <button class="btn btn-ghost btn-sm" onclick="openHistReportes()">Historial</button>
           </div>
         </div>
       ` : `
-        <div class="rep-card">
+        <div class="rep-summary-card">
           <div class="rep-badge pending">⏳ Cierre de hoy pendiente</div>
-          <div class="rep-title">Cierre de Jornada</div>
+          <div class="rep-title">${fmt(tHoy)} acumulado</div>
           <div class="rep-sub">
-            Total acumulado hoy: <strong>${fmt(tHoy)}</strong> (${hoy.length} comandas). Al terminar el servicio, registra el arqueo con tu nombre.
+            Has registrado <strong>${hoy.length} comandas</strong> hoy. Al finalizar la jornada, guarda el arqueo de caja.
           </div>
-          <div class="rep-actions">
-            <button class="btn btn-gold btn-sm" onclick="openReporteModal()">Guardar reporte de hoy</button>
-            <button class="btn btn-ghost btn-sm" onclick="openHistReportes()">Historial de reportes</button>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-gold btn-sm" onclick="openReporteModal()">Guardar Cierre de Hoy</button>
+            <button class="btn btn-ghost btn-sm" onclick="openHistReportes()">Historial</button>
           </div>
         </div>
       `}
 
-      <!-- ESTADÍSTICAS DEL DÍA -->
+      <!-- TARJETAS DE ESTADÍSTICAS -->
       <div class="stats-grid">
-        <div class="stat"><div class="stat-n">${fmt(tHoy)}</div><div class="stat-l">Recaudado hoy</div></div>
-        <div class="stat"><div class="stat-n">${hoy.length}</div><div class="stat-l">Comandas hoy</div></div>
-        <div class="stat"><div class="stat-n warn">${pend.length}</div><div class="stat-l">Cobros pendientes</div></div>
-        <div class="stat"><div class="stat-n warn">${fmt(tPend)}</div><div class="stat-l">Por cobrar</div></div>
+        <div class="stat-box"><div class="stat-val">${fmt(tHoy)}</div><div class="stat-lbl">Recaudado hoy</div></div>
+        <div class="stat-box"><div class="stat-val">${hoy.length}</div><div class="stat-lbl">Comandas hoy</div></div>
+        <div class="stat-box"><div class="stat-val warn">${pend.length}</div><div class="stat-lbl">Por cobrar</div></div>
+        <div class="stat-box"><div class="stat-val warn">${fmt(tPend)}</div><div class="stat-lbl">Deuda pendiente</div></div>
       </div>
 
-      <!-- LISTA DE COBROS PENDIENTES CON COBRO DIRECTO -->
+      <!-- COBROS PENDIENTES CON ACCIÓN DIRECTA -->
       ${pend.length ? `
-      <div class="block">
-        <div class="block-hed">
+      <div class="card-group">
+        <div class="card-header">
           <span>Cobros pendientes (${pend.length})</span>
-          <span style="color:var(--red);font-weight:700">${fmt(tPend)}</span>
+          <span style="color:var(--apple-red);font-weight:700">${fmt(tPend)}</span>
         </div>
-        ${pend.slice(0, 10).map(v => `
-          <div class="row">
+        ${pend.slice(0, 8).map(v => `
+          <div class="list-row">
             <div class="av">${ini(v.persona_nombre)}</div>
-            <div class="row-main">
-              <div class="row-title">${v.persona_nombre}</div>
-              <div class="row-sub">
+            <div class="list-row-main">
+              <div class="list-row-title">${v.persona_nombre}</div>
+              <div class="list-row-sub">
                 ${v.num_platos ? `🍽️ ${v.num_platos} platos · ` : ''}
                 ${v.camarero ? `Anotó ${v.camarero.split(' ')[0]} · ` : ''}
                 ${fmtDate(v.created_at)}
               </div>
-              <div class="qp-amount">${fmt(v.total)}</div>
+              <div style="color:var(--apple-amber);font-weight:700;margin-top:2px">${fmt(v.total)}</div>
             </div>
-            <div class="qp-btns">
-              <button class="btn btn-green btn-sm" onclick="qpay('${v.id}','efectivo')" title="Cobrar Efectivo">Ef.</button>
-              <button class="btn btn-blue btn-sm"  onclick="qpay('${v.id}','bizum')" title="Cobrar Bizum">Biz.</button>
+            <div style="display:flex;gap:6px">
+              <button class="btn btn-green btn-sm" onclick="qpay('${v.id}','efectivo')">Ef.</button>
+              <button class="btn btn-blue btn-sm" onclick="qpay('${v.id}','bizum')">Biz.</button>
             </div>
           </div>`).join('')}
       </div>` : `
-      <div class="block" style="text-align:center;padding:1.5rem">
-        <img src="assets/snoopy_cool.png" alt="" style="height:60px;margin:0 auto 0.65rem;filter:drop-shadow(0 4px 12px rgba(0,0,0,.4))">
-        <div style="font-size:0.85rem;color:var(--muted)">Todo cobrado. No hay cuentas pendientes.</div>
+      <div class="card-group" style="text-align:center;padding:24px 16px">
+        <img src="assets/snoopy_cool.png" alt="" style="height:56px;margin:0 auto 8px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.4))">
+        <div style="font-size:14px;color:var(--text-secondary)">Todo al día. No hay cuentas pendientes.</div>
       </div>`}
 
       <!-- ÚLTIMAS COMANDAS -->
-      <div class="block">
-        <div class="block-hed">Últimas comandas registradas</div>
-        ${all.slice(0, 8).map(v => `
-          <div class="row">
+      <div class="card-group">
+        <div class="card-header">Últimas comandas anotadas</div>
+        ${all.slice(0, 6).map(v => `
+          <div class="list-row">
             <div class="av">${ini(v.persona_nombre)}</div>
-            <div class="row-main">
-              <div class="row-title">${v.persona_nombre}</div>
-              <div class="row-sub">
+            <div class="list-row-main">
+              <div class="list-row-title">${v.persona_nombre}</div>
+              <div class="list-row-sub">
                 ${v.num_platos ? `🍽️ ${v.num_platos} platos · ` : ''}
-                ${v.camarero ? `Anotó: ${v.camarero.split(' ')[0]} · ` : ''}
+                ${v.camarero ? `Anotó ${v.camarero.split(' ')[0]} · ` : ''}
                 ${fmtDate(v.created_at)}
               </div>
             </div>
-            <div class="row-right">
-              <div style="font-family:var(--f-ser);font-size:1rem;margin-bottom:4px">${fmt(v.total)}</div>
+            <div style="text-align:right">
+              <div style="font-weight:700;margin-bottom:4px">${fmt(v.total)}</div>
               ${ppBadge(v.pago)}
             </div>
           </div>`).join('')}
-        ${all.length === 0 ? `<div class="empty"><img class="empty-img" src="assets/snoopy_cool.png" alt=""><div class="empty-t">Sin comandas todavía hoy.</div></div>` : ''}
+        ${all.length === 0 ? `<div class="empty-view"><div class="empty-sub">Sin comandas todavía hoy.</div></div>` : ''}
       </div>
     `;
   } catch(e) {
-    el.innerHTML = `<div class="empty"><div class="empty-t">Error al cargar datos: ${e.message}</div></div>`;
+    el.innerHTML = `
+      <div class="empty-view">
+        <div class="empty-title">Error al consultar datos</div>
+        <div class="empty-sub">${e.message}</div>
+        <button class="btn btn-ghost btn-sm" style="margin-top:12px" onclick="renderDash()">Reintentar</button>
+      </div>`;
   }
 }
 
-/* ──────────────────────────────────────────
-   COBROS RÁPIDOS (1-TOQUE EFECTIVO / BIZUM)
-────────────────────────────────────────── */
 async function qpay(id, pago) {
   if (navigator.vibrate) navigator.vibrate(20);
   const { error } = await sb.from('ventas').update({ pago }).eq('id', id);
-  if (error) { toast('Error al actualizar el pago', false); return; }
+  if (error) { toast('Error al actualizar: ' + error.message, false); return; }
   toast(pago === 'efectivo' ? 'Cobrado en efectivo ✓' : 'Cobrado por Bizum ✓');
   renderDash();
   if (curPage === 'ventas') renderVentas();
@@ -2031,19 +2161,21 @@ function ppBadge(pago) {
   return `<span class="pay-pill ${c}">${l}</span>`;
 }
 
-/* ──────────────────────────────────────────
-   TPV Y GESTIÓN DE PROMOCIONES POR CANTIDAD
-────────────────────────────────────────── */
-let cart = []; // { id, nombre, precio, promo_qty, promo_precio, isPromoPack, qty }
+/* ─────────────────────────────────────────────────────────────
+   TPV & SISTEMA DE PROMOCIÓN (EJ: 2 PAPAS POR 11€)
+───────────────────────────────────────────────────────────── */
+let cart = [];
 let tpvItems = [];
 let tpvPromos = [];
 let activeCat = '';
 
 async function loadTPV() {
-  const [{ data: items }, { data: promos }] = await Promise.all([
+  const [{ data: items, error: ie }, { data: promos, error: pe }] = await Promise.all([
     sb.from('menu_items').select('*').eq('activo', true).order('categoria').order('nombre'),
     sb.from('promos').select('*').eq('activa', true).order('nombre'),
   ]);
+  if (ie) console.warn('Error cargando menu_items:', ie.message);
+  if (pe) console.warn('Error cargando promos:', pe.message);
   tpvItems = items || [];
   tpvPromos = promos || [];
   renderTPV();
@@ -2058,36 +2190,35 @@ function renderTPV() {
   // CATEGORÍAS
   $$('tpv-cats').innerHTML =
     `<button class="cat-btn ${activeCat===''?'on':''}" onclick="setCat('')">Todo</button>` +
-    (aPromos.length ? `<button class="cat-btn ${activeCat==='__p'?'on':''}" onclick="setCat('__p')">Packs y Promos</button>` : '') +
+    (aPromos.length ? `<button class="cat-btn ${activeCat==='__p'?'on':''}" onclick="setCat('__p')">Promos</button>` : '') +
     cats.map(c => `<button class="cat-btn ${activeCat===c?'on':''}" onclick="setCat('${esc(c)}')">${c}</button>`).join('');
 
-  // GRID DE PLATOS
   const g = $$('tpv-grid');
   let html = '';
 
   if ((activeCat === '' || activeCat === '__p') && aPromos.length) {
-    html += `<div class="tpv-section-label">Packs y Promociones Especiales</div>`;
+    html += `<div class="tpv-group-label">Packs y Promos Especiales</div>`;
     html += aPromos.map(p =>
-      `<button class="prod-btn has-promo" onclick='addToCart(${JSON.stringify({id:"promo-"+p.id,nombre:p.nombre,precio:+p.precio,isPromoPack:true})})'>
-        <span class="prod-n">${p.nombre}</span>
-        <div class="prod-foot">
-          <span class="prod-p">${fmt(p.precio)}</span>
-          <span class="prod-promo-tag">Pack</span>
+      `<button class="dish-card has-promo" onclick='addToCart(${JSON.stringify({id:"promo-"+p.id,nombre:p.nombre,precio:+p.precio,isPromoPack:true})})'>
+        <span class="dish-name">${p.nombre}</span>
+        <div class="dish-foot">
+          <span class="dish-price">${fmt(p.precio)}</span>
+          <span class="dish-promo-tag">Pack</span>
         </div>
       </button>`).join('');
   }
 
   const filtered = activeCat && activeCat !== '__p' ? tpvItems.filter(i => i.categoria === activeCat) : tpvItems;
   const byCat = {};
-  filtered.forEach(i => { const c = i.categoria || 'Sin categoría'; (byCat[c] = byCat[c] || []).push(i); });
+  filtered.forEach(i => { const c = i.categoria || 'General'; (byCat[c] = byCat[c] || []).push(i); });
 
   Object.entries(byCat).forEach(([cat, items]) => {
-    if (activeCat === '' || activeCat === '__p') html += `<div class="tpv-section-label">${cat}</div>`;
+    if (activeCat === '' || activeCat === '__p') html += `<div class="tpv-group-label">${cat}</div>`;
     html += items.map(item => {
       const hasPromo = item.promo_qty > 1 && item.promo_precio > 0;
       const promoText = hasPromo ? `${item.promo_qty}x ${fmt(item.promo_precio)}` : '';
       return `
-        <button class="prod-btn ${hasPromo ? 'has-promo' : ''}" onclick='addToCart(${JSON.stringify({
+        <button class="dish-card ${hasPromo ? 'has-promo' : ''}" onclick='addToCart(${JSON.stringify({
           id: item.id,
           nombre: item.nombre,
           precio: +item.precio,
@@ -2095,30 +2226,30 @@ function renderTPV() {
           promo_precio: item.promo_precio ? +item.promo_precio : 0,
           categoria: item.categoria || ''
         })})'>
-          <span class="prod-n">${item.nombre}</span>
-          <div class="prod-foot">
-            <span class="prod-p">${fmt(item.precio)}</span>
-            ${hasPromo ? `<span class="prod-promo-tag" title="Oferta por cantidad">${promoText}</span>` : ''}
+          <span class="dish-name">${item.nombre}</span>
+          <div class="dish-foot">
+            <span class="dish-price">${fmt(item.precio)}</span>
+            ${hasPromo ? `<span class="dish-promo-tag">${promoText}</span>` : ''}
           </div>
         </button>`;
     }).join('');
   });
 
   g.innerHTML = html || `
-    <div class="empty" style="grid-column:1/-1">
+    <div class="empty-view" style="grid-column:1/-1">
       <img class="empty-img" src="assets/snoopy_cool.png" alt="">
-      <div class="empty-t">No hay artículos creados.<br>Añade platos en la pestaña <strong>Gestión</strong>.</div>
+      <div class="empty-title">Sin platos en esta sección</div>
+      <div class="empty-sub">Añade artículos en la pestaña <strong>Gestión</strong>.</div>
     </div>`;
 }
 
 function setCat(c) { activeCat = c; renderTPV(); }
 
-/* ──────────────────────────────────────────
-   CARRITO Y CÁLCULO DE PROMOCIONES
-   - Ejemplo: 1 papa = 6€, 2 papas = 11€ (Ahorro 1€)
-────────────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────
+   CARRITO Y CÁLCULO PRECISO DE OFERTAS
+───────────────────────────────────────────────────────────── */
 function addToCart(item) {
-  if (navigator.vibrate) navigator.vibrate(16);
+  if (navigator.vibrate) navigator.vibrate(15);
   const ex = cart.find(l => l.id === item.id);
   if (ex) {
     ex.qty++;
@@ -2129,7 +2260,7 @@ function addToCart(item) {
 }
 
 function changeQty(id, delta) {
-  if (navigator.vibrate) navigator.vibrate(12);
+  if (navigator.vibrate) navigator.vibrate(10);
   const idx = cart.findIndex(l => l.id === id);
   if (idx < 0) return;
   cart[idx].qty += delta;
@@ -2146,7 +2277,6 @@ function clearCart() {
   toast('Ticket vaciado');
 }
 
-/* Función matemática para calcular precio de línea y descuentos */
 function calcLinePricing(line) {
   const basePrice = line.precio;
   const qty = line.qty;
@@ -2166,13 +2296,7 @@ function calcLinePricing(line) {
     };
   }
 
-  return {
-    total: regularTotal,
-    savings: 0,
-    hasPromoApplied: false,
-    packs: 0,
-    sueltas: qty
-  };
+  return { total: regularTotal, savings: 0, hasPromoApplied: false, packs: 0, sueltas: qty };
 }
 
 function updateCartUI() {
@@ -2187,18 +2311,13 @@ function updateCartUI() {
     totalSavings += pricing.savings;
     totalItemsCount += line.qty;
 
-    // Conteo de platos (excluye si es solo bebida según categoría o cuenta todo si no está tipificado)
     const cat = (line.categoria || '').toLowerCase();
     const isDrink = cat.includes('bebida') || cat.includes('refresco') || cat.includes('agua') || cat.includes('café');
-    if (!isDrink) {
-      platosCount += line.qty;
-    }
+    if (!isDrink) platosCount += line.qty;
   });
 
-  // Si no se clasificó como plato ninguno pero hay items, cuenta items
   if (platosCount === 0 && totalItemsCount > 0) platosCount = totalItemsCount;
 
-  // Actualizar indicadores UI
   $$('chip-count').textContent = totalItemsCount;
   if (curPage === 'tpv') $$('cart-chip').classList.toggle('hidden', totalItemsCount === 0);
 
@@ -2213,15 +2332,14 @@ function updateCartUI() {
   }
 
   $$('cart-total').textContent = fmt(cartTotal);
-  $$('cart-platos-badge').textContent = platosCount + (platosCount === 1 ? ' plato' : ' platos');
+  $$('cart-platos-badge').textContent = platosCount + (platosCount === 1 ? ' plato en comanda' : ' platos en comanda');
 
-  // Banner de ahorro en el modal
   const saveBox = $$('cart-saving-container');
   if (totalSavings > 0) {
     saveBox.innerHTML = `
-      <div class="cart-saving-banner">
-        <span>🎉 Oferta aplicada al ticket:</span>
-        <span>Ahorras ${fmt(totalSavings)}</span>
+      <div class="cart-saving-card">
+        <span>🎉 Ahorro por oferta de pack:</span>
+        <span>-${fmt(totalSavings)}</span>
       </div>`;
   } else {
     saveBox.innerHTML = '';
@@ -2234,9 +2352,10 @@ function renderCartLines() {
   const el = $$('cart-lines');
   if (!cart.length) {
     el.innerHTML = `
-      <div class="empty" style="padding:1.5rem 0">
+      <div class="empty-view" style="padding:24px 0">
         <img class="empty-img" src="assets/snoopy_cool.png" alt="" style="height:60px">
-        <div class="empty-t">El ticket está vacío.<br>Toca los platos en el terminal para añadir.</div>
+        <div class="empty-title">El ticket está vacío</div>
+        <div class="empty-sub">Toca los platos en el terminal de venta para añadir.</div>
       </div>`;
     return;
   }
@@ -2246,39 +2365,36 @@ function renderCartLines() {
     return `
       <div class="cart-line">
         <div class="cart-line-main">
-          <div class="cart-lname">${l.nombre}</div>
-          <div class="cart-lsub">${fmt(l.precio)} / ud.</div>
+          <div class="cart-line-name">${l.nombre}</div>
+          <div class="cart-line-unit">${fmt(l.precio)} / ud.</div>
           ${pricing.hasPromoApplied ? `
-            <div class="cart-lpromo">
-              ✓ Promo aplicada (${pricing.packs} pack${pricing.packs > 1 ? 's' : ''}): -${fmt(pricing.savings)}
+            <div class="cart-line-promo-alert">
+              ✓ Oferta aplicada (${pricing.packs} pack): -${fmt(pricing.savings)}
             </div>` : ''}
         </div>
         <div class="qty-ctrl">
-          <button class="qty-b" onclick="changeQty('${esc(l.id)}', -1)">−</button>
-          <span class="qty-v">${l.qty}</span>
-          <button class="qty-b" onclick="changeQty('${esc(l.id)}', 1)">+</button>
+          <button class="qty-btn" onclick="changeQty('${esc(l.id)}', -1)">−</button>
+          <span class="qty-num">${l.qty}</span>
+          <button class="qty-btn" onclick="changeQty('${esc(l.id)}', 1)">+</button>
         </div>
-        <div class="cart-lprice">${fmt(pricing.total)}</div>
+        <div class="cart-line-total">${fmt(pricing.total)}</div>
       </div>`;
   }).join('');
 }
 
 function onPersonaSelectChange() {
   const sel = $$('t-persona');
-  if (sel.value) {
-    $$('t-persona-custom').value = '';
-  }
+  if (sel.value) { $$('t-persona-custom').value = ''; }
 }
 
-/* ──────────────────────────────────────────
-   COBRO Y REGISTRO DE COMANDAS
-────────────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────
+   COBRO Y REGISTRO
+───────────────────────────────────────────────────────────── */
 async function cobrar(pago) {
   if (!cart.length) { toast('El ticket está vacío', false); return; }
 
-  // Asegurar que hay camarero identificado
   if (!currentCamarero) {
-    toast('Debes indicar tu nombre para anotar', false);
+    toast('Debes identificarte con tu nombre', false);
     openCheckinModal(true);
     return;
   }
@@ -2294,7 +2410,6 @@ async function cobrar(pago) {
   });
   if (platosCount === 0) platosCount = cart.reduce((s,l) => s + l.qty, 0);
 
-  // Nombre de cliente o mesa asignada
   const pId = v('t-persona') || null;
   const customNombre = v('t-persona-custom').trim();
   let pNombre = 'Sin asignar';
@@ -2305,7 +2420,6 @@ async function cobrar(pago) {
   }
 
   try {
-    // 1. Intentar insertar con campos completos (camarero, num_platos)
     let ventaData = {
       persona_id: pId,
       persona_nombre: pNombre,
@@ -2318,26 +2432,24 @@ async function cobrar(pago) {
 
     let { data: venta, error: ve } = await sb.from('ventas').insert(ventaData).select().single();
 
-    // Fallback retrocompatible si la tabla en Supabase no tiene aún camarero o num_platos
     if (ve) {
-      console.warn('Fallback a schema clásico de ventas:', ve.message);
+      console.warn('Fallback guardando comanda:', ve.message);
       const fallbackData = {
         persona_id: pId,
         persona_nombre: `${pNombre} (${currentCamarero})`,
         total: total,
         pago: pago
       };
-      const { data: vFallback, error: fe } = await sb.from('ventas').insert(fallbackData).select().single();
+      const { data: vFb, error: fe } = await sb.from('ventas').insert(fallbackData).select().single();
       if (fe) throw fe;
-      venta = vFallback;
+      venta = vFb;
     }
 
-    // 2. Insertar líneas de comanda
     const lineasData = cart.map(l => {
       const p = calcLinePricing(l);
       return {
         venta_id: venta.id,
-        item_nombre: l.nombre + (p.hasPromoApplied ? ' (Promo aplicada)' : ''),
+        item_nombre: l.nombre + (p.hasPromoApplied ? ' (Pack aplicado)' : ''),
         precio: p.total / l.qty,
         qty: l.qty
       };
@@ -2346,7 +2458,6 @@ async function cobrar(pago) {
     const { error: le } = await sb.from('venta_lineas').insert(lineasData);
     if (le) throw le;
 
-    // Limpiar estado
     cart = [];
     updateCartUI();
     $$('t-persona').value = '';
@@ -2356,9 +2467,9 @@ async function cobrar(pago) {
     const msgMap = {
       efectivo: 'Cobrado en efectivo ✓',
       bizum: 'Cobrado por Bizum ✓',
-      pendiente: 'Comanda guardada como PENDIENTE'
+      pendiente: 'Comanda registrada como PENDIENTE'
     };
-    toast(msgMap[pago] || 'Comanda registrada con éxito');
+    toast(msgMap[pago] || 'Comanda registrada');
     if (navigator.vibrate) navigator.vibrate([20, 60, 20]);
 
     if (curPage === 'dash') renderDash();
@@ -2368,9 +2479,9 @@ async function cobrar(pago) {
   }
 }
 
-/* ──────────────────────────────────────────
+/* ─────────────────────────────────────────────────────────────
    HISTORIAL DE VENTAS
-────────────────────────────────────────── */
+───────────────────────────────────────────────────────────── */
 let vFilter = '';
 let pagoVId = null;
 
@@ -2383,17 +2494,17 @@ function setVF(f, btn) {
 
 async function renderVentas() {
   const el = $$('ventas-body');
-  el.innerHTML = '<div class="loading"><div class="spin"></div><span class="spin-t">Cargando comandas</span></div>';
   try {
-    let q = sb.from('ventas').select('*, venta_lineas(*)').order('created_at', { ascending: false }).limit(120);
+    let q = sb.from('ventas').select('*, venta_lineas(*)').order('created_at', { ascending: false }).limit(100);
     if (vFilter) q = q.eq('pago', vFilter);
     const { data, error } = await q;
     if (error) throw error;
     if (!data?.length) {
       el.innerHTML = `
-        <div class="empty">
+        <div class="empty-view">
           <img class="empty-img" src="assets/snoopy_cool.png" alt="">
-          <div class="empty-t">No hay comandas con este filtro.</div>
+          <div class="empty-title">Sin comandas</div>
+          <div class="empty-sub">No hay registros con este filtro.</div>
         </div>`;
       return;
     }
@@ -2410,9 +2521,9 @@ async function renderVentas() {
           </button>
         </div>
 
-        <div class="vcard-meta">
-          ${v.num_platos ? `<span class="meta-chip">🍽️ ${v.num_platos} platos</span>` : ''}
-          ${v.camarero ? `<span class="meta-chip">👤 Anotó: ${v.camarero}</span>` : ''}
+        <div class="vcard-chips">
+          ${v.num_platos ? `<span class="chip-meta">🍽️ ${v.num_platos} platos</span>` : ''}
+          ${v.camarero ? `<span class="chip-meta">👤 Anotó: ${v.camarero}</span>` : ''}
         </div>
 
         <div class="vcard-items">
@@ -2421,17 +2532,17 @@ async function renderVentas() {
 
         <div class="vcard-foot">
           <span class="vcard-total">${fmt(v.total)}</span>
-          <div style="display:flex;gap:0.4rem;align-items:center">
+          <div style="display:flex;gap:6px;align-items:center">
             ${v.pago === 'pendiente' ? `
               <button class="btn btn-green btn-sm" onclick="qpay('${v.id}','efectivo')">Cobrar Ef.</button>
               <button class="btn btn-blue btn-sm" onclick="qpay('${v.id}','bizum')">Cobrar Biz.</button>
             ` : ''}
-            <button class="btn btn-ghost btn-sm" onclick="delVenta('${v.id}')" title="Eliminar comanda" style="color:var(--muted)">✕</button>
+            <button class="btn btn-ghost btn-sm btn-icon" onclick="delVenta('${v.id}')" title="Eliminar" style="color:var(--text-tertiary)">✕</button>
           </div>
         </div>
       </div>`).join('');
   } catch(e) {
-    el.innerHTML = `<div class="empty"><div class="empty-t">Error: ${e.message}</div></div>`;
+    el.innerHTML = `<div class="empty-view"><div class="empty-title">Error</div><div class="empty-sub">${e.message}</div></div>`;
   }
 }
 
@@ -2444,7 +2555,7 @@ function openPago(id, nombre, total) {
 async function applyPago(pago) {
   if (!pagoVId) return;
   const { error } = await sb.from('ventas').update({ pago }).eq('id', pagoVId);
-  if (error) { toast('Error al actualizar el cobro', false); return; }
+  if (error) { toast('Error al actualizar', false); return; }
   closeSheet('s-pago');
   toast('Pago actualizado');
   renderVentas();
@@ -2452,7 +2563,7 @@ async function applyPago(pago) {
 }
 
 async function delVenta(id) {
-  if (!confirm('¿Eliminar esta comanda? Esta acción no se puede deshacer.')) return;
+  if (!confirm('¿Eliminar esta comanda?')) return;
   const { error } = await sb.from('ventas').delete().eq('id', id);
   if (error) { toast('Error al eliminar', false); return; }
   toast('Comanda eliminada');
@@ -2460,12 +2571,11 @@ async function delVenta(id) {
   if (curPage === 'dash') renderDash();
 }
 
-/* ──────────────────────────────────────────
+/* ─────────────────────────────────────────────────────────────
    PERSONAS / CLIENTES
-────────────────────────────────────────── */
+───────────────────────────────────────────────────────────── */
 async function renderPersonas() {
   const el = $$('per-body');
-  el.innerHTML = '<div class="loading"><div class="spin"></div><span class="spin-t">Cargando personas</span></div>';
   try {
     const q = v('per-search').trim();
     let query = sb.from('personas').select('*').order('nombre');
@@ -2476,30 +2586,33 @@ async function renderPersonas() {
     const pm = {};
     (pv||[]).forEach(x => pm[x.persona_id] = (pm[x.persona_id]||0) + +x.total);
 
-    const addBtn = `<button class="btn btn-gold btn-full" onclick="openPerForm(null)" style="margin-bottom:1rem">+ Añadir persona / cliente</button>`;
+    const addBtn = `<button class="btn btn-gold btn-full" onclick="openPerForm(null)" style="margin-bottom:16px">+ Añadir persona o cliente</button>`;
     if (!personas?.length) {
       el.innerHTML = addBtn + `
-        <div class="empty">
+        <div class="empty-view">
           <img class="empty-img" src="assets/snoopy_cool.png" alt="">
-          <div class="empty-t">No hay personas registradas.<br>Pulsa el botón de arriba para registrar una.</div>
+          <div class="empty-title">Sin personas</div>
+          <div class="empty-sub">Pulsa el botón superior para crear una ficha.</div>
         </div>`;
       return;
     }
-    el.innerHTML = addBtn + '<div class="block">' +
+    el.innerHTML = addBtn + '<div class="card-group">' +
       personas.map(p => `
-        <div class="row">
+        <div class="list-row">
           <div class="av">${ini(p.nombre)}</div>
-          <div class="row-main">
-            <div class="row-title">${p.nombre}</div>
-            <div class="row-sub">${p.telefono || p.email || 'Sin contacto'}</div>
-            ${pm[p.id] ? `<div style="font-size:0.75rem;color:var(--red);margin-top:2px;font-weight:700">Debe ${fmt(pm[p.id])}</div>` : ''}
+          <div class="list-row-main">
+            <div class="list-row-title">${p.nombre}</div>
+            <div class="list-row-sub">${p.telefono || p.email || 'Sin contacto'}</div>
+            ${pm[p.id] ? `<div style="font-size:12px;color:var(--apple-red);margin-top:2px;font-weight:700">Debe ${fmt(pm[p.id])}</div>` : ''}
           </div>
-          <div style="display:flex;gap:0.35rem">
+          <div style="display:flex;gap:6px">
             <button class="btn btn-ghost btn-sm btn-icon" onclick='openPerForm(${JSON.stringify(p)})'>✏</button>
-            <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--red)" onclick="delPersona('${p.id}')">✕</button>
+            <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--apple-red)" onclick="delPersona('${p.id}')">✕</button>
           </div>
         </div>`).join('') + '</div>';
-  } catch(e) { el.innerHTML = `<div class="empty"><div class="empty-t">Error: ${e.message}</div></div>`; }
+  } catch(e) {
+    el.innerHTML = `<div class="empty-view"><div class="empty-sub">Error: ${e.message}</div></div>`;
+  }
 }
 
 function openPerForm(p) {
@@ -2533,13 +2646,17 @@ async function delPersona(id) {
 }
 
 async function loadPersonaSel() {
-  const { data: p } = await sb.from('personas').select('id,nombre').order('nombre');
-  $$('t-persona').innerHTML = '<option value="">— Seleccionar de la lista —</option>' + (p||[]).map(x => `<option value="${x.id}">${x.nombre}</option>`).join('');
+  try {
+    const { data: p } = await sb.from('personas').select('id,nombre').order('nombre');
+    $$('t-persona').innerHTML = '<option value="">— Seleccionar registrado —</option>' + (p||[]).map(x => `<option value="${x.id}">${x.nombre}</option>`).join('');
+  } catch(e) {
+    console.warn('Error personas select:', e);
+  }
 }
 
-/* ──────────────────────────────────────────
-   GESTIÓN: MENÚ Y PROMOCIONES
-────────────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────
+   GESTIÓN: PLATOS Y PROMOS
+───────────────────────────────────────────────────────────── */
 let curGTab = 'menu';
 
 function setTab(t) {
@@ -2551,48 +2668,50 @@ function setTab(t) {
 
 async function renderMenu() {
   const el = $$('gest-body');
-  el.innerHTML = '<div class="loading"><div class="spin"></div><span class="spin-t">Cargando menú</span></div>';
   try {
     const { data: items, error } = await sb.from('menu_items').select('*').order('categoria').order('nombre');
     if (error) throw error;
     updateCatsDL(items);
     const byCat = {};
-    (items||[]).forEach(i => { const c = i.categoria || 'Sin categoría'; (byCat[c]=byCat[c]||[]).push(i); });
-    const addBtn = `<button class="btn btn-gold btn-full" onclick="openMIForm(null)" style="margin-bottom:1rem">+ Añadir nuevo plato al menú</button>`;
+    (items||[]).forEach(i => { const c = i.categoria || 'General'; (byCat[c]=byCat[c]||[]).push(i); });
+    const addBtn = `<button class="btn btn-gold btn-full" onclick="openMIForm(null)" style="margin-bottom:16px">+ Añadir nuevo plato al menú</button>`;
     if (!items?.length) {
       el.innerHTML = addBtn + `
-        <div class="empty">
+        <div class="empty-view">
           <img class="empty-img" src="assets/snoopy_cool.png" alt="">
-          <div class="empty-t">No hay artículos en la carta.<br>Empieza añadiendo platos o bebidas.</div>
+          <div class="empty-title">Carta vacía</div>
+          <div class="empty-sub">Empieza añadiendo platos o bebidas al menú.</div>
         </div>`;
       return;
     }
     el.innerHTML = addBtn + Object.entries(byCat).map(([cat, ci]) => `
-      <div class="block">
-        <div class="block-hed"><span>${cat}</span> <span>${ci.length}</span></div>
+      <div class="card-group">
+        <div class="card-header"><span>${cat}</span> <span>${ci.length}</span></div>
         ${ci.map(item => {
           const hasPromo = item.promo_qty > 1 && item.promo_precio > 0;
           return `
-            <div class="row">
-              <div class="row-main">
-                <div class="row-title">${item.nombre}</div>
-                <div class="row-sub">
+            <div class="list-row">
+              <div class="list-row-main">
+                <div class="list-row-title">${item.nombre}</div>
+                <div class="list-row-sub">
                   ${item.descripcion ? `${item.descripcion} · ` : ''}
-                  <span style="color:var(--gold);font-weight:700">${fmt(item.precio)}</span>
+                  <span style="color:var(--apple-amber);font-weight:700">${fmt(item.precio)}</span>
                 </div>
                 ${hasPromo ? `
-                  <div style="font-size:0.75rem;color:#3ecf7d;font-weight:700;margin-top:2px">
-                    🎉 Promo: ${item.promo_qty} unidades por ${fmt(item.promo_precio)}
+                  <div style="font-size:12px;color:var(--apple-green);font-weight:700;margin-top:2px">
+                    🎉 Pack: ${item.promo_qty} uds. por ${fmt(item.promo_precio)}
                   </div>` : ''}
               </div>
-              <div style="display:flex;gap:0.35rem">
+              <div style="display:flex;gap:6px">
                 <button class="btn btn-ghost btn-sm btn-icon" onclick='openMIForm(${JSON.stringify(item)})'>✏</button>
-                <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--red)" onclick="delMI('${item.id}')">✕</button>
+                <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--apple-red)" onclick="delMI('${item.id}')">✕</button>
               </div>
             </div>`;
         }).join('')}
       </div>`).join('');
-  } catch(e) { el.innerHTML = `<div class="empty"><div class="empty-t">Error: ${e.message}</div></div>`; }
+  } catch(e) {
+    el.innerHTML = `<div class="empty-view"><div class="empty-sub">Error: ${e.message}</div></div>`;
+  }
 }
 
 function openMIForm(item) {
@@ -2603,7 +2722,7 @@ function openMIForm(item) {
   $$('mi-desc').value = item?.descripcion || '';
   $$('mi-promo-qty').value = item?.promo_qty || '';
   $$('mi-promo-price').value = item?.promo_precio || '';
-  $$('s-mi-title').textContent = item ? 'Editar plato del menú' : 'Nuevo plato del menú';
+  $$('s-mi-title').textContent = item ? 'Editar Plato' : 'Nuevo Plato';
   previewItemPromo();
   openSheet('s-mi');
 }
@@ -2618,11 +2737,11 @@ function previewItemPromo() {
     const normalPack = price * pQty;
     const saving = normalPack - pPrice;
     if (saving > 0) {
-      el.textContent = `✓ Configurado: ${pQty} unidades por ${fmt(pPrice)} (¡El cliente se ahorra ${fmt(saving)}!)`;
-      el.style.color = '#3ecf7d';
+      el.textContent = `✓ Configurado: ${pQty} uds. por ${fmt(pPrice)} (¡El cliente se ahorra ${fmt(saving)}!)`;
+      el.style.color = 'var(--apple-green)';
     } else {
-      el.textContent = `Atención: el precio del pack (${fmt(pPrice)}) no representa un ahorro frente al precio normal (${fmt(normalPack)}).`;
-      el.style.color = 'var(--gold)';
+      el.textContent = `Aviso: el precio del pack (${fmt(pPrice)}) no ahorra frente al precio normal (${fmt(normalPack)}).`;
+      el.style.color = 'var(--apple-amber)';
     }
   } else {
     el.textContent = '';
@@ -2633,7 +2752,7 @@ async function saveMenuItem() {
   const id = v('mi-id');
   const nombre = v('mi-name').trim();
   const precio = parseFloat(v('mi-price'));
-  if (!nombre) { toast('El nombre del plato es obligatorio', false); return; }
+  if (!nombre) { toast('Indica el nombre del plato', false); return; }
   if (isNaN(precio) || precio < 0) { toast('Indica un precio válido', false); return; }
 
   const promo_qty = parseInt(v('mi-promo-qty')) || 0;
@@ -2653,8 +2772,7 @@ async function saveMenuItem() {
   try {
     let res = id ? await sb.from('menu_items').update(data).eq('id', id) : await sb.from('menu_items').insert(data);
     if (res.error) {
-      // Fallback si la base de datos aún no tiene columnas de promo
-      console.warn('Fallback guardando menu_item sin columnas promo:', res.error.message);
+      console.warn('Fallback guardando menu_item:', res.error.message);
       const basicData = {
         nombre,
         precio,
@@ -2665,7 +2783,7 @@ async function saveMenuItem() {
       if (fbRes.error) throw fbRes.error;
     }
     closeSheet('s-mi');
-    toast('Plato guardado correctamente');
+    toast('Plato guardado');
     renderMenu();
     loadTPV();
   } catch(e) {
@@ -2688,43 +2806,45 @@ function updateCatsDL(items) {
   $$('cats-dl').innerHTML = cats.map(c => `<option value="${c}">`).join('');
 }
 
-/* ──────────────────────────────────────────
+/* ─────────────────────────────────────────────────────────────
    PROMOS GLOBALES Y PACKS
-────────────────────────────────────────── */
+───────────────────────────────────────────────────────────── */
 async function renderPromos() {
   const el = $$('gest-body');
-  el.innerHTML = '<div class="loading"><div class="spin"></div><span class="spin-t">Cargando promociones</span></div>';
   try {
     const { data: promos, error } = await sb.from('promos').select('*').order('nombre');
     if (error) throw error;
-    const addBtn = `<button class="btn btn-gold btn-full" onclick="openPromoForm(null)" style="margin-bottom:1rem">+ Añadir nuevo pack o promo especial</button>`;
+    const addBtn = `<button class="btn btn-gold btn-full" onclick="openPromoForm(null)" style="margin-bottom:16px">+ Añadir combo o menú cerrado</button>`;
     if (!promos?.length) {
       el.innerHTML = addBtn + `
-        <div class="empty">
+        <div class="empty-view">
           <img class="empty-img" src="assets/snoopy_cool.png" alt="">
-          <div class="empty-t">No hay promociones globales activas.</div>
+          <div class="empty-title">Sin combos especiales</div>
+          <div class="empty-sub">Crea packs cerrados como "Menú del día" o "Bocadillo + Bebida".</div>
         </div>`;
       return;
     }
     el.innerHTML = addBtn + promos.map(p => `
-      <div class="vcard" style="margin-bottom:0.75rem">
+      <div class="vcard">
         <div class="vcard-top">
           <div>
             <div class="vcard-name">${p.nombre}</div>
             <div class="vcard-date">${p.descripcion || 'Sin descripción'}</div>
-            ${p.hasta ? `<div style="font-size:0.72rem;color:var(--gold);margin-top:2px">Válida hasta ${new Date(p.hasta).toLocaleDateString('es-ES')}</div>` : ''}
+            ${p.hasta ? `<div style="font-size:12px;color:var(--apple-amber);margin-top:2px">Hasta ${new Date(p.hasta).toLocaleDateString('es-ES')}</div>` : ''}
           </div>
-          <span style="font-family:var(--f-ser);font-size:1.15rem;color:var(--gold)">${fmt(p.precio)}</span>
+          <span style="font-size:17px;font-weight:700;color:var(--apple-amber)">${fmt(p.precio)}</span>
         </div>
         <div class="vcard-foot">
-          <span class="meta-chip">Aparece en Venta</span>
-          <div style="display:flex;gap:0.35rem">
+          <span class="chip-meta">Visible en Venta</span>
+          <div style="display:flex;gap:6px">
             <button class="btn btn-ghost btn-sm btn-icon" onclick='openPromoForm(${JSON.stringify(p)})'>✏</button>
-            <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--red)" onclick="delPromo('${p.id}')">✕</button>
+            <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--apple-red)" onclick="delPromo('${p.id}')">✕</button>
           </div>
         </div>
       </div>`).join('');
-  } catch(e) { el.innerHTML = `<div class="empty"><div class="empty-t">Error: ${e.message}</div></div>`; }
+  } catch(e) {
+    el.innerHTML = `<div class="empty-view"><div class="empty-sub">Error: ${e.message}</div></div>`;
+  }
 }
 
 function openPromoForm(p) {
@@ -2739,12 +2859,12 @@ function openPromoForm(p) {
 async function savePromo() {
   const id = v('pr-id'), nombre = v('pr-name').trim(), precio = parseFloat(v('pr-price'));
   if (!nombre) { toast('El nombre es obligatorio', false); return; }
-  if (isNaN(precio) || precio < 0) { toast('Precio no válido', false); return; }
+  if (isNaN(precio) || precio < 0) { toast('Indica un precio válido', false); return; }
   const data = { nombre, precio, descripcion: v('pr-desc').trim(), hasta: v('pr-hasta') || null };
   const { error } = id ? await sb.from('promos').update(data).eq('id',id) : await sb.from('promos').insert(data);
   if (error) { toast('Error: '+error.message, false); return; }
   closeSheet('s-promo');
-  toast('Promoción guardada');
+  toast('Combo guardado');
   renderPromos();
   loadTPV();
 }
@@ -2752,15 +2872,15 @@ async function savePromo() {
 async function delPromo(id) {
   if (!confirm('¿Eliminar esta promoción?')) return;
   const { error } = await sb.from('promos').delete().eq('id',id);
-  if (error) { toast('Error', false); return; }
+  if (error) { toast('Error al eliminar', false); return; }
   toast('Promoción eliminada');
   renderPromos();
   loadTPV();
 }
 
-/* ──────────────────────────────────────────
+/* ─────────────────────────────────────────────────────────────
    REPORTE DIARIO DE CIERRE
-────────────────────────────────────────── */
+───────────────────────────────────────────────────────────── */
 function openReporteModal() {
   if (navigator.vibrate) navigator.vibrate(10);
   if (!currentDayStats) return;
@@ -2806,13 +2926,13 @@ async function saveReporteDiario() {
     if (error) throw error;
 
     closeSheet('s-reporte');
-    toast('¡Reporte guardado por ' + resp + '!');
+    toast('Cierre guardado por ' + resp);
     if (navigator.vibrate) navigator.vibrate([20, 60, 20]);
     renderDash();
   } catch(e) {
     toast('Error: ' + e.message, false);
   } finally {
-    btn.textContent = 'Guardar Reporte en Supabase'; btn.disabled = false;
+    btn.textContent = 'Guardar Cierre en Supabase'; btn.disabled = false;
   }
 }
 
@@ -2820,37 +2940,37 @@ async function openHistReportes() {
   if (navigator.vibrate) navigator.vibrate(10);
   openSheet('s-hist-reportes');
   const el = $$('hist-reportes-body');
-  el.innerHTML = '<div class="loading"><div class="spin"></div><span class="spin-t">Cargando reportes</span></div>';
   try {
     const { data: reportes, error } = await sb.from('reportes_diarios').select('*').order('created_at', { ascending: false }).limit(60);
     if (error) throw error;
     if (!reportes || !reportes.length) {
       el.innerHTML = `
-        <div class="empty">
+        <div class="empty-view">
           <img class="empty-img" src="assets/snoopy_cool.png" alt="">
-          <div class="empty-t">Aún no hay reportes guardados.<br>Haz el primer cierre de jornada.</div>
+          <div class="empty-title">Sin reportes</div>
+          <div class="empty-sub">Aún no se ha realizado ningún cierre de jornada.</div>
         </div>`;
       return;
     }
     el.innerHTML = reportes.map(r => `
-      <div class="vcard" style="margin-bottom:0.75rem">
+      <div class="vcard">
         <div class="vcard-top">
           <div>
             <div class="vcard-name">👤 ${r.responsable}</div>
             <div class="vcard-date">${fmtDate(r.created_at)}</div>
           </div>
-          <span style="font-family:var(--f-ser);font-size:1.2rem;color:var(--gold)">${fmt(r.total_recaudado)}</span>
+          <span style="font-size:17px;font-weight:700;color:var(--apple-amber)">${fmt(r.total_recaudado)}</span>
         </div>
-        <div style="display:flex;gap:0.35rem;flex-wrap:wrap;margin:0.4rem 0">
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin:8px 0">
           <span class="pay-pill pp-efectivo">Ef: ${fmt(r.total_efectivo)}</span>
           <span class="pay-pill pp-bizum">Biz: ${fmt(r.total_bizum)}</span>
           <span class="pay-pill pp-pendiente">Pend: ${fmt(r.total_pendiente)}</span>
-          <span class="meta-chip">${r.num_ventas} ventas</span>
+          <span class="chip-meta">${r.num_ventas} ventas</span>
         </div>
-        ${r.notas ? `<div style="font-size:0.75rem;color:var(--muted);font-style:italic;margin-top:4px">«${r.notas}»</div>` : ''}
+        ${r.notas ? `<div style="font-size:12px;color:var(--text-secondary);font-style:italic;margin-top:4px">«${r.notas}»</div>` : ''}
       </div>`).join('');
   } catch(e) {
-    el.innerHTML = `<div class="empty"><div class="empty-t">Error: ${e.message}</div></div>`;
+    el.innerHTML = `<div class="empty-view"><div class="empty-sub">Error: ${e.message}</div></div>`;
   }
 }
 </script>
