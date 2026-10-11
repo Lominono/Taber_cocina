@@ -109,6 +109,55 @@ alter table anotadores       disable row level security;
 grant all on menu_items, promos, personas, ventas, venta_lineas, reportes_diarios, anotadores to anon, authenticated;
 
 -- ============================================================
+--  8. AUTO-CONFIRMAR USUARIOS (Sin confirmación de email)
+-- ============================================================
+-- Este trigger confirma automáticamente el email de cualquier
+-- nuevo usuario que se registre en Supabase, permitiendo que
+-- inicie sesión de inmediato sin esperar enlace por correo.
+
+create or replace function public.auto_confirm_new_user()
+returns trigger
+language plpgsql
+security definer
+as $$
+begin
+  new.email_confirmed_at = coalesce(new.email_confirmed_at, now());
+  new.confirmed_at = coalesce(new.confirmed_at, now());
+  return new;
+end;
+$$;
+
+drop trigger if exists on_auth_user_created_auto_confirm on auth.users;
+create trigger on_auth_user_created_auto_confirm
+  before insert on auth.users
+  for each row execute function public.auto_confirm_new_user();
+
+-- Trigger para guardar/sincronizar automáticamente en la tabla anotadores:
+create or replace function public.sync_anotador_profile()
+returns trigger
+language plpgsql
+security definer
+as $$
+begin
+  insert into public.anotadores (user_id, email, nombre_completo)
+  values (
+    new.id,
+    new.email,
+    coalesce(new.raw_user_meta_data->>'full_name', split_part(new.email, '@', 1))
+  )
+  on conflict (email) do update
+  set user_id = excluded.user_id,
+      nombre_completo = coalesce(nullif(excluded.nombre_completo, ''), anotadores.nombre_completo);
+  return new;
+end;
+$$;
+
+drop trigger if exists on_auth_user_created_sync_anotador on auth.users;
+create trigger on_auth_user_created_sync_anotador
+  after insert on auth.users
+  for each row execute function public.sync_anotador_profile();
+
+-- ============================================================
 --  BASE LIMPIA (Sin datos inventados)
 -- ============================================================
 -- Las tablas quedan creadas vacías y listas para que introduzcas

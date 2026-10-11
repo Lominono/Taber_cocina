@@ -573,8 +573,10 @@ img { display: block; max-width: 100%; }
   gap: var(--sp-1);
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  padding: 6px 0 2px;
+  padding: 6px 0 4px;
   margin-top: 4px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 .chips-scroll-row::-webkit-scrollbar { display: none; }
 
@@ -582,7 +584,8 @@ img { display: block; max-width: 100%; }
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 6px 12px;
+  padding: 8px 14px;
+  min-height: 38px;
   background: var(--bg-grouped);
   border: var(--glass-border);
   border-radius: var(--r-pill);
@@ -590,9 +593,11 @@ img { display: block; max-width: 100%; }
   font-weight: 500;
   color: var(--text-secondary);
   white-space: nowrap;
+  touch-action: manipulation;
+  cursor: pointer;
   transition: all var(--spring-std);
 }
-.chip-tag:active { transform: scale(0.95); }
+.chip-tag:active { transform: scale(0.94); }
 .chip-tag.selected {
   background: var(--apple-blue);
   color: #ffffff;
@@ -614,7 +619,12 @@ img { display: block; max-width: 100%; }
   display: flex;
   flex-direction: column;
   gap: 8px;
-  transition: border-color var(--spring-std), background var(--spring-std);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: border-color var(--spring-std), background var(--spring-std), transform var(--spring-std);
+}
+.dish-order-card:active {
+  transform: scale(0.985);
 }
 .dish-order-card.selected {
   border-color: rgba(10, 132, 255, 0.5);
@@ -660,11 +670,11 @@ img { display: block; max-width: 100%; }
   font-weight: 600;
 }
 
-/* STEPPER ERGONÓMICO TÁCTIL (MÍNIMO 44PX) */
+/* STEPPER ERGONÓMICO TÁCTIL (44PX HIG TOUCH TARGET) */
 .stepper-control {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   background: var(--bg-tertiary);
   border: var(--glass-border);
   border-radius: var(--r-btn);
@@ -672,22 +682,26 @@ img { display: block; max-width: 100%; }
   flex-shrink: 0;
 }
 .btn-step {
-  width: 40px;
-  height: 40px;
+  min-width: 44px;
+  min-height: 44px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 9px;
+  border-radius: 10px;
   background: var(--bg-elevated);
   color: var(--text-primary);
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 22px;
+  font-weight: 700;
+  touch-action: manipulation;
+  cursor: pointer;
   transition: transform var(--spring-std), background var(--spring-std);
 }
-.btn-step:active { transform: scale(0.9); background: var(--apple-blue); color: #fff; }
-.btn-step:disabled { opacity: 0.3; pointer-events: none; }
+.btn-step:active { transform: scale(0.88); background: var(--apple-blue); color: #fff; }
+.btn-step:disabled { opacity: 0.25; pointer-events: none; }
 .step-count {
-  min-width: 28px;
+  min-width: 30px;
   text-align: center;
   font-size: 16px;
   font-weight: 700;
@@ -814,6 +828,22 @@ img { display: block; max-width: 100%; }
   letter-spacing: -0.022em;
   color: var(--text-primary);
   line-height: 1.1;
+}
+.sticky-order-bar .btn-green {
+  min-height: 48px;
+  padding: 0 22px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  border-radius: var(--r-btn);
+  box-shadow: 0 4px 14px rgba(48, 209, 88, 0.35);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: manipulation;
+}
+.sticky-order-bar .btn-green:active {
+  transform: scale(0.95);
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -1151,20 +1181,23 @@ input:checked + .slider::before { transform: translateX(18px); }
 }
 .nav-tab {
   flex: 1;
+  min-height: 48px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 8px 4px;
+  padding: 6px 4px;
   color: var(--text-tertiary);
   font-size: 11px;
   font-weight: 500;
   letter-spacing: -0.01em;
   position: relative;
-  transition: color var(--spring-std);
+  touch-action: manipulation;
+  cursor: pointer;
+  transition: color var(--spring-std), transform var(--spring-std);
 }
 .nav-tab.active { color: var(--apple-blue); font-weight: 600; }
-.nav-tab:active { transform: scale(0.94); }
+.nav-tab:active { transform: scale(0.92); }
 .nav-icon-wrap {
   width: 26px;
   height: 26px;
@@ -2786,14 +2819,77 @@ async function handleSignup(e) {
     return;
   }
 
+  btn.disabled = true;
+  btn.textContent = 'Registrando en Supabase…';
+
+  // 1. INTENTO VÍA ENDPOINT VERCEL (/api/register) CON AUTO-CONFIRMACIÓN DIRECTA
+  try {
+    const apiPayload = {
+      email,
+      password,
+      name,
+      url: currentDbUrl,
+      key: (sb && sb.supabaseKey) ? sb.supabaseKey : ''
+    };
+
+    const res = await fetch('/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(apiPayload)
+    });
+
+    if (res.ok) {
+      const json = await res.json();
+
+      if (json.session && sb) {
+        await sb.auth.setSession({
+          access_token: json.session.access_token,
+          refresh_token: json.session.refresh_token
+        });
+        currentUser = json.user || (await sb.auth.getUser()).data.user;
+        activeVolunteerName = name;
+        localStorage.setItem(APP_STORAGE.ANOTADOR, name);
+        toast('✓ Registrado en Supabase con éxito');
+        launchApp();
+        return;
+      } else if (json.success && sb) {
+        // Usuario creado en Supabase sin email de confirmación, iniciar sesión de inmediato
+        const loginRes = await sb.auth.signInWithPassword({ email, password });
+        if (!loginRes.error && loginRes.data.session) {
+          currentUser = loginRes.data.user;
+          activeVolunteerName = name;
+          localStorage.setItem(APP_STORAGE.ANOTADOR, name);
+          toast('✓ Registrado y conectado');
+          launchApp();
+          return;
+        }
+      }
+    } else {
+      const errJson = await res.json().catch(() => ({}));
+      if (errJson.error === 'already_exists') {
+        showAuthAlert('signup', 'Este correo ya está registrado en Supabase. Puedes iniciar sesión directamente con tu contraseña.');
+        setTimeout(() => {
+          setAuthTab('login');
+          const loginEmail = document.getElementById('login-email');
+          if (loginEmail) loginEmail.value = email;
+        }, 1600);
+        btn.textContent = 'Registrarme en Supabase';
+        btn.disabled = false;
+        return;
+      }
+    }
+  } catch (errApi) {
+    // Si no hay endpoint serverless (ej. modo local o offline), continuar con cliente Supabase JS
+  }
+
+  // 2. CLIENTE SUPABASE JS (CON INTENTO DE INICIO INMEDIATO)
   if (!sb) {
     showAuthAlert('signup', 'Para registrarte en la base de datos debes conectar tu proyecto de Supabase arriba.');
     toggleAuthDbConfig(true);
+    btn.textContent = 'Registrarme en Supabase';
+    btn.disabled = false;
     return;
   }
-
-  btn.disabled = true;
-  btn.textContent = 'Registrando en Supabase…';
 
   try {
     const { data, error } = await sb.auth.signUp({
@@ -2812,7 +2908,7 @@ async function handleSignup(e) {
           setAuthTab('login');
           const loginEmail = document.getElementById('login-email');
           if (loginEmail) loginEmail.value = email;
-        }, 1800);
+        }, 1600);
         btn.textContent = 'Registrarme en Supabase';
         btn.disabled = false;
         return;
@@ -2834,18 +2930,27 @@ async function handleSignup(e) {
     activeVolunteerName = name;
     localStorage.setItem(APP_STORAGE.ANOTADOR, name);
 
+    // Intentar inicio de sesión automático inmediato
+    const autoLogin = await sb.auth.signInWithPassword({ email, password });
+    if (!autoLogin.error && autoLogin.data.session) {
+      currentUser = autoLogin.data.user;
+      toast('✓ Registrado y conectado en Supabase');
+      launchApp();
+      return;
+    }
+
     if (data.session) {
       currentUser = data.session.user;
       toast('✓ Usuario registrado en Supabase con éxito');
       launchApp();
     } else {
       // Supabase requiere confirmación de email o no ha generado sesión inmediata
-      showAuthAlert('signup', '✓ Usuario registrado en Supabase. Si tu proyecto tiene confirmación de email activa, confirma el enlace recibido en tu correo. Si no la requiere, ya puedes iniciar sesión.', false);
+      showAuthAlert('signup', '✓ Usuario registrado en Supabase. Puedes iniciar sesión con tu contraseña a continuación.', false);
       setTimeout(() => {
         setAuthTab('login');
         const loginEmail = document.getElementById('login-email');
         if (loginEmail) loginEmail.value = email;
-      }, 2500);
+      }, 1500);
       btn.textContent = 'Registrarme en Supabase';
       btn.disabled = false;
     }
@@ -2869,14 +2974,56 @@ async function handleLogin(e) {
     return;
   }
 
+  btn.disabled = true;
+  btn.textContent = 'Iniciando sesión en Supabase…';
+
+  // 1. Intentar vía endpoint serverless Vercel (/api/login)
+  try {
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password, url: currentDbUrl, key: (sb && sb.supabaseKey) ? sb.supabaseKey : '' })
+    });
+
+    if (res.ok) {
+      const json = await res.json();
+      if (json.session && sb) {
+        await sb.auth.setSession({
+          access_token: json.session.access_token,
+          refresh_token: json.session.refresh_token
+        });
+        currentUser = json.user || (await sb.auth.getUser()).data.user;
+        let name = currentUser?.user_metadata?.full_name || '';
+
+        if (!name) {
+          try {
+            const { data: anotadorRow } = await sb.from('anotadores').select('nombre_completo').eq('email', email).maybeSingle();
+            if (anotadorRow && anotadorRow.nombre_completo) name = anotadorRow.nombre_completo;
+          } catch(e) {}
+        }
+
+        if (name) {
+          activeVolunteerName = name;
+          localStorage.setItem(APP_STORAGE.ANOTADOR, name);
+          toast('✓ Sesión iniciada como ' + name);
+          launchApp();
+          return;
+        } else {
+          openSheet('s-profile');
+          return;
+        }
+      }
+    }
+  } catch(errApi) {}
+
+  // 2. Cliente Supabase JS
   if (!sb) {
     showAuthAlert('login', 'Debes conectar tu proyecto de Supabase para poder iniciar sesión.');
     toggleAuthDbConfig(true);
+    btn.textContent = 'Iniciar Sesión en Supabase';
+    btn.disabled = false;
     return;
   }
-
-  btn.disabled = true;
-  btn.textContent = 'Iniciando sesión en Supabase…';
 
   try {
     const { data, error } = await sb.auth.signInWithPassword({ email, password });
@@ -4614,6 +4761,7 @@ function initHapticsAndGestures() {
       if (isHandle) {
         startY = e.touches[0].clientY;
         isDragging = true;
+        sheet.style.transition = 'none';
       }
     }, { passive: true });
 
@@ -4629,10 +4777,15 @@ function initHapticsAndGestures() {
       if (!isDragging) return;
       isDragging = false;
       const deltaY = (e.changedTouches[0]?.clientY || 0) - startY;
-      if (deltaY > 70 && overlay) {
+      if (deltaY > 80 && overlay) {
+        triggerHaptic('light');
         closeSheet(overlay.id);
+        sheet.style.transform = '';
+      } else {
+        sheet.style.transition = 'transform 0.26s cubic-bezier(0.16, 1, 0.3, 1)';
+        sheet.style.transform = 'translateY(0)';
+        setTimeout(() => { sheet.style.transition = ''; }, 270);
       }
-      sheet.style.transform = '';
     }, { passive: true });
   });
 }
