@@ -9,6 +9,9 @@ create table if not exists menu_items (
   nombre      text not null,
   categoria   text not null default '',
   precio      numeric(10,2) not null default 0,
+  promo_qty   integer default 0,
+  promo_precio numeric(10,2) default 0,
+  promo_desc  text not null default '',
   descripcion text not null default '',
   activo      boolean not null default true,
   created_at  timestamptz not null default now()
@@ -40,11 +43,23 @@ create table if not exists ventas (
   id              uuid primary key default gen_random_uuid(),
   persona_id      uuid references personas(id) on delete set null,
   persona_nombre  text not null default 'Sin asignar',
+  camarero        text not null default '',
+  num_platos      integer not null default 0,
+  notas           text default '',
   total           numeric(10,2) not null,
   pago            text not null default 'pendiente'
                   check (pago in ('efectivo','bizum','pendiente')),
   created_at      timestamptz not null default now()
 );
+
+-- Migraciones seguras para bases de datos existentes:
+alter table menu_items add column if not exists promo_qty integer default 0;
+alter table menu_items add column if not exists promo_precio numeric(10,2) default 0;
+alter table menu_items add column if not exists promo_desc text default '';
+
+alter table ventas add column if not exists camarero text default '';
+alter table ventas add column if not exists num_platos integer default 0;
+alter table ventas add column if not exists notas text default '';
 
 -- 5. Líneas de cada venta
 create table if not exists venta_lineas (
