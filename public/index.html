@@ -306,6 +306,13 @@ img { display: block; max-width: 100%; }
 }
 .op-pill:active { transform: scale(0.96); }
 
+@media (max-width: 480px) {
+  #db-status-text { display: none; }
+  .db-status-chip { padding: 8px; min-height: 36px; min-width: 36px; justify-content: center; }
+  .topbar-right { gap: 6px; }
+  .op-pill { max-width: 105px; padding: 4px 8px; font-size: 11px; }
+}
+
 /* ICON BUTTONS */
 .top-icon-btn {
   width: 36px;
@@ -601,13 +608,22 @@ img { display: block; max-width: 100%; }
   line-height: 1.15;
   color: var(--text-primary);
 }
-.dash-mascots {
+.dash-avatar-badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--bg-grouped);
+  border: var(--glass-border);
   display: flex;
-  align-items: flex-end;
-  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  cursor: pointer;
+  transition: transform var(--spring-std);
 }
-.dash-mascot-hk { height: 50px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4)); }
-.dash-mascot-sn { height: 64px; width: auto; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4)); }
+.dash-avatar-badge:active { transform: scale(0.92); }
+.dash-mascot-sn { height: 36px; width: auto; object-fit: contain; }
 
 .stats-grid {
   display: grid;
@@ -705,6 +721,7 @@ img { display: block; max-width: 100%; }
 @media (min-width: 768px) { .tpv-grid { grid-template-columns: repeat(4, 1fr); } }
 
 .dish-card {
+  position: relative;
   background: var(--bg-grouped);
   border: var(--glass-border);
   border-radius: 16px;
@@ -715,9 +732,32 @@ img { display: block; max-width: 100%; }
   justify-content: space-between;
   gap: 8px;
   min-height: 98px;
-  transition: border-color var(--spring-std), transform var(--spring-std);
+  transition: border-color var(--spring-std), transform var(--spring-std), background var(--spring-std);
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
-.dish-card:active { transform: scale(0.96); border-color: var(--apple-amber); }
+.dish-card:active { transform: scale(0.95); border-color: var(--apple-amber); }
+.dish-card.is-selected {
+  border-color: rgba(255, 214, 10, 0.45);
+  background: linear-gradient(180deg, rgba(255, 214, 10, 0.08) 0%, rgba(28, 28, 30, 1) 100%);
+}
+.dish-qty-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: var(--apple-amber);
+  color: #000000;
+  font-size: 12px;
+  font-weight: 800;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 4px;
+  border-radius: var(--r-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
 .dish-card.has-promo {
   border-color: rgba(255, 214, 10, 0.3);
   background: linear-gradient(180deg, rgba(255, 214, 10, 0.05) 0%, rgba(28, 28, 30, 1) 100%);
@@ -858,54 +898,15 @@ img { display: block; max-width: 100%; }
 .pp-bizum    { background: var(--blue-fill);  color: var(--apple-blue); }
 .pp-pendiente{ background: var(--red-fill);   color: var(--apple-red); }
 
-/* BANNER DE RESUMEN FINANCIERO DINÁMICO */
-.v-summary-banner {
-  background: linear-gradient(135deg, rgba(28,28,30,0.95) 0%, rgba(18,18,20,0.98) 100%);
-  border: var(--glass-border);
-  border-radius: 16px;
-  padding: 14px 16px;
-  margin-bottom: 12px;
+/* FILTROS Y BÚSQUEDA COMPACTA EN MÓVIL */
+.v-search-filter-row {
   display: flex;
-  flex-direction: column;
   gap: 8px;
-}
-.v-sum-row {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-.v-sum-total {
-  font-size: 24px;
-  font-weight: 800;
-  color: var(--apple-amber);
-  letter-spacing: -0.02em;
-}
-.v-sum-meta {
-  font-size: 13px;
-  color: var(--text-secondary);
-  font-weight: 600;
-}
-.v-sum-pills {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  font-size: 12px;
-  font-weight: 600;
-}
-.v-sum-pill-ef   { background: var(--green-fill); color: var(--apple-green); padding: 3px 8px; border-radius: var(--r-pill); }
-.v-sum-pill-biz  { background: var(--blue-fill);  color: var(--apple-blue);  padding: 3px 8px; border-radius: var(--r-pill); }
-.v-sum-pill-pend { background: var(--red-fill);   color: var(--apple-red);   padding: 3px 8px; border-radius: var(--r-pill); }
-
-/* CONTROLES DE BÚSQUEDA Y CAMARERO */
-.v-filter-controls {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 10px;
+  align-items: center;
+  margin-bottom: 8px;
 }
 .v-search-box {
+  flex: 1;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -914,6 +915,7 @@ img { display: block; max-width: 100%; }
   border-radius: var(--r-btn);
   padding: 0 12px;
   min-height: 42px;
+  position: relative;
 }
 .v-search-box input {
   background: transparent;
@@ -923,23 +925,72 @@ img { display: block; max-width: 100%; }
   width: 100%;
   outline: none;
 }
-.v-filter-subrow {
+.btn-clear-search {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
   display: flex;
-  gap: 8px;
   align-items: center;
+  justify-content: center;
 }
-.v-filter-subrow select {
-  width: 100%;
+.btn-clear-search.hidden { display: none; }
+.v-camarero-select {
+  max-width: 130px;
   background: var(--bg-tertiary);
   border: var(--glass-border);
   border-radius: var(--r-btn);
   color: var(--text-primary);
   font-size: 13px;
   font-weight: 600;
-  padding: 8px 12px;
-  min-height: 40px;
+  padding: 0 10px;
+  min-height: 42px;
   outline: none;
 }
+
+/* FRANJA RESUMEN ULTRA-COMPACTA */
+.v-summary-strip {
+  background: rgba(28, 28, 30, 0.85);
+  border: var(--glass-border);
+  border-radius: 12px;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.v-strip-left {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.v-strip-total {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--apple-amber);
+  letter-spacing: -0.015em;
+}
+.v-strip-sub {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+.v-strip-breakdown {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.v-sum-pill-ef   { background: var(--green-fill); color: var(--apple-green); padding: 2px 7px; border-radius: var(--r-pill); }
+.v-sum-pill-biz  { background: var(--blue-fill);  color: var(--apple-blue);  padding: 2px 7px; border-radius: var(--r-pill); }
+.v-sum-pill-pend { background: var(--red-fill);   color: var(--apple-red);   padding: 2px 7px; border-radius: var(--r-pill); }
 
 /* ─────────────────────────────────────────────────────────────
    APPLE BOTTOM SHEETS (NATURAL SPRING GESTURES)
@@ -1340,49 +1391,44 @@ img { display: block; max-width: 100%; }
 
       <!-- SECCIÓN 1: COMANDAS INDIVIDUALES -->
       <div id="vsec-pedidos">
-        <!-- Filtro temporal (Pills horizontales) -->
-        <div class="filter-rail" id="v-date-rail" style="margin-bottom:8px">
+        <!-- FILA 1: Búsqueda rápida + Selector de Camarero en 1 sola fila -->
+        <div class="v-search-filter-row">
+          <div class="v-search-box">
+            <span style="color:var(--text-tertiary);font-size:13px">🔍</span>
+            <input type="search" id="vf-search" placeholder="Buscar mesa, cliente, plato…" oninput="onVentasSearchInput()" autocomplete="off">
+            <button class="btn-clear-search hidden" id="btn-clear-search" onclick="clearVentasSearch()">✕</button>
+          </div>
+          <select id="vf-camarero" class="v-camarero-select" onchange="onCamareroFilterChange(this.value)">
+            <option value="">👤 Todos</option>
+          </select>
+        </div>
+
+        <!-- FILA 2: Rail horizontal fluido con todos los filtros de período y método -->
+        <div class="filter-rail" id="v-combined-rail" style="margin-bottom:8px">
           <button class="fpill on" data-date="hoy" onclick="setVDate('hoy',this)">Hoy</button>
           <button class="fpill" data-date="ayer" onclick="setVDate('ayer',this)">Ayer</button>
-          <button class="fpill" data-date="semana" onclick="setVDate('semana',this)">Esta semana</button>
-          <button class="fpill" data-date="todas" onclick="setVDate('todas',this)">Todo el historial</button>
-          <button class="fpill" data-date="custom" onclick="openDatePicker()">📅 Fecha concreta</button>
+          <button class="fpill" data-date="semana" onclick="setVDate('semana',this)">7 días</button>
+          <button class="fpill" data-date="todas" onclick="setVDate('todas',this)">Todo</button>
+          <button class="fpill on" data-pay="" onclick="setVF('',this)">Todos pagos</button>
+          <button class="fpill" data-pay="pendiente" onclick="setVF('pendiente',this)">⏳ Pendientes</button>
+          <button class="fpill" data-pay="efectivo" onclick="setVF('efectivo',this)">💵 Efectivo</button>
+          <button class="fpill" data-pay="bizum" onclick="setVF('bizum',this)">📱 Bizum</button>
+          <button class="fpill" data-date="custom" onclick="openDatePicker()">📅 Fecha…</button>
         </div>
 
         <!-- Selector de fecha personalizada -->
-        <div id="v-custom-date-box" style="display:none;margin-bottom:10px;align-items:center;gap:8px;background:var(--bg-grouped);padding:10px 14px;border-radius:var(--r-card);border:var(--glass-border)">
-          <span style="font-size:13px;color:var(--text-secondary);font-weight:600">Ver día:</span>
-          <input type="date" id="vf-date-input" style="flex:1;background:var(--bg-tertiary);border:var(--glass-border);color:var(--text-primary);padding:6px 10px;border-radius:8px;font-size:14px;outline:none" onchange="onCustomDateChange(this.value)">
-          <button class="btn btn-ghost btn-sm" onclick="clearCustomDate()" style="min-height:32px;padding:0 8px;font-size:12px">✕ Hoy</button>
+        <div id="v-custom-date-box" style="display:none;margin-bottom:8px;align-items:center;gap:8px;background:var(--bg-grouped);padding:8px 12px;border-radius:var(--r-card);border:var(--glass-border)">
+          <span style="font-size:12px;color:var(--text-secondary);font-weight:600">Día:</span>
+          <input type="date" id="vf-date-input" style="flex:1;background:var(--bg-tertiary);border:var(--glass-border);color:var(--text-primary);padding:6px 10px;border-radius:8px;font-size:13px;outline:none" onchange="onCustomDateChange(this.value)">
+          <button class="btn btn-ghost btn-sm" onclick="clearCustomDate()" style="min-height:30px;padding:0 8px;font-size:11px">✕ Volver a hoy</button>
         </div>
 
-        <!-- Filtros secundarios: Buscador en vivo + Camarero -->
-        <div class="v-filter-controls">
-          <div class="v-search-box">
-            <span style="color:var(--text-tertiary)">🔍</span>
-            <input type="search" id="vf-search" placeholder="Buscar por cliente, mesa, nota o plato…" oninput="onVentasSearchInput()" autocomplete="off">
-          </div>
-          <div class="v-filter-subrow">
-            <select id="vf-camarero" onchange="onCamareroFilterChange(this.value)">
-              <option value="">👤 Todos los camareros</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Filtro de Estado de Cobro -->
-        <div class="filter-rail" id="v-pay-rail" style="margin-bottom:10px">
-          <button class="fpill on" onclick="setVF('',this)">Todos los pagos</button>
-          <button class="fpill" onclick="setVF('pendiente',this)">Pendientes</button>
-          <button class="fpill" onclick="setVF('efectivo',this)">Efectivo</button>
-          <button class="fpill" onclick="setVF('bizum',this)">Bizum</button>
-        </div>
-
-        <!-- Banner Resumen Financiero Dinámico -->
-        <div id="ventas-summary-banner" class="v-summary-banner">
+        <!-- FILA 3: Franja resumen ultra-compacta y elegante -->
+        <div id="ventas-summary-banner" class="v-summary-strip">
           <!-- Rellenado dinámicamente -->
         </div>
 
-        <!-- Listado de Comandas -->
+        <!-- Listado de Comandas: aparece inmediatamente en pantalla -->
         <div id="ventas-body">
           <div style="padding:40px 0;text-align:center"><div class="spin"></div></div>
         </div>
@@ -2234,10 +2280,9 @@ async function renderDash() {
       <div class="dash-hero">
         <div>
           <div class="dash-date">${new Date().toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'})}</div>
-          <div class="dash-greeting">${currentCamarero ? `Turno de ${currentCamarero.split(' ')[0]}` : 'Buenos días'}</div>
+          <div class="dash-greeting">${currentCamarero ? `Turno de ${currentCamarero}` : 'Cocina · Tabernáculo'}</div>
         </div>
-        <div class="dash-mascots" aria-hidden="true">
-          <img class="dash-mascot-hk" src="assets/hellokitty.png" alt="Kitty">
+        <div class="dash-avatar-badge" onclick="openCheckinModal(false)" title="Cambiar responsable">
           <img class="dash-mascot-sn" src="assets/snoopy_cool.png" alt="Snoopy">
         </div>
       </div>
@@ -2393,14 +2438,20 @@ function renderTPV() {
 
   if ((activeCat === '' || activeCat === '__p') && aPromos.length) {
     html += `<div class="tpv-group-label">Packs y Promos Especiales</div>`;
-    html += aPromos.map(p =>
-      `<button class="dish-card has-promo" onclick='addToCart(${JSON.stringify({id:"promo-"+p.id,nombre:p.nombre,precio:+p.precio,isPromoPack:true})})'>
+    html += aPromos.map(p => {
+      const pId = "promo-" + p.id;
+      const inCart = cart.find(c => c.id === pId);
+      const qty = inCart ? inCart.qty : 0;
+      return `
+      <button class="dish-card has-promo ${qty > 0 ? 'is-selected' : ''}" onclick='addToCart(${JSON.stringify({id:pId,nombre:p.nombre,precio:+p.precio,isPromoPack:true})})'>
+        ${qty > 0 ? `<span class="dish-qty-badge">${qty}</span>` : ''}
         <span class="dish-name">${p.nombre}</span>
         <div class="dish-foot">
           <span class="dish-price">${fmt(p.precio)}</span>
           <span class="dish-promo-tag">Pack</span>
         </div>
-      </button>`).join('');
+      </button>`;
+    }).join('');
   }
 
   const filtered = activeCat && activeCat !== '__p' ? tpvItems.filter(i => i.categoria === activeCat) : tpvItems;
@@ -2412,8 +2463,10 @@ function renderTPV() {
     html += items.map(item => {
       const hasPromo = item.promo_qty > 1 && item.promo_precio > 0;
       const promoText = hasPromo ? `${item.promo_qty}x ${fmt(item.promo_precio)}` : '';
+      const inCart = cart.find(c => c.id === item.id);
+      const qty = inCart ? inCart.qty : 0;
       return `
-        <button class="dish-card ${hasPromo ? 'has-promo' : ''}" onclick='addToCart(${JSON.stringify({
+        <button class="dish-card ${hasPromo ? 'has-promo' : ''} ${qty > 0 ? 'is-selected' : ''}" onclick='addToCart(${JSON.stringify({
           id: item.id,
           nombre: item.nombre,
           precio: +item.precio,
@@ -2421,6 +2474,7 @@ function renderTPV() {
           promo_precio: item.promo_precio ? +item.promo_precio : 0,
           categoria: item.categoria || ''
         })})'>
+          ${qty > 0 ? `<span class="dish-qty-badge">${qty}</span>` : ''}
           <span class="dish-name">${item.nombre}</span>
           <div class="dish-foot">
             <span class="dish-price">${fmt(item.precio)}</span>
@@ -2432,9 +2486,9 @@ function renderTPV() {
 
   g.innerHTML = html || `
     <div class="empty-view" style="grid-column:1/-1">
-      <img class="empty-img" src="assets/snoopy_cool.png" alt="">
+      <img class="empty-img" src="assets/snoopy_cool.png" alt="Snoopy">
       <div class="empty-title">Sin platos en esta sección</div>
-      <div class="empty-sub">Añade artículos en la pestaña <strong>Gestión</strong>.</div>
+      <div class="empty-sub">Añade artículos reales en la pestaña <strong>Gestión</strong>.</div>
     </div>`;
 }
 
@@ -2452,6 +2506,7 @@ function addToCart(item) {
     cart.push({ ...item, qty: 1 });
   }
   updateCartUI();
+  if (curPage === 'tpv') renderTPV();
 }
 
 function changeQty(id, delta) {
@@ -2461,6 +2516,7 @@ function changeQty(id, delta) {
   cart[idx].qty += delta;
   if (cart[idx].qty <= 0) cart.splice(idx, 1);
   updateCartUI();
+  if (curPage === 'tpv') renderTPV();
 }
 
 function clearCart() {
@@ -2472,6 +2528,7 @@ function clearCart() {
   if ($$('t-persona-custom')) $$('t-persona-custom').value = '';
   if ($$('t-notas')) $$('t-notas').value = '';
   closeSheet('s-cart');
+  if (curPage === 'tpv') renderTPV();
   toast('Ticket vaciado');
 }
 
@@ -2717,7 +2774,7 @@ function setVentasSubTab(tab) {
 function setVDate(mode, btn) {
   if (navigator.vibrate) navigator.vibrate(10);
   vDateFilter = mode;
-  document.querySelectorAll('#v-date-rail .fpill').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('#v-combined-rail .fpill[data-date]').forEach(b => b.classList.remove('on'));
   if (btn) btn.classList.add('on');
   const box = $$('v-custom-date-box');
   if (mode !== 'custom' && box) {
@@ -2730,8 +2787,8 @@ function setVDate(mode, btn) {
 function openDatePicker() {
   if (navigator.vibrate) navigator.vibrate(10);
   vDateFilter = 'custom';
-  document.querySelectorAll('#v-date-rail .fpill').forEach(b => b.classList.remove('on'));
-  const customBtn = document.querySelector('[data-date="custom"]');
+  document.querySelectorAll('#v-combined-rail .fpill[data-date]').forEach(b => b.classList.remove('on'));
+  const customBtn = document.querySelector('#v-combined-rail [data-date="custom"]');
   if (customBtn) customBtn.classList.add('on');
   const box = $$('v-custom-date-box');
   if (box) {
@@ -2759,7 +2816,7 @@ function clearCustomDate() {
   vCustomDate = '';
   const inp = $$('vf-date-input');
   if (inp) inp.value = '';
-  const hoyBtn = document.querySelector('[data-date="hoy"]');
+  const hoyBtn = document.querySelector('#v-combined-rail [data-date="hoy"]');
   setVDate('hoy', hoyBtn);
 }
 
@@ -2769,17 +2826,32 @@ function onCamareroFilterChange(val) {
 }
 
 function onVentasSearchInput() {
+  const inp = $$('vf-search');
+  const clearBtn = $$('btn-clear-search');
+  if (clearBtn && inp) {
+    if (inp.value) clearBtn.classList.remove('hidden');
+    else clearBtn.classList.add('hidden');
+  }
   clearTimeout(_vSearchTimer);
   _vSearchTimer = setTimeout(() => {
-    vSearchQuery = v('vf-search').trim().toLowerCase();
+    vSearchQuery = (inp ? inp.value : '').trim().toLowerCase();
     renderVentas();
   }, 180);
+}
+
+function clearVentasSearch() {
+  const inp = $$('vf-search');
+  if (inp) inp.value = '';
+  const clearBtn = $$('btn-clear-search');
+  if (clearBtn) clearBtn.classList.add('hidden');
+  vSearchQuery = '';
+  renderVentas();
 }
 
 function setVF(f, btn) {
   if (navigator.vibrate) navigator.vibrate(10);
   vPaymentFilter = f;
-  document.querySelectorAll('#v-pay-rail .fpill').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('#v-combined-rail .fpill[data-pay]').forEach(b => b.classList.remove('on'));
   if (btn) btn.classList.add('on');
   renderVentas();
 }
@@ -2870,16 +2942,14 @@ async function renderVentas() {
 
     if (bannerEl) {
       bannerEl.innerHTML = `
-        <div class="v-sum-row">
-          <div>
-            <div class="v-sum-meta">${periodLabel} · ${list.length} comanda${list.length === 1 ? '' : 's'} · ${totPlatos} platos</div>
-            <div class="v-sum-total">${fmt(totFact)}</div>
-          </div>
-          <div class="v-sum-pills">
-            <span class="v-sum-pill-ef">💵 ${fmt(totEf)}</span>
-            <span class="v-sum-pill-biz">📱 ${fmt(totBiz)}</span>
-            ${totPend > 0 ? `<span class="v-sum-pill-pend">⏳ ${fmt(totPend)}</span>` : ''}
-          </div>
+        <div class="v-strip-left">
+          <span class="v-strip-total">${fmt(totFact)}</span>
+          <span class="v-strip-sub">${periodLabel} · ${list.length} com. (${totPlatos} platos)</span>
+        </div>
+        <div class="v-strip-breakdown">
+          ${totEf > 0 ? `<span class="v-sum-pill-ef">💵 ${fmt(totEf)}</span>` : ''}
+          ${totBiz > 0 ? `<span class="v-sum-pill-biz">📱 ${fmt(totBiz)}</span>` : ''}
+          ${totPend > 0 ? `<span class="v-sum-pill-pend">⏳ ${fmt(totPend)}</span>` : ''}
         </div>`;
     }
 
@@ -2900,12 +2970,15 @@ async function renderVentas() {
         <div class="vcard">
           <div class="vcard-top">
             <div>
-              <div class="vcard-name">${v.persona_nombre}</div>
+              <div class="vcard-name">${v.persona_nombre || 'Cliente'}</div>
               <div class="vcard-date">${fmtDate(v.created_at)}</div>
             </div>
-            <button class="pay-pill pp-${v.pago}" onclick="openPago('${v.id}','${esc(v.persona_nombre)}','${fmt(v.total)}')">
-              ${v.pago === 'efectivo' ? 'Efectivo' : v.pago === 'bizum' ? 'Bizum' : 'Pendiente'}
-            </button>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span class="vcard-total" style="color:var(--apple-amber);font-weight:800;font-size:16px">${fmt(v.total)}</span>
+              <button class="pay-pill pp-${v.pago}" onclick="openPago('${v.id}','${esc(v.persona_nombre || 'Cliente')}','${fmt(v.total)}')">
+                ${v.pago === 'efectivo' ? '💵 Efectivo' : v.pago === 'bizum' ? '📱 Bizum' : '⏳ Pendiente'}
+              </button>
+            </div>
           </div>
 
           <div class="vcard-chips">
@@ -2919,15 +2992,16 @@ async function renderVentas() {
             ${lines.map(l => `<span class="vcard-line-item">${l.qty}× ${l.item_nombre}</span>`).join('')}
           </div>
 
-          <div class="vcard-foot">
-            <span class="vcard-total">${fmt(v.total)}</span>
-            <div style="display:flex;gap:6px;align-items:center">
+          <div class="vcard-foot" style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06)">
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
               ${v.pago === 'pendiente' ? `
                 <button class="btn btn-green btn-sm" onclick="qpay('${v.id}','efectivo')">Cobrar Ef.</button>
                 <button class="btn btn-blue btn-sm" onclick="qpay('${v.id}','bizum')">Cobrar Biz.</button>
-              ` : ''}
-              <button class="btn btn-ghost btn-sm btn-icon" onclick="delVenta('${v.id}')" title="Eliminar" style="color:var(--text-tertiary)">✕</button>
+              ` : `
+                <span style="font-size:11px;color:var(--text-tertiary);font-weight:600">✓ Cobrado</span>
+              `}
             </div>
+            <button class="btn btn-ghost btn-sm btn-icon" onclick="delVenta('${v.id}')" title="Eliminar" style="color:var(--text-tertiary);min-height:30px">✕</button>
           </div>
         </div>`;
     }).join('');

@@ -99,21 +99,12 @@ alter table reportes_diarios disable row level security;
 grant all on menu_items, promos, personas, ventas, venta_lineas, reportes_diarios to anon, authenticated;
 
 -- ============================================================
---  DATOS DE EJEMPLO (opcional)
+--  BASE LIMPIA (Sin datos inventados)
 -- ============================================================
-insert into menu_items (nombre, categoria, precio, descripcion) values
-  ('Café solo',         'Bebidas',     1.00, ''),
-  ('Café con leche',    'Bebidas',     1.20, ''),
-  ('Zumo naranja',      'Bebidas',     1.50, 'Natural'),
-  ('Agua',              'Bebidas',     0.50, ''),
-  ('Bocadillo jamón',   'Bocadillos',  2.50, ''),
-  ('Bocadillo queso',   'Bocadillos',  2.00, ''),
-  ('Tostada con aceite','Desayunos',   1.00, ''),
-  ('Napolitana',        'Repostería',  1.20, ''),
-  ('Croissant',         'Repostería',  1.00, '')
-on conflict do nothing;
+-- Las tablas quedan creadas vacías y listas para que introduzcas
+-- tus propios platos, precios y comandas reales desde la web.
 
-insert into promos (nombre, descripcion, precio) values
-  ('Menú del día',    'Bocadillo + bebida + postre',  4.50),
-  ('Desayuno',        'Café + tostada',               1.80)
-on conflict do nothing;
+-- NOTA: Si anteriormente ejecutaste los datos de prueba, puedes
+-- eliminarlos ejecutando estas dos líneas:
+-- delete from menu_items where nombre in ('Café solo', 'Café con leche', 'Zumo naranja', 'Agua', 'Bocadillo jamón', 'Bocadillo queso', 'Tostada con aceite', 'Napolitana', 'Croissant');
+-- delete from promos where nombre in ('Menú del día', 'Desayuno');
