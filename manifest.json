@@ -1,0 +1,25 @@
+{
+  "name": "Cocina · Tabernáculo Santo",
+  "short_name": "Cocina",
+  "description": "Punto de venta y control de cuentas para la cocina del Tabernáculo Santo",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0c0c0f",
+  "theme_color": "#0c0c0f",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "assets/hellokitty2.webp",
+      "sizes": "192x192",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/hellokitty.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

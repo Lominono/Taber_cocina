@@ -1,0 +1,9 @@
+{
+  "name": "cocina-tabernac",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Gestión de cocina — Tabernáculo Santo",
+  "scripts": {
+    "deploy": "vercel --prod"
+  }
+}
