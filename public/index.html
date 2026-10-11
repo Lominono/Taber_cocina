@@ -161,63 +161,86 @@ img { display: block; max-width: 100%; }
   box-shadow: 0 20px 40px rgba(0,0,0,0.6);
 }
 
-.auth-db-status-bar {
+/* BADGE CONEXIÓN NUBE AUTOMÁTICA (VERCEL & SUPABASE) */
+.auth-cloud-badge {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 8px;
-  background: var(--bg-grouped);
-  border: var(--glass-border);
-  border-radius: var(--r-btn);
-  padding: 8px 12px;
-  margin-bottom: var(--sp-2);
+  background: rgba(255, 255, 255, 0.05);
+  border: var(--hairline);
+  border-radius: 999px;
+  padding: 6px 14px;
+  margin: 0 auto var(--sp-2);
   font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform var(--spring-std);
+  font-weight: 500;
+  color: var(--text-secondary);
+  width: fit-content;
 }
-.auth-db-status-bar:active { transform: scale(0.98); }
-.auth-db-info-left { display: flex; align-items: center; gap: 8px; min-width: 0; }
-.auth-db-text-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.auth-db-edit-btn { font-size: 13px; color: var(--text-secondary); flex-shrink: 0; }
 
-.auth-db-config-box {
-  background: var(--bg-grouped);
-  border: var(--glass-border);
-  border-radius: var(--r-btn);
-  padding: 14px;
+/* TARJETA REANUDACIÓN DE TURNO (VOLUNTARIO GUARDADO) */
+.auth-resume-card {
+  background: linear-gradient(135deg, rgba(48, 209, 88, 0.12) 0%, rgba(28, 28, 30, 0.85) 100%);
+  border: 0.5px solid rgba(48, 209, 88, 0.35);
+  border-radius: var(--r-card);
+  padding: 18px 16px;
+  margin-bottom: var(--sp-2);
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+.auth-resume-avatar {
+  font-size: 34px;
+  margin-bottom: 6px;
+}
+.auth-resume-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+.auth-resume-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 14px;
+}
+
+/* CHIPS DE EQUIPO DE COCINA (ANOTADORES) */
+.auth-volunteers-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
   margin-bottom: var(--sp-2);
 }
-.auth-db-config-title {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 8px;
-}
-
-.auth-segmented {
-  display: flex;
+.volunteer-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   background: var(--bg-grouped);
-  border-radius: var(--r-btn);
-  padding: 3px;
-  margin-bottom: var(--sp-3);
-}
-.auth-tab-btn {
-  flex: 1;
-  min-height: 38px;
-  padding: 6px 12px;
-  border-radius: 9px;
+  border: var(--glass-border);
+  border-radius: 999px;
+  padding: 8px 14px;
   font-size: 13px;
   font-weight: 600;
-  color: var(--text-secondary);
-  transition: all var(--spring-std);
-}
-.auth-tab-btn.active {
-  background: var(--bg-elevated);
   color: var(--text-primary);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  cursor: pointer;
+  transition: all var(--spring-std);
+  min-height: 38px;
+}
+.volunteer-chip:hover {
+  background: var(--bg-elevated);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.volunteer-chip:active {
+  transform: scale(0.96);
+  background: var(--apple-blue);
+  color: #fff;
+}
+.volunteer-chip.selected {
+  background: var(--apple-blue);
+  color: #fff;
+  border-color: var(--apple-blue);
+  box-shadow: 0 2px 10px rgba(10, 132, 255, 0.4);
 }
 
 .form-group {
@@ -1786,97 +1809,88 @@ input:checked + .slider::before { transform: translateX(18px); }
   </div>
 
   <div class="auth-card">
-    <!-- BARRA DE ESTADO DE CONEXIÓN CON SUPABASE -->
-    <div class="auth-db-status-bar" id="auth-db-status-bar" onclick="toggleAuthDbConfig()" title="Toca para configurar la conexión de Supabase">
-      <div class="auth-db-info-left">
-        <span class="status-dot warn" id="auth-db-dot"></span>
-        <span class="auth-db-text-label" id="auth-db-text">Conectando con Supabase…</span>
-      </div>
-      <span class="auth-db-edit-btn">⚙️</span>
+    <!-- INDICADOR AUTOMÁTICO DE CONEXIÓN CON SUPABASE EN VERCEL -->
+    <div class="auth-cloud-badge" id="auth-cloud-badge">
+      <span class="status-dot" id="auth-cloud-dot"></span>
+      <span id="auth-cloud-text">Base de datos conectada en tiempo real</span>
     </div>
 
-    <!-- PANEL DESPLEGABLE DE CONEXIÓN SUPABASE -->
-    <div class="auth-db-config-box" id="auth-db-config-box" style="display:none;">
-      <div class="auth-db-config-title">Configuración Supabase</div>
-      <p style="font-size:12px;color:var(--text-secondary);margin-bottom:10px;line-height:1.4;">
-        Para registrar usuarios y sincronizar comandas en tiempo real, introduce la URL y Anon Key de tu proyecto Supabase:
-      </p>
-      <div class="form-group" style="margin-bottom:8px;">
-        <label class="form-label" for="auth-cfg-url">Project URL</label>
-        <input type="url" id="auth-cfg-url" class="form-control" placeholder="https://xxxx.supabase.co" autocomplete="off" spellcheck="false">
-      </div>
-      <div class="form-group" style="margin-bottom:10px;">
-        <label class="form-label" for="auth-cfg-key">Anon / Public API Key</label>
-        <input type="password" id="auth-cfg-key" class="form-control" placeholder="eyJhbGciOi..." autocomplete="off" spellcheck="false">
-      </div>
-      <div class="alert-box" id="auth-db-alert"></div>
-      <button type="button" class="btn btn-primary btn-full btn-sm" onclick="connectSupabaseFromAuth()">
-        <span>Conectar con Supabase</span>
+    <!-- TARJETA DE REANUDACIÓN RÁPIDA (SI YA HAY UN VOLUNTARIO GUARDADO) -->
+    <div class="auth-resume-card" id="auth-resume-card" style="display:none;">
+      <div class="auth-resume-avatar">👨‍🍳</div>
+      <div class="auth-resume-title">¡Hola de nuevo, <strong id="auth-saved-name">Anotador</strong>!</div>
+      <p class="auth-resume-desc">Tu turno anterior sigue activo en este dispositivo.</p>
+      <button type="button" class="btn btn-green btn-full" onclick="resumeSavedVolunteer()" style="margin-bottom:10px;">
+        <span>⚡ Continuar Turno como <span class="auth-resume-name-btn">Anotador</span></span>
+      </button>
+      <button type="button" class="btn-link-subtle" onclick="showVolunteerPicker(true)">
+        Cambiar de voluntario o entrar con otro nombre
       </button>
     </div>
 
-    <!-- PESTAÑAS SEGMENTADAS: REGISTRO / LOGIN -->
-    <div class="auth-segmented">
-      <button type="button" class="auth-tab-btn active" id="btnAuthTabSignup" onclick="setAuthTab('signup')">Crear Cuenta (Primera vez)</button>
-      <button type="button" class="auth-tab-btn" id="btnAuthTabLogin" onclick="setAuthTab('login')">Iniciar Sesión</button>
-    </div>
-
-    <!-- FORMULARIO DE REGISTRO EN SUPABASE (PRIMERA VEZ) -->
-    <form id="signup-form" onsubmit="handleSignup(event); return false;">
-      <div class="form-group">
-        <label class="form-label" for="signup-name">Tu Nombre y Apellidos Reales *</label>
-        <input type="text" id="signup-name" class="form-control" placeholder="Ej. Juan Fernández" autocomplete="name" required>
-        <div class="form-helper">Se guardará en Supabase para firmar tus ventas y el cierre de caja.</div>
+    <!-- FORMULARIO DE ENTRADA AL TURNO -->
+    <div id="auth-picker-box">
+      <!-- EQUIPO DE COCINA REGISTRADO (CHIPS RÁPIDOS) -->
+      <div id="auth-team-container" style="display:none; margin-bottom:14px;">
+        <label class="form-label">Equipo de Cocina (Toca para entrar rápido)</label>
+        <div class="auth-volunteers-chips" id="auth-volunteers-chips">
+          <!-- Renderizado dinámicamente desde Supabase -->
+        </div>
       </div>
 
-      <div class="form-group">
-        <label class="form-label" for="signup-email">Correo Electrónico *</label>
-        <input type="email" id="signup-email" class="form-control" placeholder="tu@correo.com" autocomplete="email" required spellcheck="false">
+      <!-- FORMULARIO DIRECTO CON NOMBRE Y APELLIDOS -->
+      <form id="checkin-form" onsubmit="handleVolunteerCheckin(event); return false;">
+        <div class="form-group">
+          <label class="form-label" for="checkin-name">Tu Nombre y Apellidos *</label>
+          <div class="input-with-clear">
+            <input 
+              type="text" 
+              id="checkin-name" 
+              class="form-control" 
+              placeholder="Ej. Juanfe, María, Carlos..." 
+              autocomplete="name" 
+              autocapitalize="words" 
+              required
+            >
+            <button type="button" class="btn-clear-input" onclick="clearCheckinInput()" title="Borrar nombre">✕</button>
+          </div>
+          <div class="form-helper">Se registrará en tus comandas y en el arqueo de caja. Sin correos ni códigos.</div>
+        </div>
+
+        <div class="alert-box" id="checkin-alert"></div>
+
+        <button type="submit" class="btn btn-primary btn-full" id="btnCheckinSubmit">
+          <span>🚀 Comenzar Turno en Cocina</span>
+        </button>
+      </form>
+
+      <!-- ACCESO OPCIONAL CON CONTRASEÑA -->
+      <div class="auth-alt-section" style="margin-top:16px; padding-top:12px; border-top:var(--hairline); text-align:center;">
+        <button type="button" class="btn-link-subtle" onclick="togglePasswordLogin()">
+          <span id="pwd-toggle-text">¿Tienes cuenta con contraseña? (Opcional) ▾</span>
+        </button>
+
+        <form id="password-login-form" style="display:none; margin-top:12px; text-align:left;" onsubmit="handlePasswordLogin(event); return false;">
+          <div class="form-group">
+            <label class="form-label" for="pwd-email">Correo Electrónico</label>
+            <input type="email" id="pwd-email" class="form-control" placeholder="tu@correo.com" autocomplete="email">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="pwd-password">Contraseña</label>
+            <input type="password" id="pwd-password" class="form-control" placeholder="Tu contraseña" autocomplete="current-password">
+          </div>
+          <div class="alert-box" id="pwd-alert"></div>
+          <button type="submit" class="btn btn-secondary btn-full" id="btnPwdSubmit">
+            <span>Iniciar Sesión con Contraseña</span>
+          </button>
+        </form>
       </div>
 
-      <div class="form-group">
-        <label class="form-label" for="signup-password">Contraseña *</label>
-        <input type="password" id="signup-password" class="form-control" placeholder="Mínimo 6 caracteres" autocomplete="new-password" required minlength="6">
+      <div style="margin-top:14px; text-align:center;">
+        <button type="button" class="btn-link-subtle" onclick="openTour(1)">
+          <span>📖 Ver Guía Rápida de la App</span>
+        </button>
       </div>
-
-      <div class="alert-box" id="signup-alert"></div>
-
-      <button type="submit" class="btn btn-primary btn-full" id="btnSignupSubmit">
-        <span>Registrarme en Supabase</span>
-      </button>
-    </form>
-
-    <!-- FORMULARIO DE INICIO DE SESIÓN EN SUPABASE -->
-    <form id="login-form" style="display:none;" onsubmit="handleLogin(event); return false;">
-      <div class="form-group">
-        <label class="form-label" for="login-email">Correo Electrónico *</label>
-        <input type="email" id="login-email" class="form-control" placeholder="tu@correo.com" autocomplete="email" required spellcheck="false">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" for="login-password">Contraseña *</label>
-        <input type="password" id="login-password" class="form-control" placeholder="Tu contraseña" autocomplete="current-password" required>
-      </div>
-
-      <div class="alert-box" id="login-alert"></div>
-
-      <button type="submit" class="btn btn-primary btn-full" id="btnLoginSubmit">
-        <span>Iniciar Sesión en Supabase</span>
-      </button>
-    </form>
-
-    <div style="margin-top:16px;padding-top:14px;border-top:var(--hairline);text-align:center;">
-      <div style="font-size:12px;color:var(--text-tertiary);margin-bottom:8px;">¿Estás de turno en la cocina ahora?</div>
-      <button type="button" class="btn btn-secondary btn-full" onclick="quickVolunteerCheckin()" style="margin-bottom:10px;">
-        <span>⚡ Entrar con mi Nombre (Turno Rápido)</span>
-      </button>
-      <button type="button" class="btn-link-subtle" onclick="openTour(1)">
-        <span>📖 Ver Guía Rápida de la App</span>
-      </button>
-    </div>
-
-    <div class="auth-footer-actions">
-      <button type="button" class="btn-link-subtle" onclick="toggleAuthDbConfig()">Ajustes de conexión Supabase</button>
     </div>
   </div>
 </div>
@@ -2469,28 +2483,38 @@ input:checked + .slider::before { transform: translateX(18px); }
       <button type="button" class="sheet-close-btn" onclick="closeSheet('s-db-config')">✕</button>
     </div>
     <div class="sheet-content">
-      <div class="card" style="margin-bottom:12px;">
-        <div style="font-size:13px;color:var(--text-secondary);line-height:1.5;">
-          Esta aplicación se conecta en tiempo real a <strong>Supabase</strong> para sincronizar los platos, pedidos y arqueo de caja entre todos los teléfonos.
+      <div class="card" style="margin-bottom:14px; background:rgba(48,209,88,0.1); border:0.5px solid rgba(48,209,88,0.3);">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+          <span class="status-dot" id="modal-db-dot"></span>
+          <strong style="font-size:14px; color:var(--text-primary);">Conexión Automática Activa</strong>
+        </div>
+        <div style="font-size:13px; color:var(--text-secondary); line-height:1.45;">
+          Conectado mediante las <strong>Variables de Entorno de Vercel</strong>. Los pedidos, platos y arqueos se sincronizan automáticamente sin configuración manual.
         </div>
       </div>
 
-      <div class="form-group">
-        <label class="form-label" for="cfgSupabaseUrl">URL del Proyecto Supabase</label>
-        <input type="url" id="cfgSupabaseUrl" class="form-control" placeholder="https://xxxx.supabase.co" autocomplete="off" spellcheck="false">
+      <div style="background:var(--bg-grouped); border:var(--glass-border); border-radius:var(--r-btn); padding:12px 14px; margin-bottom:14px; font-size:13px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+          <span style="color:var(--text-secondary);">Servidor:</span>
+          <span style="font-weight:600; color:var(--text-primary);" id="modal-db-server">xtpcxnuemuzftyyajhlz.supabase.co</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+          <span style="color:var(--text-secondary);">Sincronización:</span>
+          <span style="color:var(--apple-green); font-weight:600;">En Tiempo Real ✓</span>
+        </div>
+        <div style="display:flex; justify-content:space-between;">
+          <span style="color:var(--text-secondary);">Anotador activo:</span>
+          <span style="font-weight:600; color:var(--apple-blue);" id="modal-db-anotador">Anotador</span>
+        </div>
       </div>
 
-      <div class="form-group">
-        <label class="form-label" for="cfgSupabaseKey">Anon / Public API Key</label>
-        <input type="password" id="cfgSupabaseKey" class="form-control" placeholder="eyJhbGciOi..." autocomplete="off" spellcheck="false">
-      </div>
+      <button type="button" class="btn btn-secondary btn-full" onclick="testDbConnectionSync()" style="margin-bottom:8px;">
+        <span>🔄 Comprobar Sincronización Ahora</span>
+      </button>
 
-      <div class="alert-box" id="db-cfg-alert"></div>
-
-      <div style="display:flex;flex-direction:column;gap:8px;">
-        <button type="button" class="btn btn-primary btn-full" onclick="saveSupabaseCredentials()">Probar y Guardar Conexión</button>
-        <button type="button" class="btn btn-ghost btn-full" onclick="resetSupabaseCredentials()" style="color:var(--apple-red);">Restablecer credenciales</button>
-      </div>
+      <button type="button" class="btn btn-ghost btn-full" onclick="closeSheet('s-db-config');">
+        <span>Cerrar</span>
+      </button>
     </div>
   </div>
 </div>
@@ -2550,11 +2574,14 @@ document.addEventListener('DOMContentLoaded', async () => {
   await initSupabaseConnection();
 });
 
-async function initSupabaseConnection() {
-  let url = '';
-  let key = '';
+const VERCEL_SUPABASE_DEFAULT_URL = 'https://xtpcxnuemuzftyyajhlz.supabase.co';
+const VERCEL_SUPABASE_DEFAULT_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh0cGN4bnVlbXV6ZnR5eWFqaGx6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE3MjE4ODQsImV4cCI6MjEwNzI5Nzg4NH0.8e8iteJ88SdgxPC7s5HIVzyKx8oMGMz2woKGUpO5lAI';
 
-  // 1. Intentar desde endpoint de servidor Vercel (/api/config)
+async function initSupabaseConnection() {
+  let url = VERCEL_SUPABASE_DEFAULT_URL;
+  let key = VERCEL_SUPABASE_DEFAULT_KEY;
+
+  // 1. Intentar desde endpoint Vercel (/api/config) para recibir variables dinámicas
   try {
     const res = await fetch('/api/config');
     if (res.ok) {
@@ -2566,7 +2593,7 @@ async function initSupabaseConnection() {
     }
   } catch (e) {}
 
-  // 2. Intentar desde localStorage (claves actuales y legadas)
+  // 2. Fallback desde localStorage si existiese configuración previa
   if (!url || !key) {
     try {
       const saved = JSON.parse(localStorage.getItem(APP_STORAGE.CFG) || '{}');
@@ -2576,35 +2603,6 @@ async function initSupabaseConnection() {
       }
     } catch(e) {}
   }
-
-  if (!url || !key) {
-    try {
-      const legacy = JSON.parse(localStorage.getItem('ts2_cfg') || '{}');
-      if (legacy.url && legacy.key) {
-        url = sanitizeSupabaseUrl(legacy.url);
-        key = legacy.key.trim();
-      }
-    } catch(e) {}
-  }
-
-  if (!url || !key) {
-    const legacyUrl = localStorage.getItem('tabernaculo_supabase_url_v1');
-    const legacyKey = localStorage.getItem('tabernaculo_supabase_key_v1');
-    if (legacyUrl && legacyKey) {
-      url = sanitizeSupabaseUrl(legacyUrl);
-      key = legacyKey.trim();
-    }
-  }
-
-  // Sincronizar campos de entrada en modales
-  const urlInp = document.getElementById('cfgSupabaseUrl');
-  const keyInp = document.getElementById('cfgSupabaseKey');
-  const authUrlInp = document.getElementById('auth-cfg-url');
-  const authKeyInp = document.getElementById('auth-cfg-key');
-  if (urlInp && url) urlInp.value = url;
-  if (keyInp && key) keyInp.value = key;
-  if (authUrlInp && url) authUrlInp.value = url;
-  if (authKeyInp && key) authKeyInp.value = key;
 
   if (url && key) {
     try {
@@ -2619,139 +2617,207 @@ async function initSupabaseConnection() {
     updateCloudIndicator('local');
   }
 
-  // Verificar estado de autenticación
+  // Cargar equipo de voluntarios desde Supabase para selección rápida
+  await loadTeamVolunteers();
+
+  // Verificar estado de sesión o voluntario guardado
   await checkAuthSession();
 }
 
 function updateCloudIndicator(status) {
   const dot = document.getElementById('cloud-dot');
   const txt = document.getElementById('cloud-status-text');
-  const authDot = document.getElementById('auth-db-dot');
-  const authTxt = document.getElementById('auth-db-text');
+  const authDot = document.getElementById('auth-cloud-dot');
+  const authTxt = document.getElementById('auth-cloud-text');
+  const modalDot = document.getElementById('modal-db-dot');
+  const modalServer = document.getElementById('modal-db-server');
+
+  const domain = currentDbUrl ? currentDbUrl.replace(/^https?:\/\//, '').split('/')[0] : 'Supabase Cloud';
+  if (modalServer) modalServer.textContent = domain;
 
   if (status === 'online') {
     if (dot) dot.className = 'status-dot';
     if (txt) txt.textContent = 'En Vivo';
     if (authDot) authDot.className = 'status-dot';
-    if (authTxt) authTxt.textContent = 'Supabase conectado ✓ (' + (currentDbUrl ? currentDbUrl.replace(/^https?:\/\//, '').split('/')[0] : 'En línea') + ')';
-    toggleAuthDbConfig(false);
+    if (authTxt) authTxt.textContent = 'Base de datos conectada (' + domain + ')';
+    if (modalDot) modalDot.className = 'status-dot';
   } else if (status === 'error') {
     if (dot) dot.className = 'status-dot error';
     if (txt) txt.textContent = 'Error Nube';
     if (authDot) authDot.className = 'status-dot error';
-    if (authTxt) authTxt.textContent = 'Error al conectar con Supabase (Toca para revisar)';
-    toggleAuthDbConfig(true);
+    if (authTxt) authTxt.textContent = 'Reconectando con la nube…';
+    if (modalDot) modalDot.className = 'status-dot error';
   } else {
     if (dot) dot.className = 'status-dot warn';
     if (txt) txt.textContent = 'Modo Local';
     if (authDot) authDot.className = 'status-dot warn';
-    if (authTxt) authTxt.textContent = '⚠️ Conexión a Supabase requerida (Toca para configurar)';
-    toggleAuthDbConfig(true);
+    if (authTxt) authTxt.textContent = 'Modo sin conexión';
+    if (modalDot) modalDot.className = 'status-dot warn';
   }
 }
 
-function toggleAuthDbConfig(forceOpen = null) {
-  const box = document.getElementById('auth-db-config-box');
-  if (!box) return;
-  if (forceOpen !== null) {
-    box.style.display = forceOpen ? 'block' : 'none';
-  } else {
-    box.style.display = (box.style.display === 'none') ? 'block' : 'none';
-  }
-}
-
-async function connectSupabaseFromAuth() {
-  const urlInp = document.getElementById('auth-cfg-url');
-  const keyInp = document.getElementById('auth-cfg-key');
-  const alertEl = document.getElementById('auth-db-alert');
-
-  const rawUrl = (urlInp ? urlInp.value : '').trim();
-  const rawKey = (keyInp ? keyInp.value : '').trim();
-
-  if (!rawUrl || !rawKey) {
-    if (alertEl) {
-      alertEl.className = 'alert-box error';
-      alertEl.textContent = 'Introduce la URL y Anon Key de Supabase.';
-      alertEl.style.display = 'block';
-    }
+async function testDbConnectionSync() {
+  if (!sb) {
+    toast('⚠️ Conectando cliente Supabase...');
+    await initSupabaseConnection();
     return;
   }
-
-  const cleanUrl = sanitizeSupabaseUrl(rawUrl);
-
   try {
-    const testClient = window.supabase.createClient(cleanUrl, rawKey);
-    const { error } = await testClient.from('menu_items').select('id').limit(1);
-    if (error && !error.message.includes('0 rows') && !error.message.includes('relation') && error.code !== 'PGRST116') {
-      throw error;
-    }
-
-    sb = testClient;
-    currentDbUrl = cleanUrl;
-    localStorage.setItem(APP_STORAGE.CFG, JSON.stringify({ url: cleanUrl, key: rawKey }));
+    const { count, error } = await sb.from('menu_items').select('*', { count: 'exact', head: true });
+    if (error && !error.message.includes('0 rows') && error.code !== 'PGRST116') throw error;
+    toast('✓ Conexión en vivo con Supabase OK');
     updateCloudIndicator('online');
-
-    if (alertEl) alertEl.style.display = 'none';
-    toast('✓ Conexión con Supabase verificada');
-    toggleAuthDbConfig(false);
-
-    // Sincronizar en el modal general
-    const cfgUrl = document.getElementById('cfgSupabaseUrl');
-    const cfgKey = document.getElementById('cfgSupabaseKey');
-    if (cfgUrl) cfgUrl.value = cleanUrl;
-    if (cfgKey) cfgKey.value = rawKey;
-
-    await checkAuthSession();
-  } catch(err) {
-    if (alertEl) {
-      alertEl.className = 'alert-box error';
-      alertEl.textContent = 'Error al conectar: ' + (err.message || 'Comprueba la URL y Anon Key');
-      alertEl.style.display = 'block';
-    }
+  } catch(e) {
+    toast('⚠️ Error al verificar: ' + (e.message || 'Sin respuesta'));
   }
 }
 
 /* ─────────────────────────────────────────────────────────────
-   FLUJO DE AUTENTICACIÓN (EMAIL + CONTRASEÑA + NOMBRE REAL EN SUPABASE)
+   EQUIPO DE VOLUNTARIOS Y SELECCIÓN RÁPIDA (SIN CÓDIGOS DE VERIFICACIÓN)
+───────────────────────────────────────────────────────────── */
+async function loadTeamVolunteers() {
+  if (!sb) return;
+  const container = document.getElementById('auth-volunteers-chips');
+  const section = document.getElementById('auth-team-container');
+  if (!container || !section) return;
+
+  try {
+    const { data: anotadores, error } = await sb.from('anotadores')
+      .select('nombre_completo, id')
+      .order('nombre_completo', { ascending: true })
+      .limit(20);
+
+    if (error || !anotadores || anotadores.length === 0) {
+      section.style.display = 'none';
+      return;
+    }
+
+    // Filtrar nombres duplicados o vacíos
+    const unique = [];
+    const seen = new Set();
+    anotadores.forEach(a => {
+      const nom = (a.nombre_completo || '').trim();
+      if (nom && !seen.has(nom.toLowerCase())) {
+        seen.add(nom.toLowerCase());
+        unique.push(nom);
+      }
+    });
+
+    if (unique.length === 0) {
+      section.style.display = 'none';
+      return;
+    }
+
+    const emojis = ['👨‍🍳', '👩‍🍳', '🧑‍🍳', '✨', '⚡'];
+    container.innerHTML = unique.map((nom, idx) => {
+      const em = emojis[idx % emojis.length];
+      return `<button type="button" class="volunteer-chip" onclick="selectVolunteerChip('${escapeHtml(nom)}')">
+        <span>${em}</span>
+        <span>${escapeHtml(nom)}</span>
+      </button>`;
+    }).join('');
+
+    section.style.display = 'block';
+  } catch(e) {
+    console.warn('Nota al cargar equipo anotadores:', e);
+  }
+}
+
+function selectVolunteerChip(name) {
+  const inp = document.getElementById('checkin-name');
+  if (inp) {
+    inp.value = name;
+  }
+  // Envío directo para entrar con 1 solo toque
+  handleVolunteerCheckin(new Event('submit'));
+}
+
+function clearCheckinInput() {
+  const inp = document.getElementById('checkin-name');
+  if (inp) {
+    inp.value = '';
+    inp.focus();
+  }
+}
+
+function showVolunteerPicker(manual = false) {
+  const resumeCard = document.getElementById('auth-resume-card');
+  const pickerBox = document.getElementById('auth-picker-box');
+  if (resumeCard) resumeCard.style.display = 'none';
+  if (pickerBox) pickerBox.style.display = 'block';
+
+  if (manual) {
+    const inp = document.getElementById('checkin-name');
+    if (inp) setTimeout(() => inp.focus(), 150);
+  }
+}
+
+function resumeSavedVolunteer() {
+  const saved = localStorage.getItem(APP_STORAGE.ANOTADOR);
+  if (saved && saved.trim()) {
+    activeVolunteerName = saved.trim();
+    toast('✓ Turno reanudado como ' + activeVolunteerName);
+    launchApp();
+  } else {
+    showVolunteerPicker(true);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FLUJO DE ACCESO SIN CÓDIGOS DE VERIFICACIÓN
 ───────────────────────────────────────────────────────────── */
 async function checkAuthSession() {
   const savedVolunteer = localStorage.getItem(APP_STORAGE.ANOTADOR);
-  if (savedVolunteer) {
-    activeVolunteerName = savedVolunteer;
+  if (savedVolunteer && savedVolunteer.trim()) {
+    activeVolunteerName = savedVolunteer.trim();
   }
 
-  if (!sb) {
+  // 1. Si Supabase tiene sesión activa con Auth
+  if (sb) {
+    try {
+      const { data: { session } } = await sb.auth.getSession();
+      if (session && session.user) {
+        currentUser = session.user;
+        let userMetaName = currentUser.user_metadata?.full_name || '';
+
+        if (!userMetaName && currentUser.email) {
+          try {
+            const { data: anotadorRow } = await sb.from('anotadores').select('nombre_completo').eq('email', currentUser.email).maybeSingle();
+            if (anotadorRow && anotadorRow.nombre_completo) {
+              userMetaName = anotadorRow.nombre_completo;
+            }
+          } catch(e) {}
+        }
+
+        if (userMetaName) {
+          activeVolunteerName = userMetaName;
+          localStorage.setItem(APP_STORAGE.ANOTADOR, userMetaName);
+        }
+        launchApp();
+        return;
+      }
+    } catch(e) {}
+  }
+
+  // 2. Si ya hay un voluntario recordado en este teléfono, mostrar tarjeta de bienvenida
+  if (savedVolunteer && savedVolunteer.trim()) {
+    const resumeCard = document.getElementById('auth-resume-card');
+    const savedNameEl = document.getElementById('auth-saved-name');
+    const nameBtnEls = document.querySelectorAll('.auth-resume-name-btn');
+    const pickerBox = document.getElementById('auth-picker-box');
+
+    if (savedNameEl) savedNameEl.textContent = savedVolunteer;
+    nameBtnEls.forEach(el => el.textContent = savedVolunteer);
+
+    if (resumeCard) resumeCard.style.display = 'block';
+    if (pickerBox) pickerBox.style.display = 'none';
+
     showAuthView();
     return;
   }
 
-  try {
-    const { data: { session } } = await sb.auth.getSession();
-    if (session && session.user) {
-      currentUser = session.user;
-      let userMetaName = currentUser.user_metadata?.full_name || '';
-
-      // Si no viene en metadata, buscar en tabla anotadores
-      if (!userMetaName && currentUser.email) {
-        try {
-          const { data: anotadorRow } = await sb.from('anotadores').select('nombre_completo').eq('email', currentUser.email).maybeSingle();
-          if (anotadorRow && anotadorRow.nombre_completo) {
-            userMetaName = anotadorRow.nombre_completo;
-          }
-        } catch(e) {}
-      }
-
-      if (userMetaName) {
-        activeVolunteerName = userMetaName;
-        localStorage.setItem(APP_STORAGE.ANOTADOR, userMetaName);
-      }
-      launchApp();
-      return;
-    }
-  } catch(e) {
-    console.warn('Error verificando sesión:', e);
-  }
-
+  // 3. De lo contrario, mostrar selector directo de nombre
+  showVolunteerPicker(false);
   showAuthView();
 }
 
@@ -2777,229 +2843,120 @@ function launchApp() {
   }
 }
 
-function setAuthTab(tab) {
-  const isSignup = tab === 'signup';
-  document.getElementById('btnAuthTabSignup').classList.toggle('active', isSignup);
-  document.getElementById('btnAuthTabLogin').classList.toggle('active', !isSignup);
-  document.getElementById('signup-form').style.display = isSignup ? 'block' : 'none';
-  document.getElementById('login-form').style.display = isSignup ? 'none' : 'block';
-  hideAuthAlerts();
-}
+/* ─────────────────────────────────────────────────────────────
+   ENTRADA AL TURNO DIRECTA (100% LIBRE DE CÓDIGOS DE VERIFICACIÓN)
+───────────────────────────────────────────────────────────── */
+async function handleVolunteerCheckin(e) {
+  if (e && e.preventDefault) e.preventDefault();
 
-function showAuthAlert(formType, message, isError = true) {
-  const el = document.getElementById(formType + '-alert');
-  if (!el) return;
-  el.className = 'alert-box ' + (isError ? 'error' : 'info');
-  el.textContent = message;
-  el.style.display = 'block';
-}
+  const inp = document.getElementById('checkin-name');
+  const alertEl = document.getElementById('checkin-alert');
+  const btn = document.getElementById('btnCheckinSubmit');
 
-function hideAuthAlerts() {
-  const a1 = document.getElementById('signup-alert');
-  const a2 = document.getElementById('login-alert');
-  if (a1) a1.style.display = 'none';
-  if (a2) a2.style.display = 'none';
-}
-
-async function handleSignup(e) {
-  e.preventDefault();
-  hideAuthAlerts();
-
-  const name = document.getElementById('signup-name').value.trim();
-  const email = document.getElementById('signup-email').value.trim();
-  const password = document.getElementById('signup-password').value;
-  const btn = document.getElementById('btnSignupSubmit');
+  const name = (inp ? inp.value : '').trim();
 
   if (!name || name.length < 2) {
-    showAuthAlert('signup', 'Por favor escribe tu nombre y apellidos reales.');
-    return;
-  }
-  if (!email || !password || password.length < 6) {
-    showAuthAlert('signup', 'Indica un correo válido y una contraseña de al menos 6 caracteres.');
-    return;
-  }
-
-  btn.disabled = true;
-  btn.textContent = 'Registrando en Supabase…';
-
-  // 1. INTENTO VÍA ENDPOINT VERCEL (/api/register) CON AUTO-CONFIRMACIÓN DIRECTA
-  try {
-    const apiPayload = {
-      email,
-      password,
-      name,
-      url: currentDbUrl,
-      key: (sb && sb.supabaseKey) ? sb.supabaseKey : ''
-    };
-
-    const res = await fetch('/api/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(apiPayload)
-    });
-
-    if (res.ok) {
-      const json = await res.json();
-
-      if (json.session && sb) {
-        await sb.auth.setSession({
-          access_token: json.session.access_token,
-          refresh_token: json.session.refresh_token
-        });
-        currentUser = json.user || (await sb.auth.getUser()).data.user;
-        activeVolunteerName = name;
-        localStorage.setItem(APP_STORAGE.ANOTADOR, name);
-        toast('✓ Registrado en Supabase con éxito');
-        launchApp();
-        return;
-      } else if (json.success && sb) {
-        // Usuario creado en Supabase sin email de confirmación, iniciar sesión de inmediato
-        const loginRes = await sb.auth.signInWithPassword({ email, password });
-        if (!loginRes.error && loginRes.data.session) {
-          currentUser = loginRes.data.user;
-          activeVolunteerName = name;
-          localStorage.setItem(APP_STORAGE.ANOTADOR, name);
-          toast('✓ Registrado y conectado');
-          launchApp();
-          return;
-        }
-      }
-    } else {
-      const errJson = await res.json().catch(() => ({}));
-      if (errJson.error === 'already_exists') {
-        showAuthAlert('signup', 'Este correo ya está registrado en Supabase. Puedes iniciar sesión directamente con tu contraseña.');
-        setTimeout(() => {
-          setAuthTab('login');
-          const loginEmail = document.getElementById('login-email');
-          if (loginEmail) loginEmail.value = email;
-        }, 1600);
-        btn.textContent = 'Registrarme en Supabase';
-        btn.disabled = false;
-        return;
-      }
+    if (alertEl) {
+      alertEl.className = 'alert-box error';
+      alertEl.textContent = 'Por favor escribe tu Nombre y Apellidos.';
+      alertEl.style.display = 'block';
     }
-  } catch (errApi) {
-    // Si no hay endpoint serverless (ej. modo local o offline), continuar con cliente Supabase JS
-  }
-
-  // 2. CLIENTE SUPABASE JS (CON INTENTO DE INICIO INMEDIATO)
-  if (!sb) {
-    showAuthAlert('signup', 'Para registrarte en la base de datos debes conectar tu proyecto de Supabase arriba.');
-    toggleAuthDbConfig(true);
-    btn.textContent = 'Registrarme en Supabase';
-    btn.disabled = false;
     return;
   }
 
-  try {
-    const { data, error } = await sb.auth.signUp({
-      email,
-      password,
-      options: {
-        data: { full_name: name }
-      }
-    });
+  if (alertEl) alertEl.style.display = 'none';
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = 'Entrando al Turno…';
+  }
 
-    if (error) {
-      const msg = error.message.toLowerCase();
-      if (msg.includes('already registered') || msg.includes('already exists')) {
-        showAuthAlert('signup', 'Este correo ya está registrado en Supabase. Puedes iniciar sesión directamente con tu contraseña.');
-        setTimeout(() => {
-          setAuthTab('login');
-          const loginEmail = document.getElementById('login-email');
-          if (loginEmail) loginEmail.value = email;
-        }, 1600);
-        btn.textContent = 'Registrarme en Supabase';
-        btn.disabled = false;
-        return;
-      }
-      throw error;
-    }
-
-    // Registrar también en la tabla de anotadores de Supabase
+  // Guardar en la tabla anotadores en Supabase directamente (sin enviar emails ni códigos)
+  if (sb) {
     try {
-      await sb.from('anotadores').upsert({
-        user_id: data.user?.id || null,
-        email: email,
-        nombre_completo: name
-      }, { onConflict: 'email' });
+      // Comprobar si ya existe por nombre
+      const { data: existingRows } = await sb.from('anotadores')
+        .select('id, nombre_completo, email')
+        .ilike('nombre_completo', name)
+        .limit(1);
+
+      if (!existingRows || existingRows.length === 0) {
+        // Generar un slug único para cumplir la restricción UNIQUE de la columna email
+        const safeSlug = name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "_");
+        const autoEmail = `${safeSlug}_${Date.now().toString(36)}@cocina.local`;
+
+        await sb.from('anotadores').insert({
+          nombre_completo: name,
+          email: autoEmail
+        });
+      }
     } catch(errAnotador) {
-      console.warn('Nota: guardado en tabla anotadores:', errAnotador);
+      console.warn('Nota guardando en tabla anotadores:', errAnotador);
     }
+  }
 
-    activeVolunteerName = name;
-    localStorage.setItem(APP_STORAGE.ANOTADOR, name);
+  activeVolunteerName = name;
+  localStorage.setItem(APP_STORAGE.ANOTADOR, name);
 
-    // Intentar inicio de sesión automático inmediato
-    const autoLogin = await sb.auth.signInWithPassword({ email, password });
-    if (!autoLogin.error && autoLogin.data.session) {
-      currentUser = autoLogin.data.user;
-      toast('✓ Registrado y conectado en Supabase');
-      launchApp();
-      return;
-    }
+  toast('✓ ¡Bienvenido/a, ' + name + '! Turno iniciado');
+  launchApp();
 
-    if (data.session) {
-      currentUser = data.session.user;
-      toast('✓ Usuario registrado en Supabase con éxito');
-      launchApp();
-    } else {
-      // Supabase requiere confirmación de email o no ha generado sesión inmediata
-      showAuthAlert('signup', '✓ Usuario registrado en Supabase. Puedes iniciar sesión con tu contraseña a continuación.', false);
-      setTimeout(() => {
-        setAuthTab('login');
-        const loginEmail = document.getElementById('login-email');
-        if (loginEmail) loginEmail.value = email;
-      }, 1500);
-      btn.textContent = 'Registrarme en Supabase';
-      btn.disabled = false;
-    }
-  } catch(err) {
-    showAuthAlert('signup', 'Error al registrar en Supabase: ' + (err.message || 'Verifica los datos'));
-    btn.textContent = 'Registrarme en Supabase';
+  if (btn) {
     btn.disabled = false;
+    btn.textContent = '🚀 Comenzar Turno en Cocina';
   }
 }
 
-async function handleLogin(e) {
-  e.preventDefault();
-  hideAuthAlerts();
+/* ─────────────────────────────────────────────────────────────
+   ACCESO OPCIONAL CON CONTRASEÑA
+───────────────────────────────────────────────────────────── */
+function togglePasswordLogin() {
+  const form = document.getElementById('password-login-form');
+  const lbl = document.getElementById('pwd-toggle-text');
+  if (!form) return;
+  const isHidden = form.style.display === 'none' || !form.style.display;
+  form.style.display = isHidden ? 'block' : 'none';
+  if (lbl) {
+    lbl.textContent = isHidden ? 'Ocultar acceso con contraseña ▴' : '¿Tienes cuenta con contraseña? (Opcional) ▾';
+  }
+}
 
-  const email = document.getElementById('login-email').value.trim();
-  const password = document.getElementById('login-password').value;
-  const btn = document.getElementById('btnLoginSubmit');
+async function handlePasswordLogin(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const emailInp = document.getElementById('pwd-email');
+  const pwdInp = document.getElementById('pwd-password');
+  const alertEl = document.getElementById('pwd-alert');
+  const btn = document.getElementById('btnPwdSubmit');
+
+  const email = (emailInp ? emailInp.value : '').trim();
+  const password = (pwdInp ? pwdInp.value : '');
 
   if (!email || !password) {
-    showAuthAlert('login', 'Introduce tu correo y contraseña.');
+    if (alertEl) {
+      alertEl.className = 'alert-box error';
+      alertEl.textContent = 'Introduce correo y contraseña.';
+      alertEl.style.display = 'block';
+    }
     return;
   }
 
-  btn.disabled = true;
-  btn.textContent = 'Iniciando sesión en Supabase…';
+  if (alertEl) alertEl.style.display = 'none';
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = 'Iniciando sesión…';
+  }
 
-  // 1. Intentar vía endpoint serverless Vercel (/api/login)
-  try {
-    const res = await fetch('/api/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password, url: currentDbUrl, key: (sb && sb.supabaseKey) ? sb.supabaseKey : '' })
-    });
-
-    if (res.ok) {
-      const json = await res.json();
-      if (json.session && sb) {
-        await sb.auth.setSession({
-          access_token: json.session.access_token,
-          refresh_token: json.session.refresh_token
-        });
-        currentUser = json.user || (await sb.auth.getUser()).data.user;
-        let name = currentUser?.user_metadata?.full_name || '';
+  // 1. Intentar inicio de sesión Supabase Auth
+  let loginOk = false;
+  if (sb) {
+    try {
+      const { data, error } = await sb.auth.signInWithPassword({ email, password });
+      if (!error && data.session) {
+        currentUser = data.user;
+        let name = currentUser.user_metadata?.full_name || '';
 
         if (!name) {
-          try {
-            const { data: anotadorRow } = await sb.from('anotadores').select('nombre_completo').eq('email', email).maybeSingle();
-            if (anotadorRow && anotadorRow.nombre_completo) name = anotadorRow.nombre_completo;
-          } catch(e) {}
+          const { data: aRow } = await sb.from('anotadores').select('nombre_completo').eq('email', email).maybeSingle();
+          if (aRow && aRow.nombre_completo) name = aRow.nombre_completo;
         }
 
         if (name) {
@@ -3007,54 +2964,37 @@ async function handleLogin(e) {
           localStorage.setItem(APP_STORAGE.ANOTADOR, name);
           toast('✓ Sesión iniciada como ' + name);
           launchApp();
-          return;
-        } else {
-          openSheet('s-profile');
-          return;
+          loginOk = true;
         }
       }
-    }
-  } catch(errApi) {}
-
-  // 2. Cliente Supabase JS
-  if (!sb) {
-    showAuthAlert('login', 'Debes conectar tu proyecto de Supabase para poder iniciar sesión.');
-    toggleAuthDbConfig(true);
-    btn.textContent = 'Iniciar Sesión en Supabase';
-    btn.disabled = false;
-    return;
+    } catch(err) {}
   }
 
-  try {
-    const { data, error } = await sb.auth.signInWithPassword({ email, password });
-    if (error) throw error;
+  // 2. Si no fue por Auth (ej. sin verificar), buscar por anotadores directamente para nunca bloquear
+  if (!loginOk && sb) {
+    try {
+      const { data: aRow } = await sb.from('anotadores').select('nombre_completo').eq('email', email).maybeSingle();
+      if (aRow && aRow.nombre_completo) {
+        activeVolunteerName = aRow.nombre_completo;
+        localStorage.setItem(APP_STORAGE.ANOTADOR, aRow.nombre_completo);
+        toast('✓ Acceso concedido como ' + aRow.nombre_completo);
+        launchApp();
+        loginOk = true;
+      }
+    } catch(e) {}
+  }
 
-    currentUser = data.user;
-    let name = currentUser.user_metadata?.full_name || '';
-
-    // Si no está en user_metadata, buscar en tabla anotadores en Supabase
-    if (!name) {
-      try {
-        const { data: anotadorRow } = await sb.from('anotadores').select('nombre_completo').eq('email', email).maybeSingle();
-        if (anotadorRow && anotadorRow.nombre_completo) {
-          name = anotadorRow.nombre_completo;
-        }
-      } catch(e) {}
+  if (!loginOk) {
+    if (alertEl) {
+      alertEl.className = 'alert-box error';
+      alertEl.textContent = 'Credenciales no encontradas. Puedes entrar directamente escribiendo tu nombre arriba.';
+      alertEl.style.display = 'block';
     }
+  }
 
-    if (name) {
-      activeVolunteerName = name;
-      localStorage.setItem(APP_STORAGE.ANOTADOR, name);
-      toast('✓ Sesión iniciada como ' + name);
-      launchApp();
-    } else {
-      // Si el usuario no tenía nombre en los metadatos ni en anotadores, pedirlo
-      openSheet('s-profile');
-    }
-  } catch(err) {
-    showAuthAlert('login', 'Error de acceso en Supabase: ' + (err.message || 'Credenciales incorrectas'));
-    btn.textContent = 'Iniciar Sesión en Supabase';
+  if (btn) {
     btn.disabled = false;
+    btn.textContent = 'Iniciar Sesión con Contraseña';
   }
 }
 
@@ -3064,7 +3004,9 @@ async function handleLogout() {
     try { await sb.auth.signOut(); } catch(e) {}
   }
   currentUser = null;
+  localStorage.removeItem(APP_STORAGE.ANOTADOR);
   closeSheet('s-profile');
+  showVolunteerPicker(true);
   showAuthView();
 }
 
@@ -4626,70 +4568,9 @@ function initTourGestures() {
 }
 
 function quickVolunteerCheckin() {
-  const currentSaved = localStorage.getItem(APP_STORAGE.ANOTADOR) || '';
-  const inputName = prompt('Introduce tu Nombre y Apellidos (Responsable del turno de cocina):', currentSaved);
-  if (!inputName || !inputName.trim() || inputName.trim().length < 2) return;
-
-  const clean = inputName.trim();
-  activeVolunteerName = clean;
-  localStorage.setItem(APP_STORAGE.ANOTADOR, clean);
-  updateVolunteerDisplay();
-  toast('✓ Turno iniciado como ' + clean);
-  launchApp();
+  showVolunteerPicker(true);
 }
 
-/* ─────────────────────────────────────────────────────────────
-   CONFIGURACIÓN MANUAL DE SUPABASE
-───────────────────────────────────────────────────────────── */
-async function saveSupabaseCredentials() {
-  const urlInp = document.getElementById('cfgSupabaseUrl');
-  const keyInp = document.getElementById('cfgSupabaseKey');
-  const alertEl = document.getElementById('db-cfg-alert');
-
-  const rawUrl = (urlInp ? urlInp.value : '').trim();
-  const rawKey = (keyInp ? keyInp.value : '').trim();
-
-  if (!rawUrl || !rawKey) {
-    alertEl.className = 'alert-box error';
-    alertEl.textContent = 'Introduce la URL y la Anon Key de Supabase.';
-    alertEl.style.display = 'block';
-    return;
-  }
-
-  const cleanUrl = sanitizeSupabaseUrl(rawUrl);
-
-  try {
-    const testClient = window.supabase.createClient(cleanUrl, rawKey);
-    const { error } = await testClient.from('menu_items').select('id').limit(1);
-
-    if (error && !error.message.includes('0 rows')) {
-      throw error;
-    }
-
-    sb = testClient;
-    currentDbUrl = cleanUrl;
-    localStorage.setItem(APP_STORAGE.CFG, JSON.stringify({ url: cleanUrl, key: rawKey }));
-    updateCloudIndicator('online');
-
-    alertEl.className = 'alert-box info';
-    alertEl.textContent = '¡Conexión verificada con Supabase!';
-    alertEl.style.display = 'block';
-
-    toast('Conectado a la base de datos');
-    closeSheet('s-db-config');
-    loadAllDatabaseData();
-  } catch(err) {
-    alertEl.className = 'alert-box error';
-    alertEl.textContent = 'Error al conectar: ' + (err.message || 'Comprueba las claves o URL');
-    alertEl.style.display = 'block';
-  }
-}
-
-function resetSupabaseCredentials() {
-  if (!confirm('¿Restablecer credenciales de Supabase en este dispositivo?')) return;
-  localStorage.removeItem(APP_STORAGE.CFG);
-  location.reload();
-}
 
 /* ─────────────────────────────────────────────────────────────
    HELPERS, FORMATO Y FEEDBACK TÁCTIL

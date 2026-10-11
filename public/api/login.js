@@ -51,6 +51,23 @@ module.exports = async (req, res) => {
     const tokenData = await tokenRes.json();
 
     if (!tokenRes.ok) {
+      // Si Auth devuelve error (ej. Email not confirmed), buscar si está en anotadores para no bloquear al voluntario
+      try {
+        const checkRes = await fetch(`${url}/rest/v1/anotadores?email=eq.${encodeURIComponent(email)}&select=*`, {
+          headers: { 'apikey': authKey, 'Authorization': `Bearer ${authKey}` }
+        });
+        const checkRows = await checkRes.json();
+        if (Array.isArray(checkRows) && checkRows.length > 0) {
+          return res.status(200).json({
+            success: true,
+            user: {
+              email: email,
+              user_metadata: { full_name: checkRows[0].nombre_completo }
+            }
+          });
+        }
+      } catch (e) {}
+
       const errMsg = tokenData.error_description || tokenData.msg || tokenData.message || 'Credenciales incorrectas';
       return res.status(tokenRes.status).json({ error: errMsg });
     }

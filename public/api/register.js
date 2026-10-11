@@ -112,73 +112,39 @@ module.exports = async (req, res) => {
       });
     }
 
-    // 2. Si no hay Service Key, usar Anon Key para registrar
+    // 2. Si no hay Service Key, guardar directamente en la tabla anotadores (Cero emails, cero códigos de verificación)
     if (!anonKey) {
       return res.status(400).json({ error: 'Anon key de Supabase no configurada.' });
     }
 
-    const signupRes = await fetch(`${url}/auth/v1/signup`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': anonKey
-      },
-      body: JSON.stringify({
-        email,
-        password,
-        data: { full_name: name }
-      })
-    });
+    try {
+      const anotadorRes = await fetch(`${url}/rest/v1/anotadores`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': anonKey,
+          'Authorization': `Bearer ${anonKey}`,
+          'Prefer': 'resolution=merge-duplicates,return=representation'
+        },
+        body: JSON.stringify({
+          email: email,
+          nombre_completo: name
+        })
+      });
 
-    const signupData = await signupRes.json();
-
-    if (!signupRes.ok) {
-      const errMsg = signupData.msg || signupData.message || 'Error al registrar';
-      return res.status(signupRes.status).json({ error: errMsg });
-    }
-
-    // Intentar token inmediato
-    const tokenRes = await fetch(`${url}/auth/v1/token?grant_type=password`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': anonKey
-      },
-      body: JSON.stringify({ email, password })
-    });
-
-    const tokenData = await tokenRes.json();
-
-    if (tokenRes.ok) {
-      // Guardar en tabla anotadores
-      try {
-        await fetch(`${url}/rest/v1/anotadores`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'apikey': anonKey,
-            'Authorization': `Bearer ${tokenData.access_token}`,
-            'Prefer': 'resolution=merge-duplicates'
-          },
-          body: JSON.stringify({
-            user_id: signupData.id || (tokenData.user && tokenData.user.id),
-            email: email,
-            nombre_completo: name
-          })
-        });
-      } catch (e) {}
+      const anotadorData = await anotadorRes.json();
 
       return res.status(200).json({
         success: true,
-        session: tokenData,
-        user: tokenData.user || signupData
+        user: {
+          email: email,
+          user_metadata: { full_name: name }
+        },
+        anotador: Array.isArray(anotadorData) ? anotadorData[0] : anotadorData
       });
+    } catch(errAnotador) {
+      return res.status(500).json({ error: errAnotador.message || 'Error guardando anotador' });
     }
-
-    return res.status(200).json({
-      success: true,
-      user: signupData
-    });
 
   } catch (err) {
     console.error('Error en /api/register:', err);
