@@ -86,6 +86,15 @@ create table if not exists reportes_diarios (
   created_at      timestamptz not null default now()
 );
 
+-- 7. Anotadores registrados (Sincronización de usuarios de Supabase con nombre real)
+create table if not exists anotadores (
+  id              uuid primary key default gen_random_uuid(),
+  user_id         uuid,
+  email           text not null unique,
+  nombre_completo text not null,
+  created_at      timestamptz not null default now()
+);
+
 -- ============================================================
 --  SEGURIDAD: RLS Y PERMISOS
 -- ============================================================
@@ -95,8 +104,9 @@ alter table personas         disable row level security;
 alter table ventas           disable row level security;
 alter table venta_lineas     disable row level security;
 alter table reportes_diarios disable row level security;
+alter table anotadores       disable row level security;
 
-grant all on menu_items, promos, personas, ventas, venta_lineas, reportes_diarios to anon, authenticated;
+grant all on menu_items, promos, personas, ventas, venta_lineas, reportes_diarios, anotadores to anon, authenticated;
 
 -- ============================================================
 --  BASE LIMPIA (Sin datos inventados)
