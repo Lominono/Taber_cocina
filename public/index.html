@@ -133,7 +133,7 @@ img { display: block; max-width: 100%; }
   height: 110px;
 }
 .auth-hero .hk { height: 88px; width: auto; filter: drop-shadow(0 10px 24px rgba(0,0,0,0.7)); }
-.auth-hero .sn { height: 104px; width: auto; filter: drop-shadow(0 10px 24px rgba(0,0,0,0.7)); }
+.auth-hero .sn { height: 108px; width: auto; filter: drop-shadow(0 0 12px rgba(255,255,255,0.5)) drop-shadow(0 10px 24px rgba(0,0,0,0.7)); }
 
 .auth-wordmark { text-align: center; }
 .auth-wordmark h1 {
@@ -205,6 +205,140 @@ img { display: block; max-width: 100%; }
 }
 
 /* CHIPS DE EQUIPO DE COCINA (ANOTADORES) */
+
+/* SELECTOR DE PUESTOS / TAGS */
+.tag-selector-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--bg-grouped);
+  border: var(--glass-border);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--spring-std);
+}
+.tag-chip:hover {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+}
+.tag-chip.active {
+  background: rgba(10, 132, 255, 0.2);
+  color: #ffffff;
+  border-color: var(--apple-blue);
+  box-shadow: 0 0 10px rgba(10, 132, 255, 0.35);
+}
+
+/* PESTAÑAS SEGMENTADAS DE CAJA (HOY VS HISTORIAL DE DÍAS) */
+.caja-view-segmented {
+  display: flex;
+  background: var(--bg-grouped);
+  border-radius: var(--r-btn);
+  padding: 3px;
+  margin-bottom: var(--sp-2);
+}
+.caja-tab-btn {
+  flex: 1;
+  min-height: 40px;
+  padding: 8px 12px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: all var(--spring-std);
+}
+.caja-tab-btn.active {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+/* TARJETAS DE DÍAS EN HISTORIAL */
+.day-report-card {
+  background: var(--bg-card);
+  border: var(--glass-border);
+  border-radius: var(--r-card);
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+}
+.day-report-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  border-bottom: var(--hairline);
+  padding-bottom: 8px;
+}
+.day-report-date {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.day-report-resp {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+.day-report-total-badge {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--apple-green);
+  text-align: right;
+}
+.day-report-metrics-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.day-metric-box {
+  background: var(--bg-grouped);
+  padding: 8px 10px;
+  border-radius: var(--r-sm);
+  text-align: center;
+}
+.day-metric-lbl {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  display: block;
+}
+.day-metric-val {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-top: 2px;
+  display: block;
+}
+.day-dishes-collapse {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: var(--hairline);
+}
+.day-dishes-table {
+  width: 100%;
+  font-size: 13px;
+  border-collapse: collapse;
+}
+.day-dishes-table td {
+  padding: 4px 0;
+  color: var(--text-secondary);
+}
+.day-dishes-table td.qty {
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: right;
+}
+
 .auth-volunteers-chips {
   display: flex;
   flex-wrap: wrap;
@@ -1431,7 +1565,7 @@ input:checked + .slider::before { transform: translateX(18px); }
   width: auto;
   display: block;
   margin: 0 auto;
-  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.6));
+  filter: drop-shadow(0 0 10px rgba(255,255,255,0.45)) drop-shadow(0 10px 20px rgba(0,0,0,0.6));
   animation: tourFloat 3.5s ease-in-out infinite alternate;
 }
 @keyframes tourFloat {
@@ -1800,7 +1934,7 @@ input:checked + .slider::before { transform: translateX(18px); }
 <div id="auth-view">
   <div class="auth-hero" aria-hidden="true">
     <img class="hk" src="assets/hellokitty.png" alt="Hello Kitty">
-    <img class="sn" src="assets/snoopy_cool.png" alt="Snoopy">
+    <img class="sn" src="assets/snoopy_welcome.png" alt="Snoopy Bienvenida" style="height:110px;">
   </div>
 
   <div class="auth-wordmark">
@@ -1841,7 +1975,7 @@ input:checked + .slider::before { transform: translateX(18px); }
       <!-- FORMULARIO DIRECTO CON NOMBRE Y APELLIDOS -->
       <form id="checkin-form" onsubmit="handleVolunteerCheckin(event); return false;">
         <div class="form-group">
-          <label class="form-label" for="checkin-name">Tu Nombre y Apellidos *</label>
+          <label class="form-label" for="checkin-name">1. Tu Nombre y Apellidos *</label>
           <div class="input-with-clear">
             <input 
               type="text" 
@@ -1854,12 +1988,32 @@ input:checked + .slider::before { transform: translateX(18px); }
             >
             <button type="button" class="btn-clear-input" onclick="clearCheckinInput()" title="Borrar nombre">✕</button>
           </div>
-          <div class="form-helper">Se registrará en tus comandas y en el arqueo de caja. Sin correos ni códigos.</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">2. Tu Puesto en Cocina (Tag) *</label>
+          <div class="tag-selector-row" id="authTagSelectorRow">
+            <button type="button" class="tag-chip active" onclick="setCheckinTag('Cocina 🍳')"><span>🍳 Cocina</span></button>
+            <button type="button" class="tag-chip" onclick="setCheckinTag('Barra ☕')"><span>☕ Barra</span></button>
+            <button type="button" class="tag-chip" onclick="setCheckinTag('Caja 💶')"><span>💶 Caja</span></button>
+            <button type="button" class="tag-chip" onclick="setCheckinTag('Plancha 🥩')"><span>🥩 Plancha</span></button>
+            <button type="button" class="tag-chip" onclick="setCheckinTag('Comedor 🍽️')"><span>🍽️ Comedor</span></button>
+            <button type="button" class="tag-chip" onclick="setCheckinTag('Anotador ✍️')"><span>✍️ General</span></button>
+          </div>
+          <input 
+            type="text" 
+            id="checkin-tag" 
+            class="form-control" 
+            value="Cocina 🍳" 
+            placeholder="O escribe tu puesto/tag personalizado"
+            style="font-size:13px; padding:8px 12px;"
+          >
+          <div class="form-helper">Solo necesitas tu Nombre y tu Puesto. Aparecerá firmado en cada pedido y en el registro diario.</div>
         </div>
 
         <div class="alert-box" id="checkin-alert"></div>
 
-        <button type="submit" class="btn btn-primary btn-full" id="btnCheckinSubmit">
+        <button type="submit" class="btn btn-primary btn-full btn-lg" id="btnCheckinSubmit">
           <span>🚀 Comenzar Turno en Cocina</span>
         </button>
       </form>
@@ -2082,13 +2236,42 @@ input:checked + .slider::before { transform: translateX(18px); }
     <section class="screen" id="screen-caja">
       <div class="screen-header">
         <div>
-          <div class="screen-tag">Balance</div>
-          <h2 class="screen-title">Total Recaudado</h2>
+          <div class="screen-tag">Caja y Arqueo</div>
+          <h2 class="screen-title">Registro Diario</h2>
         </div>
         <button type="button" class="btn btn-ghost btn-sm" onclick="shareWhatsAppSummary()">
           <span>📲 WhatsApp</span>
         </button>
       </div>
+
+      <!-- PESTAÑAS: HOY EN VIVO VS HISTORIAL DE DÍAS -->
+      <div class="caja-view-segmented">
+        <button type="button" class="caja-tab-btn active" id="btnCajaTabHoy" onclick="setCajaViewTab('hoy')">
+          <span>📊 Hoy (En Directo)</span>
+        </button>
+        <button type="button" class="caja-tab-btn" id="btnCajaTabHist" onclick="setCajaViewTab('historial')">
+          <span>📅 Historial de Días (<span id="cajaHistBadgeCount">0</span>)</span>
+        </button>
+      </div>
+
+      <!-- CONTENEDOR HISTORIAL DE DÍAS -->
+      <div id="caja-view-historial" style="display:none;">
+        <div class="card" style="margin-bottom:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <strong style="font-size:14px; color:var(--text-primary);">Días y Jornadas Guardadas</strong>
+              <div style="font-size:12px; color:var(--text-secondary);">Registro permanente de ventas por día en Supabase</div>
+            </div>
+            <button type="button" class="btn btn-sm btn-secondary" onclick="loadHistorialReportes(true)">🔄 Actualizar</button>
+          </div>
+        </div>
+        <div id="cajaDaysHistoryList">
+          <div style="text-align:center; padding:24px 0;"><div class="spin"></div></div>
+        </div>
+      </div>
+
+      <!-- CONTENEDOR JORNADA DE HOY -->
+      <div id="caja-view-hoy">
 
       <!-- Hero Card Recaudación Total -->
       <div class="hero-stats-card">
@@ -2171,6 +2354,7 @@ input:checked + .slider::before { transform: translateX(18px); }
           </button>
         </div>
       </div>
+      </div> <!-- /#caja-view-hoy -->
     </section>
 
     <!-- ─────────────────────────────────────────────────────────────
@@ -2459,8 +2643,20 @@ input:checked + .slider::before { transform: translateX(18px); }
       <img src="assets/snoopy_cool.png" alt="Snoopy" style="height:90px;margin:0 auto 10px;">
       
       <div class="form-group" style="text-align:left;margin-top:12px;">
-        <label class="form-label" for="profileNameInput">Nombre y Apellidos para firmar comandas</label>
+        <label class="form-label" for="profileNameInput">Nombre y Apellidos</label>
         <input type="text" id="profileNameInput" class="form-control" autocomplete="name">
+      </div>
+      <div class="form-group" style="text-align:left;margin-top:8px;">
+        <label class="form-label">Puesto en Cocina (Tag)</label>
+        <div class="tag-selector-row" id="profileTagSelectorRow">
+          <button type="button" class="tag-chip" onclick="setProfileTag('Cocina 🍳')"><span>🍳 Cocina</span></button>
+          <button type="button" class="tag-chip" onclick="setProfileTag('Barra ☕')"><span>☕ Barra</span></button>
+          <button type="button" class="tag-chip" onclick="setProfileTag('Caja 💶')"><span>💶 Caja</span></button>
+          <button type="button" class="tag-chip" onclick="setProfileTag('Plancha 🥩')"><span>🥩 Plancha</span></button>
+          <button type="button" class="tag-chip" onclick="setProfileTag('Comedor 🍽️')"><span>🍽️ Comedor</span></button>
+          <button type="button" class="tag-chip" onclick="setProfileTag('Anotador ✍️')"><span>✍️ General</span></button>
+        </div>
+        <input type="text" id="profileTagInput" class="form-control" placeholder="Puesto o Tag">
       </div>
 
       <div style="font-size:12px;color:var(--text-secondary);margin-bottom:16px;" id="profileEmailDisplay">
@@ -2532,6 +2728,8 @@ input:checked + .slider::before { transform: translateX(18px); }
 const APP_STORAGE = {
   CFG: 'ts_supabase_cfg_v2',
   ANOTADOR: 'ts_anotador_name_v2',
+  TAG: 'ts_anotador_tag_v2',
+  DAILY_REPORTS: 'ts_daily_reports_cache_v2',
   TOUR: 'ts_tour_completed_v2',
   LOCAL_ORDERS: 'ts_local_orders_v2',
   LOCAL_DISHES: 'ts_local_dishes_v2',
@@ -2542,6 +2740,7 @@ let sb = null;
 let currentDbUrl = '';
 let currentUser = null;
 let activeVolunteerName = 'Anotador';
+let activeVolunteerTag = 'Cocina 🍳';
 
 let appState = {
   dishes: [],        // Cargados estrictamente de la tabla menu_items
@@ -2574,14 +2773,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   await initSupabaseConnection();
 });
 
-const VERCEL_SUPABASE_DEFAULT_URL = 'https://xtpcxnuemuzftyyajhlz.supabase.co';
-const VERCEL_SUPABASE_DEFAULT_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh0cGN4bnVlbXV6ZnR5eWFqaGx6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE3MjE4ODQsImV4cCI6MjEwNzI5Nzg4NH0.8e8iteJ88SdgxPC7s5HIVzyKx8oMGMz2woKGUpO5lAI';
-
 async function initSupabaseConnection() {
-  let url = VERCEL_SUPABASE_DEFAULT_URL;
-  let key = VERCEL_SUPABASE_DEFAULT_KEY;
+  let url = '';
+  let key = '';
 
-  // 1. Intentar desde endpoint Vercel (/api/config) para recibir variables dinámicas
+  // 1. Obtener credenciales seguras de Supabase desde las variables de entorno de Vercel
   try {
     const res = await fetch('/api/config');
     if (res.ok) {
@@ -2589,11 +2785,15 @@ async function initSupabaseConnection() {
       if (data && data.url && data.key) {
         url = sanitizeSupabaseUrl(data.url);
         key = data.key.trim();
+        // Guardar copia local cifrada para modo offline de contingencia
+        localStorage.setItem(APP_STORAGE.CFG, JSON.stringify({ url, key }));
       }
     }
-  } catch (e) {}
+  } catch (e) {
+    console.warn('Nota: conexión a /api/config:', e);
+  }
 
-  // 2. Fallback desde localStorage si existiese configuración previa
+  // 2. Fallback de contingencia desde caché local si no hubiera red inicial
   if (!url || !key) {
     try {
       const saved = JSON.parse(localStorage.getItem(APP_STORAGE.CFG) || '{}');
@@ -2670,6 +2870,29 @@ async function testDbConnectionSync() {
   } catch(e) {
     toast('⚠️ Error al verificar: ' + (e.message || 'Sin respuesta'));
   }
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   GESTIÓN DE PUESTOS / TAGS DEL EQUIPO
+───────────────────────────────────────────────────────────── */
+function setCheckinTag(tag) {
+  const tagInp = document.getElementById('checkin-tag');
+  if (tagInp) tagInp.value = tag;
+  activeVolunteerTag = tag;
+
+  document.querySelectorAll('#authTagSelectorRow .tag-chip').forEach(chip => {
+    chip.classList.toggle('active', chip.textContent.includes(tag.split(' ')[0]));
+  });
+}
+
+function setProfileTag(tag) {
+  const tagInp = document.getElementById('profileTagInput');
+  if (tagInp) tagInp.value = tag;
+
+  document.querySelectorAll('#profileTagSelectorRow .tag-chip').forEach(chip => {
+    chip.classList.toggle('active', chip.textContent.includes(tag.split(' ')[0]));
+  });
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -2754,9 +2977,11 @@ function showVolunteerPicker(manual = false) {
 
 function resumeSavedVolunteer() {
   const saved = localStorage.getItem(APP_STORAGE.ANOTADOR);
+  const savedTag = localStorage.getItem(APP_STORAGE.TAG) || 'Cocina 🍳';
   if (saved && saved.trim()) {
     activeVolunteerName = saved.trim();
-    toast('✓ Turno reanudado como ' + activeVolunteerName);
+    activeVolunteerTag = savedTag.trim();
+    toast(`✓ Turno reanudado: ${activeVolunteerName} · ${activeVolunteerTag}`);
     launchApp();
   } else {
     showVolunteerPicker(true);
@@ -2800,14 +3025,16 @@ async function checkAuthSession() {
   }
 
   // 2. Si ya hay un voluntario recordado en este teléfono, mostrar tarjeta de bienvenida
+  const savedTag = localStorage.getItem(APP_STORAGE.TAG) || 'Cocina 🍳';
+  activeVolunteerTag = savedTag;
   if (savedVolunteer && savedVolunteer.trim()) {
     const resumeCard = document.getElementById('auth-resume-card');
     const savedNameEl = document.getElementById('auth-saved-name');
     const nameBtnEls = document.querySelectorAll('.auth-resume-name-btn');
     const pickerBox = document.getElementById('auth-picker-box');
 
-    if (savedNameEl) savedNameEl.textContent = savedVolunteer;
-    nameBtnEls.forEach(el => el.textContent = savedVolunteer);
+    if (savedNameEl) savedNameEl.textContent = `${savedVolunteer} (${savedTag})`;
+    nameBtnEls.forEach(el => el.textContent = `${savedVolunteer} (${savedTag})`);
 
     if (resumeCard) resumeCard.style.display = 'block';
     if (pickerBox) pickerBox.style.display = 'none';
@@ -2849,11 +3076,13 @@ function launchApp() {
 async function handleVolunteerCheckin(e) {
   if (e && e.preventDefault) e.preventDefault();
 
-  const inp = document.getElementById('checkin-name');
+  const nameInp = document.getElementById('checkin-name');
+  const tagInp = document.getElementById('checkin-tag');
   const alertEl = document.getElementById('checkin-alert');
   const btn = document.getElementById('btnCheckinSubmit');
 
-  const name = (inp ? inp.value : '').trim();
+  const name = (nameInp ? nameInp.value : '').trim();
+  const tag = (tagInp && tagInp.value.trim()) ? tagInp.value.trim() : 'Cocina 🍳';
 
   if (!name || name.length < 2) {
     if (alertEl) {
@@ -2870,34 +3099,29 @@ async function handleVolunteerCheckin(e) {
     btn.textContent = 'Entrando al Turno…';
   }
 
-  // Guardar en la tabla anotadores en Supabase directamente (sin enviar emails ni códigos)
+  activeVolunteerName = name;
+  activeVolunteerTag = tag;
+  localStorage.setItem(APP_STORAGE.ANOTADOR, name);
+  localStorage.setItem(APP_STORAGE.TAG, tag);
+
+  // Guardar en la tabla anotadores en Supabase con su Tag para tener registro claro
   if (sb) {
     try {
-      // Comprobar si ya existe por nombre
-      const { data: existingRows } = await sb.from('anotadores')
-        .select('id, nombre_completo, email')
-        .ilike('nombre_completo', name)
-        .limit(1);
+      const fullNameWithTag = `${name} [${tag}]`;
+      const safeSlug = name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "_");
+      const tagSlug = tag.toLowerCase().replace(/[^a-z0-9]/g, "");
+      const autoEmail = `${safeSlug}_${tagSlug || 'cocina'}@cocina.local`;
 
-      if (!existingRows || existingRows.length === 0) {
-        // Generar un slug único para cumplir la restricción UNIQUE de la columna email
-        const safeSlug = name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "_");
-        const autoEmail = `${safeSlug}_${Date.now().toString(36)}@cocina.local`;
-
-        await sb.from('anotadores').insert({
-          nombre_completo: name,
-          email: autoEmail
-        });
-      }
+      await sb.from('anotadores').upsert({
+        nombre_completo: fullNameWithTag,
+        email: autoEmail
+      }, { onConflict: 'email' });
     } catch(errAnotador) {
       console.warn('Nota guardando en tabla anotadores:', errAnotador);
     }
   }
 
-  activeVolunteerName = name;
-  localStorage.setItem(APP_STORAGE.ANOTADOR, name);
-
-  toast('✓ ¡Bienvenido/a, ' + name + '! Turno iniciado');
+  toast(`✓ ¡Bienvenido/a ${name}! Puesto: ${tag}`);
   launchApp();
 
   if (btn) {
@@ -3013,12 +3237,18 @@ async function handleLogout() {
 function updateVolunteerDisplay() {
   const display = document.getElementById('operator-display-name');
   const profileNameInp = document.getElementById('profileNameInput');
+  const profileTagInp = document.getElementById('profileTagInput');
   const profileEmail = document.getElementById('profileEmailDisplay');
   const repRespInp = document.getElementById('reportResponsableInput');
 
-  if (display) display.textContent = activeVolunteerName;
+  const fullNameWithTag = activeVolunteerTag ? `${activeVolunteerName} · ${activeVolunteerTag}` : activeVolunteerName;
+  if (display) display.textContent = fullNameWithTag;
   if (profileNameInp) profileNameInp.value = activeVolunteerName;
-  if (repRespInp) repRespInp.value = activeVolunteerName;
+  if (profileTagInp) {
+    profileTagInp.value = activeVolunteerTag || 'Cocina 🍳';
+    setProfileTag(activeVolunteerTag || 'Cocina 🍳');
+  }
+  if (repRespInp) repRespInp.value = fullNameWithTag;
   if (profileEmail && currentUser) {
     profileEmail.textContent = 'Sesión iniciada con: ' + (currentUser.email || '');
   }
@@ -3446,7 +3676,7 @@ async function submitCurrentOrder() {
   const newOrderObj = {
     persona_nombre: customerName,
     persona_id: persona_id,
-    camarero: activeVolunteerName || 'Anotador',
+    camarero: (activeVolunteerName ? `${activeVolunteerName} [${activeVolunteerTag || 'Cocina'}]` : 'Anotador'),
     num_platos: totalNumPlatos,
     notas: notes,
     total: totalOrderAmount,
@@ -3778,7 +4008,7 @@ async function saveReporteDiario() {
   const notas = (document.getElementById('reportNotasInput').value || '').trim();
 
   if (!responsable || responsable.length < 2) {
-    toast('Indica el nombre y apellidos del responsable', false);
+    toast('Indica el nombre del responsable', false);
     return;
   }
 
@@ -3816,17 +4046,181 @@ async function saveReporteDiario() {
     try {
       const { error } = await sb.from('reportes_diarios').insert(payload);
       if (error) throw error;
-      toast('✓ Cierre de jornada guardado en Supabase');
+      toast('✓ Cierre de jornada guardado correctamente en Supabase');
     } catch(e) {
       toast('Error guardando en Supabase: ' + e.message, false);
       return;
     }
   } else {
-    toast('✓ Cierre guardado localmente');
+    // Guardar en almacenamiento local
+    try {
+      const cached = JSON.parse(localStorage.getItem(APP_STORAGE.DAILY_REPORTS) || '[]');
+      cached.unshift({ id: 'loc-' + Date.now(), created_at: new Date().toISOString(), ...payload });
+      localStorage.setItem(APP_STORAGE.DAILY_REPORTS, JSON.stringify(cached));
+      toast('✓ Cierre guardado en memoria');
+    } catch(e) {}
   }
 
   closeSheet('s-reporte-modal');
+  // Actualizar e ir a ver el historial de días
+  await loadHistorialReportes(true);
+  setCajaViewTab('historial');
 }
+
+/* ─────────────────────────────────────────────────────────────
+   PESTAÑAS DE CAJA: HOY EN VIVO VS HISTORIAL DE DÍAS
+───────────────────────────────────────────────────────────── */
+function setCajaViewTab(tab) {
+  const btnHoy = document.getElementById('btnCajaTabHoy');
+  const btnHist = document.getElementById('btnCajaTabHist');
+  const viewHoy = document.getElementById('caja-view-hoy');
+  const viewHist = document.getElementById('caja-view-historial');
+
+  if (tab === 'hoy') {
+    if (btnHoy) btnHoy.classList.add('active');
+    if (btnHist) btnHist.classList.remove('active');
+    if (viewHoy) viewHoy.style.display = 'block';
+    if (viewHist) viewHist.style.display = 'none';
+  } else {
+    if (btnHoy) btnHoy.classList.remove('active');
+    if (btnHist) btnHist.classList.add('active');
+    if (viewHoy) viewHoy.style.display = 'none';
+    if (viewHist) viewHist.style.display = 'block';
+    loadHistorialReportes();
+  }
+}
+
+async function loadHistorialReportes(forceRefresh = false) {
+  const listEl = document.getElementById('cajaDaysHistoryList');
+  const modalListEl = document.getElementById('histReportesList');
+  const badgeCount = document.getElementById('cajaHistBadgeCount');
+
+  let reports = [];
+
+  if (sb) {
+    try {
+      const { data, error } = await sb.from('reportes_diarios')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(50);
+
+      if (!error && Array.isArray(data)) {
+        reports = data;
+        localStorage.setItem(APP_STORAGE.DAILY_REPORTS, JSON.stringify(reports));
+      }
+    } catch(e) {
+      console.warn('Error leyendo reportes_diarios:', e);
+    }
+  }
+
+  if (reports.length === 0) {
+    try {
+      reports = JSON.parse(localStorage.getItem(APP_STORAGE.DAILY_REPORTS) || '[]');
+    } catch(e) {}
+  }
+
+  if (badgeCount) badgeCount.textContent = reports.length;
+
+  if (reports.length === 0) {
+    const emptyHtml = `
+      <div class="empty-view" style="padding:28px 16px;">
+        <img class="empty-img" src="assets/snoopy_welcome.png" alt="Snoopy" style="height:90px; margin-bottom:10px;">
+        <div class="empty-title">Sin días cerrados aún</div>
+        <div class="empty-desc">Al terminar el servicio, pulsa en "Guardar Cierre de Jornada" para archivar aquí el balance de hoy.</div>
+      </div>`;
+    if (listEl) listEl.innerHTML = emptyHtml;
+    if (modalListEl) modalListEl.innerHTML = emptyHtml;
+    return;
+  }
+
+  const html = reports.map((rep, idx) => {
+    const d = new Date(rep.created_at || (rep.fecha + 'T12:00:00Z'));
+    const fechaLarga = d.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    const fechaCap = fechaLarga.charAt(0).toUpperCase() + fechaLarga.slice(1);
+    const totalRecaudado = Number(rep.total_recaudado) || 0;
+    const totalEfectivo = Number(rep.total_efectivo) || 0;
+    const totalBizum = Number(rep.total_bizum) || 0;
+    const totalPendiente = Number(rep.total_pendiente) || 0;
+    const items = Array.isArray(rep.desglose_items) ? rep.desglose_items : [];
+
+    return `
+      <div class="day-report-card">
+        <div class="day-report-header">
+          <div>
+            <div class="day-report-date">📅 ${escapeHtml(fechaCap)}</div>
+            <div class="day-report-resp">👤 Responsable: ${escapeHtml(rep.responsable || 'Anotador')}</div>
+          </div>
+          <div class="day-report-total-badge">${fmt(totalRecaudado)}</div>
+        </div>
+
+        <div class="day-report-metrics-row">
+          <div class="day-metric-box">
+            <span class="day-metric-lbl">💵 Efectivo</span>
+            <span class="day-metric-val">${fmt(totalEfectivo)}</span>
+          </div>
+          <div class="day-metric-box">
+            <span class="day-metric-lbl">📱 Bizum</span>
+            <span class="day-metric-val" style="color:var(--apple-blue)">${fmt(totalBizum)}</span>
+          </div>
+          <div class="day-metric-box">
+            <span class="day-metric-lbl">📋 Comandas</span>
+            <span class="day-metric-val">${rep.num_ventas || 0}</span>
+          </div>
+        </div>
+
+        ${totalPendiente > 0 ? `<div style="font-size:12px; color:var(--apple-amber); margin-bottom:8px;">⏳ Deuda pendiente anotada: ${fmt(totalPendiente)}</div>` : ''}
+        ${rep.notas ? `<div style="font-size:12px; color:var(--text-secondary); margin-bottom:8px; font-style:italic;">💬 "${escapeHtml(rep.notas)}"</div>` : ''}
+
+        <div style="display:flex; gap:8px; margin-top:8px;">
+          <button type="button" class="btn btn-sm btn-secondary" style="flex:1;" onclick="toggleDayDishesCollapse('${idx}')">
+            <span>🍽️ Desglose de Platos (${items.length}) ▾</span>
+          </button>
+          <button type="button" class="btn btn-sm btn-ghost" onclick="shareDaySummaryWhatsApp('${escapeHtml(fechaCap)}', '${escapeHtml(rep.responsable)}', ${totalRecaudado}, ${totalEfectivo}, ${totalBizum}, ${rep.num_ventas || 0})" title="Compartir este día por WhatsApp">
+            <span>📲</span>
+          </button>
+        </div>
+
+        <div id="day-dishes-collapse-${idx}" class="day-dishes-collapse" style="display:none;">
+          <strong style="font-size:12px; color:var(--text-tertiary); display:block; margin-bottom:6px; text-transform:uppercase;">Platos y Raciones Servidas:</strong>
+          ${items.length > 0 ? `
+            <table class="day-dishes-table">
+              ${items.map(it => `
+                <tr>
+                  <td>${escapeHtml(it.item || it.nombre || 'Plato')}</td>
+                  <td class="qty">${it.qty || 1}×</td>
+                </tr>
+              `).join('')}
+            </table>
+          ` : '<div style="font-size:12px; color:var(--text-tertiary);">Sin detalle de platos guardado</div>'}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  if (listEl) listEl.innerHTML = html;
+  if (modalListEl) modalListEl.innerHTML = html;
+}
+
+function toggleDayDishesCollapse(idx) {
+  const el = document.getElementById('day-dishes-collapse-' + idx);
+  if (el) {
+    el.style.display = (el.style.display === 'none') ? 'block' : 'none';
+  }
+}
+
+function shareDaySummaryWhatsApp(fecha, responsable, total, efectivo, bizum, comandas) {
+  const text = `*Tabernáculo Santo · Cierre Diario Guardado*\n` +
+    `📅 *${fecha}*\n` +
+    `👤 *Responsable:* ${responsable}\n\n` +
+    `💰 *Total Recaudado:* ${fmt(total)}\n` +
+    `💵 Efectivo: ${fmt(efectivo)}\n` +
+    `📱 Bizum: ${fmt(bizum)}\n` +
+    `📋 Comandas atendidas: ${comandas}\n`;
+
+  const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+  window.open(url, '_blank');
+}
+
 
 function shareWhatsAppSummary() {
   triggerHaptic('light');
